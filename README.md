@@ -7,46 +7,46 @@ Geography Learning Game
 ## PART B
 [GitHub Repo](https://github.com/gstawde/XMarksTheSpot)
 ### Project Overview
-  1. User Dashboard
-    - User can get a token for each point milestone they achieve, which they can see in their collection (E.g. for every 100 points added to their overall player score, they get a flag to add to their wall)
-    - Dashboard will display tokens the user has earned
-    - Can see ranking number in comparison to existing users
-  2. Quiz Game
-    - Multiplayer game
-    - Users gain points based on answer accuracy, speed of answering the question, and question difficulty
-    - Bonuses awarded to game winner at the end
-    - Points earned during the game get added towards user’s overall score (that earns them more tokens)
-    - Questions in set are randomly selected during game, so user does not face a redundant game with every replay
+  1. User Dashboard\
+    - User can get a token for each point milestone they achieve, which they can see in their collection (E.g. for every 100 points added to their overall player score, they get a flag to add to their wall)\
+    - Dashboard will display tokens the user has earned\
+    - Can see ranking number in comparison to existing users\
+  2. Quiz Game\
+    - Multiplayer game\
+    - Users gain points based on answer accuracy, speed of answering the question, and question difficulty\
+    - Bonuses awarded to game winner at the end\
+    - Points earned during the game get added towards user’s overall score (that earns them more tokens)\
+    - Questions in set are randomly selected during game, so user does not face a redundant game with every replay\
     - Player can either start or join a game
 ## PART C
-  Job Assignments (subject to change based on workload):
-    - Gargi: Frontend + User dashboard + User Auth
-    - Areebah: Backend + Database + Game Logic
-    - Fariha: Frontend + User Auth + Database
+  Job Assignments (subject to change based on workload):\
+    - Gargi: Frontend + User dashboard + User Auth\
+    - Areebah: Backend + Database + Game Logic\
+    - Fariha: Frontend + User Auth + Database\
     - Swathi: Backend + Game Logic + User dashboard
 ## PART D
-  Semester Milestones (all milestones are moving parts and subject to refinement):
-    - 2/5 - 2/13: Finalize Design + Features
-    - 2/13 - 2/20: General UI/Page Setup
-    - 2/17 - 2/29: Initial Database Setup
-    - 2/17 - 2/29: Account Creation + Admin Account Setup
-    - 2/17 - 2/29: Log-In/Log-Out
-    - 3/1 - 3/30: Game Mechanics (i.e. logic and stats collection)
-    - 3/1 - 3/30: Implementing token collection
-    - 4/6 - 4/20: Finalize User dashboard
-    - 4/6 - 4/20: Join/Start Game functionality
-    - 4/6 - 4/20: Multiplayer functionality
-    - 4/20 - 4/25: Internal Testing 
+  Semester Milestones (all milestones are moving parts and subject to refinement):\
+    - 2/5 - 2/13: Finalize Design + Features\
+    - 2/13 - 2/20: General UI/Page Setup\
+    - 2/17 - 2/29: Initial Database Setup\
+    - 2/17 - 2/29: Account Creation + Admin Account Setup\
+    - 2/17 - 2/29: Log-In/Log-Out\
+    - 3/1 - 3/30: Game Mechanics (i.e. logic and stats collection)\
+    - 3/1 - 3/30: Implementing token collection\
+    - 4/6 - 4/20: Finalize User dashboard\
+    - 4/6 - 4/20: Join/Start Game functionality\
+    - 4/6 - 4/20: Multiplayer functionality\
+    - 4/20 - 4/25: Internal Testing
 ## PART E
-  1. Frontend:
-    - Tailwind
-    - HTML
-    - CSS
+  1. Frontend:\
+    - Tailwind\
+    - HTML\
+    - CSS\
     - Node
-  2. Backend:
-    - MySQL
-    - Docker
-    - Flask
+  2. Backend:\
+    - MySQL\
+    - Docker\
+    - Flask\
     - Python
 ## PART F: Algorithms/AI Schemes Used
   Points earned per question based on: Correctness, Speed at which question is answered (can earn a maximum number of points when timer begins, which goes down as the timer goes on), and Question difficulty
