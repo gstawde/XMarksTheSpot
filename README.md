@@ -42,10 +42,8 @@ A Country-Identification Content Based Game
 - Finalize features
 - Narrow Tech Stack based on ideas from this report
 - Database ERD
-3. Individual Assignments for the next sprint (in no particular order):
-- Gargi: Work on product wireframes
-- Areebah: Work on Database ERD 
-- Fariha: Work on design, brush up on technologies
-- Swathi: Brush up on frontend and backend technologies
-- Everyone: Finalize features
-- Everyone: Week 3 Presentation (slide deck)
+3. Job Assignments (subject to change based on workload):
+- Gargi: Frontend
+- Areebah: Backend
+- Fariha: Frontend
+- Swathi: Backend
