@@ -3,7 +3,7 @@ Geography Learning Game
 ## PART A
   **Team**: Gargi Tawde, Areebah Iqbal, Fariha Ahmed\
   **Current Team Lead**: Fariha Ahmed\
-  **Next Team Lead**: TBD
+  **Next Team Lead**: Areebah Iqbal
 ## PART B
 [GitHub Repo](https://github.com/gstawde/XMarksTheSpot)
 ### Project Overview
