@@ -1,7 +1,7 @@
 # XMarksTheSpot
 Geography Learning Game
 ## PART A
-  **Team**: Gargi Tawde, Areebah Iqbal, Venkata Satya Swathi Mattaparthi, Fariha Ahmed\
+  **Team**: Gargi Tawde, Areebah Iqbal, Fariha Ahmed\
   **Current Team Lead**: Fariha Ahmed\
   **Next Team Lead**: TBD
 ## PART B
