@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap');
+
+body {
+    font-family: "DynaPuff", system-ui;
+    scroll-behavior: smooth;
+}
+
+.landing-view1 {
+    background-color: #D7BC95;
+}
+
+.landing-view1-login {
+    float: right;
+    background-color: #FFB600;
+    border: none;
+    color: #7D633F;
+    padding: 13px 35px;
+    margin: 17px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 22px;
+    border-radius: 10px;
+}
+
+.landing-view1-login:hover {
+    box-shadow: 0 0 25px 6px #7D633F;
+}
+
+.landing-view1-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 280px;
+    padding-bottom: 380px;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.landing-view2 {
+    background-color: #7D633F;
+    height: 870px;
+    padding-left: 90px;
+}
+
+.landing-view2-header {
+    font-size: 70px;
+    padding-top: 230px;
+    color: #D7BC95;
+}
+
+.landing-view2-para {
+    font-size: 30px;
+    color: #D7BC95;
+}
+
+.landing-view2-coins {
+    display: flex;
+    width: 400px;
+}
+
+.landing-view2-coin-column {
+    flex: 33.33%;
+    padding: 5px;
+}
+
+.landing-view3 {
+    background-color: #D7BC95;
+    height: 860px;
+}
+
+.landing-view3-header {
+    font-size: 50px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 350px;
+    width: 50%;
+    color: #7D633F;
+}
+
+.landing-view3-signup {
+    background-color: #FFB600;
+    border: none;
+    color: #7D633F;
+    padding: 13px 35px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 22px;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.landing-view3-signup:hover {
+    box-shadow: 0 0 25px 6px #7D633F;
+}
+
+.landing-view4-bottombar {
+    background-color: #211B11;
+    padding: 18px;
+}
+
+.landing-view4-img {
+    width: 14%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
