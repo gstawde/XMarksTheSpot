@@ -12,10 +12,10 @@
 3. Once in the folder, run python3 server.py.
 4. Go to http://localhost:5000 to interact with the back-end.
 
-# Optional Steps: To use the backend with a virtual environment.
+# Optional Steps: Use the Back-end with a Virtual Environment
 1. Run python3 -m venv venv in the backend folder
 2. Navigate to source venv/bin/activate.
-3. Run the installations commands
+3. Run the installations commands.
 4. After installing, run python3 server.py.
 5. Go to http://localhost:5000 to interact with the back-end.
 
