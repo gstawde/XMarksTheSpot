@@ -54,14 +54,8 @@ const SignupPage = () => {
   }
  
   return (
-    <div class="bg-xmts-darkbrown flex items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 overflow-auto">
-      <div class="w-full md:mt-0 sm:max-w-md xl:p-0 overflow-auto">
-        <div class="flex justify-center h-24">         
-          <img class="max-h-full w-auto" src={XMarksLogo} alt="Image Logo" />
-        </div>
-        
-        <h1 class="text-xmts-yellow text-5xl text-center">Let's Get to Know You a Bit!</h1>
-        
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+      <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0"> 
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
           <form class="space-y-4 md:space-y-6" onSubmit={ handleSubmit }>
             <div>
@@ -70,21 +64,18 @@ const SignupPage = () => {
                 class="bg-xmts-tan rounded-lg w-full p-2"
                 onChange={(e) => { setFirstName(e.target.value); }}></input>
             </div>
-
             <div>
               <label htmlFor="lname" class="text-xmts-tan text-lgfont-medium">Last Name</label>
               <input type="lname" name="lname" id="lname" placeholder="Last Name" required
                 class="bg-xmts-tan rounded-lg w-full p-2"
                 onChange={(e) => { setLastName(e.target.value); }}></input>
             </div>
-
             <div>
               <label htmlFor="email" class="text-xmts-tan text-lgfont-medium">Email</label>
               <input type="email" name="email" id="email" placeholder="Email" required
                 class="bg-xmts-tan rounded-lg w-full p-2"
                 onChange={(e) => { setEmail(e.target.value); }}></input>
             </div>
-
             <div>
               <label htmlFor="password" class="text-xmts-tan text-lgfont-medium">Password</label>
               <div class="relative">
@@ -109,7 +100,6 @@ const SignupPage = () => {
               </div>
               { passwordError && <p class="text-xmts-red text-sm py-2">Password must contain 8 letters, 1 uppercase letter, 1 number, and 1 special character.</p>}
             </div>
-
             <div>
               <label htmlFor="confirm-password" class="text-xmts-tan text-lgfont-medium">Confirm password</label>
               
@@ -146,6 +136,10 @@ const SignupPage = () => {
                {/*When user signs up, they should be redirected to user dashboard*/}
               <button type="submit" class="bg-xmts-yellow w-1/3 font-medium rounded-lg px-5 py-2.5 text-center">Sign Up</button>
             </div>
+            <button type="submit" class="w-full text-white bg-slate-800 hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Create an account</button>
+            <p class="text-sm font-light text-gray-500">
+              Already have an account? <a href="/login" class="font-medium text-primary-600 hover:underline">Login here</a>
+            </p>
           </form>
         </div>
       </div>
