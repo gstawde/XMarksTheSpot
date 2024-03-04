@@ -21,7 +21,7 @@ URL: localhost:3000/dashboard
 ## Account Settings
 URL: localhost:3000/settings
 
-The user can view personal information, such as first name, last name, email, and more on the account settings. On top of that, it has a feature that allows the user to change their password. 
+The user can view personal information, such as first name, last name, email, and more, on the account settings. On top of that, it has a feature that allows the user to change their password. 
 
 ## Game Screen
 URL: localhost:3000/
