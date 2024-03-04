@@ -18,13 +18,14 @@ The user can create an account by entering their first name, last name, email ad
 ## User Dashboard
 URL: localhost:3000/dashboard
 
-Users can view the leaderboard, the collected and upcoming milestones, and the game history on the dashboard. 
+Users can view the leaderboard, collected and upcoming milestones, and the game history on the dashboard. Any progress made by a user can be viewed on this page.
 
 ## Account Settings
 URL: localhost:3000/settings
 
 The user can view personal information, such as first name, last name, email, and more, on the account settings page. On top of that, it has a feature that allows the user to change their password. 
 
-## Game Screen
+## Game Page
 URL: localhost:3000/
 
+This is where a user can select a study module and start a game session. Modules are listed out in a grid with an image/icon associated with each. Upon selecting a module, users will be prompted to either start a new session as a host, or join an existing one as a player by entering that session's unique game code. 
