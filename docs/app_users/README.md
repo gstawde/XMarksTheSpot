@@ -18,10 +18,12 @@ The user can create an account by entering their first name, last name, email ad
 ## User Dashboard
 URL: localhost:3000/dashboard
 
+Users can view the leaderboard, the collected and upcoming milestones, and the game history on the dashboard. 
+
 ## Account Settings
 URL: localhost:3000/settings
 
-The user can view personal information, such as first name, last name, email, and more, on the account settings. On top of that, it has a feature that allows the user to change their password. 
+The user can view personal information, such as first name, last name, email, and more, on the account settings page. On top of that, it has a feature that allows the user to change their password. 
 
 ## Game Screen
 URL: localhost:3000/
