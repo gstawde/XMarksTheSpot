@@ -137,14 +137,14 @@ const SignupPage = () => {
               </div>
             }
             
-            <div class="flex items-center justify-center">
+            <div class="flex flex-col items-center justify-center">
                {/*When user signs up, they should be redirected to user dashboard*/}
               <button type="submit" class="bg-xmts-yellow w-1/3 font-medium rounded-lg px-5 py-2.5 text-center">Sign Up</button>
+              <p class="text-sm font-light text-gray-500 py-3">
+                Already have an account? <a href="/login" class="font-medium text-primary-600 hover:underline">Login here</a>
+              </p>
             </div>
-            <button type="submit" class="w-full text-white bg-slate-800 hover:bg-primary-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Create an account</button>
-            <p class="text-sm font-light text-gray-500">
-              Already have an account? <a href="/login" class="font-medium text-primary-600 hover:underline">Login here</a>
-            </p>
+            
           </form>
         </div>
       </div>

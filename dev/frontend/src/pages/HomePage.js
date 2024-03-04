@@ -17,7 +17,7 @@ const HomePage = () => {
         </head>
         <body>
             <div className="landing-view1">
-                <a href={LoginPage}>
+                <a href="/login">
                     <button className="landing-view1-login">Login</button>
                 </a>
                 <img className="landing-view1-img" src={XMarksNameLogo} alt="Full Logo" />
@@ -41,7 +41,7 @@ const HomePage = () => {
             </div>
             <div className="landing-view3">
                 <p className="landing-view3-header">Join Now and Start Learning!</p>
-                <a href={SignupPage}>
+                <a href="/signup">
                     <button className="landing-view3-signup">Sign Up</button>
                 </a>
             </div>
