@@ -40,6 +40,7 @@ const SignupPage = () => {
     } else {
       setConfirmPW(pw);
       setConfirmPasswordError(false);
+      setPasswordsMatch(true);
     }
   }
  
