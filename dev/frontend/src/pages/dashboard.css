@@ -1,0 +1,134 @@
+/*This will contain styling for the user dashboard.*/
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap');
+
+h1 {
+    font-size: 40px;
+}
+
+body {
+    font-family: "DynaPuff", system-ui;
+    scroll-behavior: smooth;
+    background-color: #7D633F;
+    color: #211B11;
+}
+
+.navbar a {
+    float: right;
+    text-align: center;
+    padding: 14px 16px;
+    margin-top: 15px;
+    margin-left: 8px;
+    margin-right: 8px;
+    font-size: 19px;
+    background-color: #211B11;
+    color: #D7BC95;
+    border-radius: 10px;
+}
+
+.navbar a:hover {
+    box-shadow: 0 0 8px 6px #D7BC95;
+}
+
+.navbar a.active {
+    background-color: #FFB600;
+    color: #211B11;
+}
+
+.navbar img.split {
+    float: left;
+    padding: 10px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-top: 30px;
+    padding-left: 50px;
+    padding-right: 100px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.treasure-coin {
+    width: 100px;
+    height: 100px;
+    opacity: 50%;
+    filter: grayscale(45%);
+}
+
+.treasure-coin-achieved {
+    width: 100px;
+    height: 100px;
+}
+
+.see-more {
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: 10px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    font-size: 19px;
+    background-color: #211B11;
+    color: #F50000;
+    border-radius: 10px;
+}
+
+.see-more:hover {
+    background-color: #F50000;
+    color: #211B11;
+}
+
+.leaderboard {
+    background-color: #211B11;
+    text-align: center;
+    padding-top: 25px;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 10px;
+}
+
+.ranking-title {
+    font-size: 30px;
+    color: #FFB600;
+}
+
+.top-three {
+    color: #D7BC95;
+    font-size: 20px;
+}
+
+.user-rank {
+    font-size: 25px;
+    color: #F50000;
+}
+
+.game-history {
+    /*border-collapse: collapse;*/
+    width: 100%;
+}
+
+table {
+    width: 87%;
+    margin: 10px auto;
+    border-collapse: separate;
+    border-spacing: 3px 0;
+}
+
+.game-history td, .game-history th {
+    border-radius: 8px;
+    padding: 8px;
+    color: #FFB600;
+}
+
+.game-history th {
+    text-align: center;
+    background-color: #211B11;
+    color: #F50000;
+    height: 50px;
+}
