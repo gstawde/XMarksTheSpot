@@ -1,8 +1,6 @@
-import './base-style.css'; // Import regular stylesheet
+import './home-page.css';
 import XMarksNameLogo from '../assets/XMarksNameLogo.png';
 import TreasureCoin from '../assets/TreasureCoin.png';
-import SignupPage from "./SignupPage.js";
-import LoginPage from "./LoginPage.js";
 
 const HomePage = () => {
     return (
