@@ -1,26 +1,22 @@
-import './base-style.css'; // Import regular stylesheet
+import './home-page.css';
 import XMarksNameLogo from '../assets/XMarksNameLogo.png';
 import TreasureCoin from '../assets/TreasureCoin.png';
-import SignupPage from "./SignupPage.js";
-import LoginPage from "./LoginPage.js";
+import XMarksLogo from '../assets/XMarksLogo.png'
 
 const HomePage = () => {
     return (
     <html lang="en">
         <head>
             <meta charset="utf-8" />
-            <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <meta name="theme-color" content="#000000" />
-            <meta name="description" content="Web site created using create-react-app" />
-            <title>React App</title>
+            <link rel="icon" href={XMarksLogo} />
+            <title>X Marks the Spot</title>
         </head>
         <body>
             <div className="landing-view1">
                 <a href="/login">
                     <button className="landing-view1-login">Login</button>
                 </a>
-                <img className="landing-view1-img" src={XMarksNameLogo} alt="Full Logo" />
+                <img className="landing-view1-img" src={XMarksNameLogo} alt="X Marks the Spot Full Logo" />
             </div>
             <div className="landing-view2">
                 <p className="landing-view2-header">Play. Learn. Win!</p>
