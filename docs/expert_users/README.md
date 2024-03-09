@@ -7,7 +7,7 @@
 4. Go to http://localhost:3000 to interact with the front-end.
 
 ## Docker Setup:
-1. Navigate to the development code: cd dev/xmts-docker
+1. Navigate to /xmts-docker
 2. Build the image: docker compose build
 3. Start the docker services: docker compose up -d
 
