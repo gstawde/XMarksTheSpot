@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  xmts-flask:
+    container_name: xmts-flask
+    build:
+      context: ../backend
+      dockerfile: flask.dockerfile
+    ports:
+      - 4000:4000
+    depends_on:
+      - xmts-db
+    networks:
+      - backend-network
+
+  xmts-db:
+    container_name: xmts-db
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+    ports:
+      - "32000:3306"
+    volumes:
+      - ../backend/db:/docker-entrypoint-initdb.d/
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: bridge
