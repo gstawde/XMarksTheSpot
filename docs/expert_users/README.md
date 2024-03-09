@@ -12,6 +12,7 @@
 3. Start the docker services: docker compose up -d
 4. Go to http://localhost:4000 to interact with the back-end.
 
+(Prev Backend Build Instructions)
 ## Back-end: 
 1. Navigate to dev/backend.
 2. Installations: pip3 install Flask, pip3 install flask_cors, pip3 install jsonify, pip install flask-mysqldb, and pip install pyyaml
@@ -24,4 +25,3 @@
 3. Run the installations commands.
 4. After installing, run python3 server.py.
 5. Go to http://localhost:5000 to interact with the back-end.
-
