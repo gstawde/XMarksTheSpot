@@ -24,15 +24,44 @@ def get_users():
       }
       
       connection = mysql.connector.connect(**config)
-
       cursor = connection.cursor(dictionary=True)
-      cursor.execute("SELECT * FROM USERS")
+      cursor.execute("SELECT * FROM Users")
       users = cursor.fetchall()
       cursor.close()
       connection.close()
       return jsonify(users)
     except Exception as e:
       return jsonify({'error': str(e)})
+
+@app.route('/api/login', methods=['POST'])
+def login():
+  try:
+    config={
+        'user': 'root',
+        'password': 'root',
+        'host': 'xmts-db',
+        'port': '3306',
+        'database': 'x_marks_the_spot'
+      }
+      
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
+
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+
+    cursor.execute("SELECT * FROM Users WHERE username = %s AND password_hash = %s", (username, password))
+    user = cursor.fetchone()
+
+    cursor.close()
+    connection.close()
+    if user:
+      return jsonify({'success': True, 'message': 'Login successful'})
+    else:
+      return jsonify({'success': False, 'message': 'Invalid username or password.'})
+  except Exception as e:
+    return jsonify({'error': str(e)})
 
 # Example of adding a user, you can uncomment and customize this route as needed.
 # @app.route('/add_user', methods=['POST'])
