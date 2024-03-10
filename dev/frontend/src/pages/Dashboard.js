@@ -12,7 +12,7 @@ const GamePage = () => {
         </head>
         <body>
             <div className="navbar">
-                <a>Logout</a>
+                <a  href="/">Logout</a>
                 <a>Settings</a>
                 <a>Play!</a>
                 <a className="active" href="/dashboard">Dashboard</a>

@@ -66,6 +66,17 @@ const LoginPage = () => {
                     Log In
                   </Button>
                 </div>
+                <div className="flex justify-center">
+                  <p class="text-sm font-light text-gray-500 py-3">
+                    Don't have an Account?{" "}
+                    <a
+                      href="/signup"
+                      class="font-medium text-primary-600 hover:underline"
+                    >
+                      Sign Up
+                    </a>
+                  </p>
+                </div>
               </div>
             </form>
           </div>
