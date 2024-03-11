@@ -24,7 +24,7 @@ _(Don't run) Prev Backend Build Instructions:_
 3. Once in the folder, run python3 app.py.
 4. Go to http://localhost:5000 to interact with the back-end.
 
-Optional: Use the Back-end with a Virtual Environment
+Optional: Use the Back-end with a Virtual Environment (for prev backend build instructions, don't run)
 1. Run python3 -m venv venv in the backend folder
 2. Navigate to source venv/bin/activate.
 3. Run the installations commands.
