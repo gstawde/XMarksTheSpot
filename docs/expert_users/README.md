@@ -6,6 +6,12 @@
 3. Then, run npm start.
 4. Go to http://localhost:3000 to interact with the front-end.
 
+_If the frontend cannot be started, try these steps:_
+1. In dev/frontend, delete package-lock.json and node_modules
+2. Run npm install
+3. Run npm i
+4. Run npm start
+
 ## Docker Setup:
 1. Navigate to dev/xmts-docker
 2. Build the image: docker compose build
@@ -18,7 +24,7 @@ _(Don't run) Prev Backend Build Instructions:_
 3. Once in the folder, run python3 app.py.
 4. Go to http://localhost:5000 to interact with the back-end.
 
-_Optional Steps: Use the Back-end with a Virtual Environment_
+Optional: Use the Back-end with a Virtual Environment
 1. Run python3 -m venv venv in the backend folder
 2. Navigate to source venv/bin/activate.
 3. Run the installations commands.
