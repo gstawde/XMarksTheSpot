@@ -10,7 +10,8 @@ _If the frontend cannot be started, try these steps:_
 1. In dev/frontend, delete package-lock.json and node_modules
 2. Run npm install
 3. Run npm i
-4. Run npm start
+4. Run npm install js-cookie react-router-dom for dependencies
+5. Run npm start
 
 ## Docker Setup:
 1. Navigate to dev/xmts-docker
