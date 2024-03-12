@@ -1,18 +1,27 @@
-import { useState, useEffect } from "react";
-import { Alert, Input, Button } from "@material-tailwind/react";
-import XMarksLogo from "../assets/XMarksLogo.png";
+import { useState } from "react";
+import { Input, Button } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
+import XMarksLogo from "../assets/XMarksLogo.png";
+import Cookies from 'js-cookie';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const isAuthenticated = !!Cookies.get('auth');
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginSuccess, setLoginSuccess] = useState(true);
   
+  if(isAuthenticated) {
+    setTimeout(() => {
+      navigate('/dashboard');
+    }, 0);
+    return null;
+  } 
+
   const handleSubmit = (event) => {
     event.preventDefault();
     
-    const data = {
+    const user = {
       username: username,
       password: password
     };
@@ -22,11 +31,18 @@ const LoginPage = () => {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(user)
     })
     .then(response => response.json())
     .then(login => {
       if(login.success) {
+        // Expiration time is in 1 hr from when the user logs in
+        const expirationTime = new Date(new Date().getTime() + 3600000);
+        Cookies.set('auth', JSON.stringify(user), {expires: expirationTime});
+        
+        // session storage is better for maintaining auth data for the duration of the usr's session
+        //sessionStorage.setItem('auth', JSON.stringify(user));
+
         console.log("Login successful!");
         setLoginSuccess(true);
         navigate("/dashboard");
@@ -70,8 +86,8 @@ const LoginPage = () => {
                 />
 
               {!loginSuccess && 
-                <div class="p-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-                  <span class="font-medium">Login unsuccessful!</span> Incorrect username or password.
+                <div className="p-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+                  <span className="font-medium">Login unsuccessful!</span> Incorrect username or password.
                 </div>
               }
                 <div className="flex justify-center">
@@ -83,11 +99,11 @@ const LoginPage = () => {
                   </Button>
                 </div>
                 <div className="flex justify-center">
-                  <p class="text-sm font-light text-gray-500 py-3">
+                  <p className="text-sm font-light text-gray-500 py-3">
                     Don't have an Account?{" "}
                     <a
                       href="/signup"
-                      class="font-medium text-primary-600 hover:underline"
+                      className="font-medium text-primary-600 hover:underline"
                     >
                       Sign Up
                     </a>

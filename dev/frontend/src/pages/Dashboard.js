@@ -1,9 +1,36 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import './dashboard.css';
 import TreasureCoin from '../assets/TreasureCoin.png';
 import XMarksLogo from "../assets/XMarksLogo.png";
+import Cookies from 'js-cookie';
 
-const GamePage = () => {
-    return (
+const Dashboard = () => {
+  const navigate = useNavigate();
+  const isAuthenticated = !!Cookies.get('auth');
+  const [username, setUsername] = useState("");
+
+  const handleLogout = () => {
+    Cookies.remove('auth');
+    navigate('/');
+  }
+
+  useEffect(() => {
+    if (Cookies.get('auth')) {
+      const usernameFromCookie = JSON.parse(Cookies.get('auth')).username;
+      setUsername(usernameFromCookie);
+    }
+  }, []);
+
+
+  if(!isAuthenticated) {
+    setTimeout(() => {
+      navigate('/login');
+    }, 0);
+    return null;
+  } 
+
+  return (
         <html lang="en">
         <head>
             <meta charSet="utf-8"/>
@@ -12,7 +39,7 @@ const GamePage = () => {
         </head>
         <body>
             <div className="navbar">
-                <a  href="/">Logout</a>
+                <a  href="/" onClick={ handleLogout }>Logout</a>
                 <a>Settings</a>
                 <a>Play!</a>
                 <a className="active" href="/dashboard">Dashboard</a>
@@ -21,7 +48,7 @@ const GamePage = () => {
             <div className="row">
                 <div className="column" style={{flexGrow: "4"}}>
                     <div className="row">
-                        <h1 style={{color: "#FFB600"}}>First Last Name</h1><p style={{color: "#D7BC95"}}>XXX points</p>
+                        <h1 style={{color: "#FFB600"}}>Ahoy, {username}!</h1><p style={{color: "#D7BC95"}}>XXX points</p>
                     </div>
                     <div className="row">
                         <img className="treasure-coin-achieved" src={TreasureCoin} alt="Token" />
@@ -88,4 +115,4 @@ const GamePage = () => {
         </html>
     )
 }
-export default GamePage;
+export default Dashboard;
