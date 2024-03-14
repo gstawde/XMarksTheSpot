@@ -2,7 +2,7 @@ import './dashboard.css';
 import TreasureCoin from '../assets/TreasureCoin.png';
 import XMarksLogo from "../assets/XMarksLogo.png";
 
-const GamePage = () => {
+const UserDashboard = () => {
     return (
         <html lang="en">
         <head>
@@ -13,8 +13,8 @@ const GamePage = () => {
         <body>
             <div className="navbar">
                 <a>Logout</a>
-                <a>Settings</a>
-                <a>Play!</a>
+                <a href="/settings">Settings</a>
+                <a href="/gameLanding">Play!</a>
                 <a className="active" href="/dashboard">Dashboard</a>
                 <img className="split" src={XMarksLogo} width="100" height="100" alt="X Marks the Spot Logo"/>
             </div>
@@ -88,4 +88,4 @@ const GamePage = () => {
         </html>
     )
 }
-export default GamePage;
+export default UserDashboard;
