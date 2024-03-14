@@ -1,0 +1,107 @@
+/*This will contain styling for the user dashboard.*/
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap');
+
+h1 {
+    font-size: 40px;
+}
+
+body {
+    font-family: "DynaPuff", system-ui;
+    scroll-behavior: smooth;
+    background-color: #7D633F;
+    color: #211B11;
+}
+
+.navbar a {
+    float: right;
+    text-align: center;
+    padding: 14px 16px;
+    margin-top: 15px;
+    margin-left: 8px;
+    margin-right: 8px;
+    font-size: 19px;
+    background-color: #211B11;
+    color: #D7BC95;
+    border-radius: 10px;
+}
+
+.navbar a:hover {
+    box-shadow: 0 0 8px 6px #D7BC95;
+}
+
+.navbar a.active {
+    background-color: #FFB600;
+    color: #211B11;
+}
+
+.navbar img.split {
+    float: left;
+    padding: 10px;
+}
+
+.user-info {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.setting-page-header {
+    padding-top: 150px;
+    text-align: center;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-top: 25px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 150px;
+    font-size: 20px;
+}
+
+.information-type {
+    color: #D7BC95;
+}
+
+.user-information {
+    color: #FFB600;
+}
+
+.change-and-delete-buttons {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete-account {
+    color: #FFB600;
+}
+
+.delete-account:hover {
+    box-shadow: 0 0 8px 6px #FFB600;
+}
+
+.change-password {
+    color: #F50000;
+}
+
+.change-password:hover {
+    box-shadow: 0 0 8px 6px #F50000;
+}
+
+button {
+    background-color: #211B11;
+    font-size: 18px;
+    border-radius: 8px;
+    padding: 6px 15px;
+    margin: 23px;
+}
