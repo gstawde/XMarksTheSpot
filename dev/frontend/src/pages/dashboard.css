@@ -47,6 +47,7 @@ body {
     padding-top: 30px;
     padding-left: 50px;
     padding-right: 100px;
+    text-align: left;
 }
 
 .column {
@@ -80,8 +81,7 @@ body {
 }
 
 .see-more:hover {
-    background-color: #F50000;
-    color: #211B11;
+    box-shadow: 0 0 8px 6px #F50000;
 }
 
 .leaderboard {
