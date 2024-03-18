@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import XMarksLogo from "../assets/XMarksLogo.png";
 
 const SignupPage = () => {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
@@ -15,7 +17,7 @@ const SignupPage = () => {
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
   const [usernameExists, setUsernameExists] = useState(false);
-  const [emailExists, setEmailExists] = useState(true);
+  const [emailExists, setEmailExists] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -102,7 +104,6 @@ const SignupPage = () => {
         .catch((error) => console.log(error));
 
       if (!emailExists && !usernameExists) {
-        console.log("hello");
 
         fetch("http://127.0.0.1:4000/add_user", {
           method: "POST",
@@ -116,6 +117,7 @@ const SignupPage = () => {
 
             if (account.status === 200) {
               console.log(account.message);
+              navigate("/login");
             } else {
               console.log(account.message);
             }
@@ -364,7 +366,7 @@ const SignupPage = () => {
               </div>
             )}
 
-            {(emailExists || usernameExists) && (
+            {passwordsMatch && (emailExists || usernameExists) && (
               <div
                 className="p-4 text-sm text-red-800 rounded-lg bg-red-50"
                 role="alert"
