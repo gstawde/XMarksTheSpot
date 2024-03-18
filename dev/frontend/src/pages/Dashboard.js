@@ -8,7 +8,7 @@ import Cookies from 'js-cookie';
 const Dashboard = () => {
   const navigate = useNavigate();
   const isAuthenticated = !!Cookies.get('auth');
-  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
 
   const handleLogout = () => {
     Cookies.remove('auth');
@@ -17,8 +17,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (Cookies.get('auth')) {
-      const usernameFromCookie = JSON.parse(Cookies.get('auth')).username;
-      setUsername(usernameFromCookie);
+      const usernameFromCookie = JSON.parse(Cookies.get('auth')).firstName;
+      setFirstName(usernameFromCookie);
     }
   }, []);
 
