@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import mysql.connector
+import bcrypt
 import os
 
 app = Flask(__name__)
@@ -25,15 +26,17 @@ def get_users():
     try:
       connection = mysql.connector.connect(**config)
       cursor = connection.cursor(dictionary=True)
+      
       cursor.execute("SELECT * FROM Users")
       users = cursor.fetchall()
+      
       cursor.close()
       connection.close()
       return jsonify(users)
     except Exception as e:
       return jsonify({'error': str(e)})
 
-@app.route('/api/login', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def login():
   try: 
     connection = mysql.connector.connect(**config)
@@ -43,15 +46,15 @@ def login():
     username = data.get('username')
     password = data.get('password')
 
-    cursor.execute("SELECT * FROM Users WHERE username = %s AND password_hash = %s", (username, password))
+    cursor.execute("SELECT * FROM Users WHERE username = %s", (username,))
     user = cursor.fetchone()
-    print("hello")
+
     cursor.close()
     connection.close()
-    if user:
+    if user and bcrypt.checkpw(password.encode('utf-8'), user['password_hash'].encode('utf-8')):
       return jsonify({'success': True, 'message': 'Login successful'})
     else:
-      return jsonify({'success': False, 'message': 'Invalid username or password.'})
+      return jsonify({'success': False, 'message': 'Invalid username or password.' })
   except Exception as e:
     return jsonify({'error': str(e)})
 
@@ -59,16 +62,20 @@ def login():
 def add_user():
   try:
     connection = mysql.connector.connect(**config)
-    body = request.get_json()
-    first_name = body.get('firstName')
-    last_name = body.get('lastName')
-    username = body.get('username')
-    email = body.get('email')
-    password = body.get('password')
     cursor = connection.cursor(dictionary=True)
-    cursor = connection.cursor()
-    cursor.execute("INSERT INTO Users (FIRST_NAME, LAST_NAME, USERNAME, EMAIL, PASSWORD_HASH) VALUES (%s, %s, %s, %s, %s)", (first_name, last_name, username, email, password))
+    
+    data = request.get_json()
+    first_name = data.get('firstName')
+    last_name = data.get('lastName')
+    username = data.get('username')
+    email = data.get('email')
+    password = data.get('password')
+    
+    password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    
+    cursor.execute("INSERT INTO Users (FIRST_NAME, LAST_NAME, USERNAME, EMAIL, PASSWORD_HASH) VALUES (%s, %s, %s, %s, %s)", (first_name, last_name, username, email, password_hash))
     connection.commit()
+    
     cursor.close()
     connection.close()
     return jsonify({'message': 'User added successfully',

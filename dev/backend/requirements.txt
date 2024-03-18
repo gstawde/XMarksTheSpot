@@ -1,3 +1,5 @@
 Flask
 Flask-CORS
+Flask-Mail
 mysql-connector
+bcrypt

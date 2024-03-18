@@ -26,7 +26,7 @@ const LoginPage = () => {
       password: password
     };
 
-    fetch("http://127.0.0.1:4000/api/login", {
+    fetch("http://127.0.0.1:4000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -107,7 +107,15 @@ const LoginPage = () => {
                     >
                       Sign Up
                     </a>
+                    <br></br>
+                    <a
+                      href="/forgot-password"
+                      className="font-medium text-primary-600 hover:underline"
+                    >
+                      Forgot password?
+                    </a>
                   </p>
+                  
                 </div>
               </div>
             </form>
