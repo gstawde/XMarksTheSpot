@@ -4,11 +4,13 @@ import './dashboard.css';
 import TreasureCoin from '../assets/TreasureCoin.png';
 import XMarksLogo from "../assets/XMarksLogo.png";
 import Cookies from 'js-cookie';
+import dayjs from 'dayjs'
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const isAuthenticated = !!Cookies.get('auth');
   const [username, setUsername] = useState("");
+  const [gameplays, setGameplays] = useState([]);
 
   const handleLogout = () => {
     Cookies.remove('auth');
@@ -21,6 +23,15 @@ const Dashboard = () => {
       setUsername(usernameFromCookie);
     }
   }, []);
+  
+  useEffect(() => {
+    fetch("http://127.0.0.1:4000/gameplays")
+        .then((response) => response.json())
+        .then((gameplays) => {
+            setGameplays(gameplays);
+        })
+        .catch((error) => console.error("Error fetching user data:", error));
+    }, []);
 
 
   if(!isAuthenticated) {
@@ -77,40 +88,29 @@ const Dashboard = () => {
             </div>
             <br/>
             <h1 style={{paddingLeft: "100px", color: "#FFB600"}}>Game History</h1>
-            <div className="game-history">
-                <table>
-                    <tr>
-                        <th>Date</th>
-                        <th>Module Name</th>
-                        <th>Total Score</th>
-                    </tr>
-                    <tr>
-                        <td>03/14/2024</td>
-                        <td>North America</td>
-                        <td>11000</td>
-                    </tr>
-                    <tr>
-                        <td>03/14/2024</td>
-                        <td>Asia</td>
-                        <td>1300</td>
-                    </tr>
-                    <tr>
-                        <td>03/12/2024</td>
-                        <td>California</td>
-                        <td>1300</td>
-                    </tr>
-                    <tr>
-                        <td>03/09/2024</td>
-                        <td>Australia</td>
-                        <td>1300</td>
-                    </tr>
-                    <tr>
-                        <td>03/03/2024</td>
-                        <td>World Geography</td>
-                        <td>1300</td>
-                    </tr>
-                </table>
-            </div>
+            {gameplays.length == 0 && (
+                <h1 style={{color: "#FFB600", textAlign:"center"}}>Start Playing!</h1> // Temporary: we will put an image here!
+            )}
+            {gameplays && gameplays.length > 0 && (
+                <div className="game-history">
+                    <table>
+                        <tr>
+                            <th>Date</th>
+                            <th>Module Name</th>
+                            <th>Total Score</th>
+                        </tr>
+                        <tbody>
+                            {gameplays.map((gameplay) => (
+                                <tr key={gameplay["game_id"]}>
+                                    <td>{dayjs(gameplay.game_date).format('MM/DD/YY')}</td>
+                                    <td>{gameplay["game_topic"]}</td>
+                                    <td>{gameplay["user_score"]}</td>
+                                </tr>
+                            ))}
+                        </tbody>    
+                    </table>
+                </div>
+            )}
         </body>
         </html>
     )
