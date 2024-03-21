@@ -53,7 +53,7 @@ const ResetPassword = () => {
     })
     .catch(error => console.log(error));
   };
-  
+
   return (
     <div className="bg-xmts-darkbrown">
       <div className="flex items-center justify-center h-screen overflow-auto">
@@ -62,32 +62,34 @@ const ResetPassword = () => {
             <form>
               <div className="flex flex-col gap-3">
                 <p className="font-dynaPuff mb-3 text-4xl text-xmts-yellow">Reset Password</p>
-                <label htmlFor="password" className="text-xmts-tan text-lgfont-medium">Enter your new password:</label>
-                <Input label="Password" type="password" color="white" 
-                  className="w-3/5 bg-xmts-tan" 
-                  onChange={(event) => { setPassword(event.target.value); }} />
+                <label htmlFor="email" className="text-xmts-tan text-lgfont-medium">Enter your new password: </label>
+                <Input 
+                  label="Password" type="password" color="white" required
+                  className="w-64 bg-xmts-tan" 
+                  onChange={(e) => { setPassword(e.target.value); }} 
+                />
                 
-                {resetSuccess && 
-                  <div className="p-4 w-64 text-sm text-yellow-800 rounded-lg bg-yellow-100">
-                    <span className="font-medium">{ message } </span>
-                    <br></br>
-                    Redirecting you to the login page . . .
-                  </div>
-                }
-
+              
                 <div className="flex justify-center">
                   <Button className="font-dynaPuff mt-0 text-xl w-30 h-15 bg-xmts-yellow hover:bg-yellow-500 text-xmts-lightbrown"
                     onClick={ handleSubmit }>Reset Password</Button>
                 </div>
-
-                {resetFailure && 
-                  <div className="p-4 w-64 text-sm text-red-800 rounded-lg bg-red-50">
-                    <span className="font-medium">Password was not able to be reset. </span> 
-                    { message }
-                  </div>
-                }
               </div>
             </form>
+
+            {resetSuccess && 
+              <div className="p-4 max-w-sm mx-auto text-sm text-yellow-800 rounded-lg bg-yellow-50" role="alert">
+                <span className="font-medium">{ message } </span> 
+                Redirecting you to the login page . . . 
+              </div>
+            }
+
+            {resetFailure && 
+              <div className="p-4 max-w-sm mx-auto text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+                <span className="font-medium">Password failed to be reset. </span> 
+                { message }
+              </div>
+            }
           </div>
         </div>
       </div>

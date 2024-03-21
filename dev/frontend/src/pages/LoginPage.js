@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Input, Button } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
+import { Input, Button } from "@material-tailwind/react";
 import XMarksLogo from "../assets/XMarksLogo.png";
 import Cookies from 'js-cookie';
 
@@ -62,17 +62,16 @@ const LoginPage = () => {
             <img src={XMarksLogo} alt="Logo" />
             <form>
               <div className="flex flex-col gap-3">
-                <p className="font-dynaPuff mb-3 text-4xl text-xmts-yellow">
-                  XMARKS THE SPOT LOGIN!
-                </p>
+                <p className="font-dynaPuff mb-3 text-4xl text-xmts-yellow">XMARKS THE SPOT LOGIN!</p>
                 <Input
                   className="w-64 bg-xmts-tan"
-                  type="email"
+                  type="username"
                   color="white"
                   onChange={(event) => {
                     setUsername(event.target.value);
                   }}
                   label="Username"
+                  required
                 />
                 <Input
                   className="w-64 bg-xmts-tan"
@@ -82,13 +81,15 @@ const LoginPage = () => {
                     setPassword(event.target.value);
                   }}
                   label="Password"
+                  required
                 />
 
-              {!loginSuccess && 
-                <div className="p-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-                  <span className="font-medium">Login unsuccessful!</span> Incorrect username or password.
-                </div>
-              }
+                {!loginSuccess && 
+                  <div className="p-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+                    <span className="font-medium">Login unsuccessful!</span> Incorrect username or password.
+                  </div>
+                }
+
                 <div className="flex justify-center">
                   <Button
                     className="font-dynaPuff mt-0 text-xl w-30 h-15 bg-xmts-yellow hover:bg-yellow-500 text-xmts-lightbrown"
@@ -97,27 +98,21 @@ const LoginPage = () => {
                     Log In
                   </Button>
                 </div>
-                <div className="flex justify-center">
-                  <p className="text-sm font-light text-gray-500 py-3">
-                    Don't have an Account?{" "}
-                    <a
-                      href="/signup"
-                      className="font-medium text-primary-600 hover:underline"
-                    >
-                      Sign Up
-                    </a>
-                    <br></br>
-                    <a
-                      href="/forgot-password"
-                      className="font-medium text-primary-600 hover:underline"
-                    >
-                      Forgot password?
-                    </a>
-                  </p>
-                  
-                </div>
               </div>
             </form>
+
+            <div>
+              <p className="text-center text-sm font-light text-gray-500">
+                Don't have an Account?{" "}
+                <a href="/signup" className="font-medium text-primary-600 hover:underline">
+                  Sign Up</a>
+                <br></br>
+                <div className="mt-1">
+                  <a href="/forgot-password" className="font-medium text-primary-600 hover:underline">
+                    Forgot password?</a>
+                </div>
+              </p>  
+            </div>
           </div>
         </div>
       </div>

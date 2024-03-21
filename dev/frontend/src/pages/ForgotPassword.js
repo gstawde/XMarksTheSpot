@@ -33,11 +33,9 @@ const ForgotPassword = () => {
     .then(response => response.json())
     .then(email => {
       if(email.success) {
-        console.log(email.message);
         setEmailSuccess(true);
         setEmailFailure(false);
       } else {
-        console.log(email.message);
         setEmailSuccess(false);
         setEmailFailure(true);
       }
@@ -54,28 +52,30 @@ const ForgotPassword = () => {
               <div className="flex flex-col gap-3">
                 <p className="font-dynaPuff mb-3 text-4xl text-xmts-yellow">Forgot Password?</p>
                 <label htmlFor="email" className="text-xmts-tan text-lgfont-medium">Enter the email associated with your account: </label>
-                <Input label="Email" type="email" color="white" 
+                <Input 
+                  label="Email" type="email" color="white" required
                   className="w-64 bg-xmts-tan" 
-                  onChange={(event) => { setEmail(event.target.value); }} />
+                  onChange={(e) => { setEmail(e.target.value); }} 
+                />
                 
               
                 <div className="flex justify-center">
                   <Button className="font-dynaPuff mt-0 text-xl w-30 h-15 bg-xmts-yellow hover:bg-yellow-500 text-xmts-lightbrown"
-                    onClick={handleSubmit}>Send Email</Button>
+                    onClick={ handleSubmit }>Send Email</Button>
                 </div>
               </div>
             </form>
 
             {emailSuccess && 
-              <div className="p-4 text-sm text-yellow-800 rounded-lg bg-yellow-100" role="alert">
-                <span className="font-medium">Email sent successfully! </span> 
+              <div className="p-4 max-w-sm mx-auto text-sm text-yellow-800 rounded-lg bg-yellow-50" role="alert">
+                <span className="font-medium">Email sent! </span> 
                 Check your email and follow the instructions in it to continue resetting your password.
               </div>
             }
 
             {emailFailure && 
-              <div className="p-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-                <span className="font-medium">Email was not able to be sent. </span> 
+              <div className="p-4 max-w-sm mx-auto text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+                <span className="font-medium">Email failed to be sent. </span> 
                 The email you entered is not associated with any user in our records.
               </div>
             }
