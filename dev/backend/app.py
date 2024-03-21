@@ -61,6 +61,21 @@ def get_users():
   except Exception as e:
     return jsonify({'error': str(e)})
 
+@app.route('/gameplays', methods=['GET'])
+def get_gameplays():
+    try:
+      connection = mysql.connector.connect(**config)
+      cursor = connection.cursor(dictionary=True)
+      
+      cursor.execute("SELECT * FROM Gameplays")
+      gameplays = cursor.fetchall()
+      
+      cursor.close()
+      connection.close()
+      return jsonify(gameplays)
+    except Exception as e:
+      return jsonify({'error': str(e)})
+
 @app.route('/login', methods=['POST'])
 def login():
   try: 
