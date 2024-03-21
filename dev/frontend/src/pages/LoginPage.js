@@ -52,7 +52,6 @@ const LoginPage = () => {
       }
     })
     .catch(error => console.log(error));
-    
   };
 
   return (
