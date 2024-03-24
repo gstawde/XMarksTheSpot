@@ -39,16 +39,6 @@ body {
     padding: 10px;
 }
 
-.module-categories select {
-    display: none;
-}
-
-.module-categories {
-    margin-top: 8%;
-    background-color: #D7BC95;
-    color: #211B11;
-}
-
 .row {
     display: flex;
     flex-direction: row;
@@ -67,3 +57,22 @@ body {
     align-items: center;
     font-size: 25px;
 }
+
+input {
+    border-radius: 8px;
+    padding: 2px;
+    background-color: #D7BC95;
+    color: #211B11;
+    font-size: 18px;
+}
+
+.join-button {
+    background-color: #211B11;
+    color: #FFB600;
+}
+
+.start-button {
+    background-color: #211B11;
+    color: #F50000;
+}
+

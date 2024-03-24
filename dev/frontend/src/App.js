@@ -6,6 +6,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import DashboardPage from './pages/Dashboard';
 import GameLandingPage from './pages/GameLandingPage';
+import JoinStartPage from './pages/JoinStartPage';
 import SettingsPage from './pages/SettingsPage';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path='reset-password' element={<ResetPassword/>}></Route>
         <Route path='dashboard' element={<DashboardPage/>} />
         <Route path='gameLanding' element={<GameLandingPage/>} />
+        <Route path='join-start' element={<JoinStartPage/>} />
         <Route path='settings' element={<SettingsPage/>} />
       </Routes>
     </Router>
