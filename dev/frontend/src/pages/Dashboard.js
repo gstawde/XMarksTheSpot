@@ -11,6 +11,9 @@ const Dashboard = () => {
   const isAuthenticated = !!Cookies.get('auth');
   const [username, setUsername] = useState("");
   const [gameplays, setGameplays] = useState([]);
+  const [ranks, setRanks] = useState([]);
+
+  //const [topThree, setTopThree] = useState([]);
 
   const handleLogout = () => {
     Cookies.remove('auth');
@@ -20,12 +23,13 @@ const Dashboard = () => {
   useEffect(() => {
     if (Cookies.get('auth')) {
       const usernameFromCookie = JSON.parse(Cookies.get('auth')).username;
+      console.log(usernameFromCookie);
       setUsername(usernameFromCookie);
     }
   }, []);
   
   useEffect(() => {
-    fetch("http://127.0.0.1:4000/gameplays")
+    fetch(`http://127.0.0.1:4000/gameplays?userid=${1}`)
         .then((response) => response.json())
         .then((gameplays) => {
             setGameplays(gameplays);
@@ -33,6 +37,17 @@ const Dashboard = () => {
         .catch((error) => console.error("Error fetching user data:", error));
     }, []);
 
+
+    // useEffect(() => {
+    //     fetch(`http://127.0.0.1:4000/ranks?userid=${1}`)
+    //         .then(response => response.json())
+    //         .then((data) => {
+    //             console.log(data); 
+    //             console.log(data.r); 
+    //             setRanks(data); 
+    //         })
+    //         .catch((error) => console.log(error));
+    // }, []);
 
   if(!isAuthenticated) {
     setTimeout(() => {
@@ -82,6 +97,7 @@ const Dashboard = () => {
                     <p className="top-three">User 1</p>
                     <p className="top-three">User 2</p>
                     <p className="top-three">User 3</p>
+                    
                     <br/>
                     <p className="user-rank">User Rank</p>
                 </div>
