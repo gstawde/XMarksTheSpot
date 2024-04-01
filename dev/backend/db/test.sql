@@ -45,3 +45,5 @@ INSERT INTO Users(first_name, last_name, email, username, password_hash, user_po
 -- Insert initial data for gameplays
 INSERT INTO Gameplays(game_date, game_finished, user_id, game_topic, user_score) VALUES 
 	("2024-02-19 00:00:00", 1, 1, "Asia", 200);
+INSERT INTO Gameplays(game_date, game_finished, user_id, game_topic, user_score) VALUES 
+	("2024-02-21 00:00:00", 1, 3, "North America", 1000);

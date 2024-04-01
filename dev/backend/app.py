@@ -64,10 +64,11 @@ def get_users():
 
 @app.route('/gameplays', methods=['GET'])
 def get_gameplays():
+    user_id = request.args.get('userid')
+    print(user_id, flush=True)
     try:
       connection = mysql.connector.connect(**config)
       cursor = connection.cursor(dictionary=True)
-      
       cursor.execute("SELECT * FROM Gameplays")
       gameplays = cursor.fetchall()
       
@@ -176,9 +177,11 @@ def checkEmail():
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor(dictionary=True)
     data = request.get_json()
+    
     email = data.get('email')
     cursor.execute("SELECT * FROM Users WHERE email = %s", (email,))
     result = cursor.fetchone()
+    
     cursor.close()
     connection.close()
     if result:
@@ -187,6 +190,27 @@ def checkEmail():
       return jsonify({'success': False, 'message': 'Email does not exist.'})
   except Exception as e:
     return jsonify({'error': str(e)})
+
+
+# @app.route('/ranks', methods=['GET'])
+# def get_ranks():
+#   user_id = request.args.get('userid')
+#   try:
+#     connection = mysql.connector.connect(**config)
+#     cursor = connection.cursor(dictionary=True)
+    
+#     cursor.execute("SELECT * FROM Users")
+#     users = cursor.fetchall()
+   
+#     cursor.close()
+#     connection.close()
+
+#     return jsonify({'ranks': users, 'r': '12'})
+
+#   except Exception as e:
+#     return jsonify({'error': str(e)})
+
+    
 
 @app.route('/password/forgot', methods=['POST'])
 def forgot_password():
@@ -294,3 +318,7 @@ def get_mc_question():
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
+
+
+
+
