@@ -8,6 +8,7 @@ import DashboardPage from './pages/Dashboard';
 import GameLandingPage from './pages/GameLandingPage';
 import JoinStartPage from './pages/JoinStartPage';
 import SettingsPage from './pages/SettingsPage';
+import StartGamePage from './pages/StartGamePage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='dashboard' element={<DashboardPage/>} />
         <Route path='gameLanding' element={<GameLandingPage/>} />
         <Route path='join-start' element={<JoinStartPage/>} />
+        <Route path='start-game' element={<StartGamePage/>} />
         <Route path='settings' element={<SettingsPage/>} />
       </Routes>
     </Router>

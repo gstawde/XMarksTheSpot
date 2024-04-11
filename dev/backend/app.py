@@ -7,6 +7,7 @@ import jwt
 import datetime
 import random
 import os
+from datetime import datetime
 
 SECRET_KEY = 'xmarksthespot'
 
@@ -152,7 +153,7 @@ def delete_user(user_id):
     return jsonify({'error': str(e)})
 
 @app.route('/check/username', methods=['POST'])
-def checkUsername():
+def check_username():
   try:
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor(dictionary=True)
@@ -172,7 +173,7 @@ def checkUsername():
     return jsonify({'error': str(e)})
 
 @app.route('/check/email', methods=['POST'])
-def checkEmail():
+def check_email():
   try:
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor(dictionary=True)
@@ -191,9 +192,8 @@ def checkEmail():
   except Exception as e:
     return jsonify({'error': str(e)})
 
-
-# @app.route('/ranks', methods=['GET'])
-# def get_ranks():
+@app.route('/ranks', methods=['GET'])
+def get_ranks():
 #   user_id = request.args.get('userid')
 #   try:
 #     connection = mysql.connector.connect(**config)
@@ -209,8 +209,7 @@ def checkEmail():
 
 #   except Exception as e:
 #     return jsonify({'error': str(e)})
-
-    
+    return jsonify({'message': 'In progress!'})
 
 @app.route('/password/forgot', methods=['POST'])
 def forgot_password():
@@ -267,8 +266,8 @@ def reset_password():
   except Exception as e:
     return jsonify({'error': str(e)})
 
-# @app.route('/countries', methods=['GET'])
-# def get_countries():
+@app.route('/countries', methods=['GET'])
+def get_countries():
 #   try:
 #     connection = mysql.connector.connect(**config)
 #     cursor = connection.cursor(dictionary=True)
@@ -279,10 +278,11 @@ def reset_password():
 #     return jsonify(countries)
 #   except Exception as e:
 #     return jsonify({'error': str(e)})
+    return jsonify({'message': 'In progress!'})
 
 @app.route('/question/get/mc', methods=['GET'])
 def get_mc_question():
-  try:
+  #try:
     # connection = mysql.connector.connect(**config)
     # cursor = connection.cursor(dictionary=True)
 
@@ -312,9 +312,28 @@ def get_mc_question():
 
     return jsonify({'message': 'In progress!'})
 
+@app.route('/start-game', methods=['POST'])
+def start_game():
+  try:
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
+    
+    data = request.get_json()
+    game_id = data.get('game_id')
+    game_date = datetime.now()
+    user_id = data.get('user_id')
+    game_topic = data.get('game_topic')
+
+    cursor.execute("INSERT INTO Gameplays (GAME_ID, GAME_DATE, GAME_FINISHED, USER_ID, GAME_TOPIC, USER_SCORE) VALUES (%s, %s, %s, %s, %s, %s)", (game_id, game_date, 0, user_id, game_topic, 0))
+    connection.commit()
+    
+    cursor.close()
+    connection.close()
+    return jsonify({'message': 'New game created added successfully',
+                    'status': 200
+                    })
   except Exception as e:
     return jsonify({'error': str(e)})
-
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
