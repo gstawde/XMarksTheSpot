@@ -67,7 +67,7 @@ const Dashboard = () => {
             <div className="navbar">
                 <a  href="/" onClick={ handleLogout }>Logout</a>
                 <a>Settings</a>
-                <a>Play!</a>
+                <a href = "/join-start">Play!</a>
                 <a className="active" href="/dashboard">Dashboard</a>
                 <img className="split" src={XMarksLogo} width="100" height="100" alt="X Marks the Spot Logo"/>
             </div>

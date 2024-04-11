@@ -2,8 +2,15 @@ import './join-start-page.css';
 import XMarksLogo from "../assets/XMarksLogo.png";
 import TreasureCoin from "../assets/TreasureCoin.png";
 import XMark from "../assets/XMark.png";
+import { useNavigate } from 'react-router-dom';
 
 const JoinStartPage = () => {
+    const navigate = useNavigate()
+    const goToStartGame = (event) => {
+        event.preventDefault();
+        navigate("/start-game")
+        
+    }
     return (
         <html lang="en">
         <head>
@@ -31,7 +38,7 @@ const JoinStartPage = () => {
                 <div className="column">
                     <img src={XMark} width="400" height="410"/>
                     <br/>
-                    <button className="start-button">Start Game</button>
+                    <button className="start-button" onClick={goToStartGame}>Start Game</button>
                 </div>
             </div>
         </body>
