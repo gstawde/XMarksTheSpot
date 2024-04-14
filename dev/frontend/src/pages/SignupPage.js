@@ -16,9 +16,8 @@ const SignupPage = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
-
-  const [usernameExists, setUsernameExists] = useState(false);
-  const [emailExists, setEmailExists] = useState(false);
+  const [signupError, setSignupError] = useState(false);
+  const [signupMessage, setSignupMessage] = useState("");
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -61,64 +60,30 @@ const SignupPage = () => {
     } else {
       setPasswordsMatch(true);
 
-    const newAccount = {
-      firstName: firstName,
-      lastName: lastName,
-      username: username,
-      email: email,
-      password: password,
-    };
+      const newAccount = {
+        firstName: firstName,
+        lastName: lastName,
+        username: username,
+        email: email,
+        password: password,
+      };
 
-      fetch("http://127.0.0.1:4000/check/username", {
+      fetch("http://127.0.0.1:4000/users/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newAccount),
       })
       .then((response) => response.json())
-      .then((usernameCheck) => {
-        if (usernameCheck.success) {
-          console.log(usernameCheck.message);
-          setUsernameExists(true);
+      .then((account) => {
+        if (account.success) {
+          setSignupError(false);
+          navigate("/login");
         } else {
-          console.log(usernameCheck.message);
-          setUsernameExists(false);
+          setSignupError(true);
+          setSignupMessage(account.message);
         }
       })
       .catch((error) => console.log(error));
-
-      fetch("http://127.0.0.1:4000/check/email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newAccount),
-      })
-      .then((response) => response.json())
-      .then((emailCheck) => {
-        if (emailCheck.success) {
-          console.log(emailCheck.message);
-          setEmailExists(true);
-        } else {
-          console.log(emailCheck.message);
-          setEmailExists(false);
-        }
-      })
-      .catch((error) => console.log(error));
-
-      if (!emailExists && !usernameExists) {
-        fetch("http://127.0.0.1:4000/add_user", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newAccount),
-        })
-        .then((response) => response.json())
-        .then((account) => {
-          if (account.status === 200) {
-            navigate("/login");
-          } else {
-            console.log(account.message);
-          }
-        })
-        .catch((error) => console.log(error));
-      }
     }
   };
 
@@ -290,24 +255,16 @@ const SignupPage = () => {
               </div>
             )}
 
-            {passwordsMatch && (emailExists || usernameExists) && (
+            {signupError && (
               <div
-                className="p-4 text-sm text-red-800 rounded-lg bg-red-50"
+                class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50"
                 role="alert"
               >
-                {emailExists ? (
-                  <>
-                    <span className="font-medium">Registration Failed!</span> -
-                    Email already exists.
-                  </>
-                ) : (
-                  <>
-                    <span className="font-medium">Registration Failed!</span> -
-                    Username already exists.
-                  </>
-                )}
+                <span class="font-medium">Registration failed!</span>{" "}
+                {signupMessage}
               </div>
             )}
+            
             <div className="flex justify-center">
               <Button
                 className="font-dynaPuff mt-0 text-xl w-30 h-15 bg-xmts-yellow hover:bg-yellow-500 text-xmts-lightbrown"
