@@ -26,7 +26,7 @@ const LoginPage = () => {
       password: password
     };
 
-    fetch("http://127.0.0.1:4000/login", {
+    fetch("http://127.0.0.1:4000/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -45,11 +45,9 @@ const LoginPage = () => {
         // session storage is better for maintaining auth data for the duration of the usr's session
         //sessionStorage.setItem('auth', JSON.stringify(user));
 
-        console.log("Login successful!");
         setLoginSuccess(true);
         navigate("/dashboard");
       } else {
-        console.log("Login failed.", login.message)
         setLoginSuccess(false);
       }
     })

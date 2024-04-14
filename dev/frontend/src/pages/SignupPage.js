@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Input, Button } from "@material-tailwind/react";
 import XMarksLogo from "../assets/XMarksLogo.png";
+import Cookies from 'js-cookie';
 
 const SignupPage = () => {
   const navigate = useNavigate();
+  const isAuthenticated = !!Cookies.get('auth');
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
@@ -16,8 +18,14 @@ const SignupPage = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
-  const [signupError, setSignupError] = useState(false);
-  const [signupMessage, setSignupMessage] = useState("");
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+  if(isAuthenticated) {
+    setTimeout(() => {
+      navigate('/dashboard');
+    }, 0);
+    return null;
+  } 
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -29,23 +37,27 @@ const SignupPage = () => {
 
   const validatePassword = (e) => {
     const pw = e.target.value;
+    setPassword(pw);
+
     const passwordRegex =
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
-    if (!passwordRegex.test(pw)) {
+      /^.{8,}$/;
+
+    if (!passwordRegex.test(password)) {
       setPasswordError(true);
     } else {
-      setPassword(pw);
       setPasswordError(false);
-      confirmPassword(e);
+      //confirmPassword();
     }
   };
 
   const confirmPassword = (e) => {
     const pw = e.target.value;
-    if (pw !== password) {
+    setConfirmPW(pw);
+    console.log(password, confirmPW);
+
+    if (confirmPW !== password) {
       setConfirmPasswordError(true);
     } else {
-      setConfirmPW(pw);
       setConfirmPasswordError(false);
       setPasswordsMatch(true);
     }
@@ -53,11 +65,22 @@ const SignupPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    if (password !== confirmPW) {
+
+    if (firstName.trim() === '' || lastName.trim() === '' || username.trim() === '' || email.trim() ==='' || password.trim() === '') {
+      setError(true);
+      setErrorMessage(["Check your information again!", "Make sure all the required information is filled out."]);
+      return;
+    } else if (password.length <= 8) {
+      setError(true);
+      setErrorMessage(["Check your information again!", "Password must be at least 8 characters."]);
+      return;
+    } else if (confirmPW !== password) {
       setPasswordsMatch(false);
+      setError(true);
+      setErrorMessage(["Check your information again!", "Inputted passwords do not match."]);
       return;
     } else {
+      setError(false);
       setPasswordsMatch(true);
 
       const newAccount = {
@@ -76,11 +99,11 @@ const SignupPage = () => {
       .then((response) => response.json())
       .then((account) => {
         if (account.success) {
-          setSignupError(false);
-          navigate("/login");
+          setError(false);
+          //navigate("/login");
         } else {
-          setSignupError(true);
-          setSignupMessage(account.message);
+          setError(true);
+          setErrorMessage(["Registration Failed!", account.message]);
         }
       })
       .catch((error) => console.log(error));
@@ -183,8 +206,7 @@ const SignupPage = () => {
               
               {passwordError && (
                 <p class="text-xmts-red text-sm py-2">
-                  Password must contain 8 letters, 1 uppercase letter, 1 number,
-                  and 1 special character.
+                  Password must contain at least 8 characters.
                 </p>
               )}
             </div>
@@ -245,23 +267,13 @@ const SignupPage = () => {
               )}
             </div>
 
-            {!passwordsMatch && (
+            {error && (
               <div
                 class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50"
                 role="alert"
               >
-                <span class="font-medium">Check your information again!</span>{" "}
-                Inputted passwords do not match.
-              </div>
-            )}
-
-            {signupError && (
-              <div
-                class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50"
-                role="alert"
-              >
-                <span class="font-medium">Registration failed!</span>{" "}
-                {signupMessage}
+                <span class="font-medium">{errorMessage[0]}</span>{" "}
+                {errorMessage[1]}
               </div>
             )}
             
@@ -282,8 +294,6 @@ const SignupPage = () => {
               </p>  
             </div>
           </form>
-          
-          
         </div>
       </div>
     </div>
