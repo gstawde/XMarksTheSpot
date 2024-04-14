@@ -16,6 +16,9 @@ _If the frontend cannot be started, try these steps:_
 5. Run npm start
 
 ## Docker Setup:
+
+Before running any of the Docker commands, make sure the Docker daemon is started by launching the Docker desktop app and making sure it is running. The Docker daemon status in the bottom left should be green and say something like 'Engine running'.
+
 1. Navigate to dev/xmts-docker
 2. Build the image: docker compose build
 3. Start the docker services: docker compose up -d
