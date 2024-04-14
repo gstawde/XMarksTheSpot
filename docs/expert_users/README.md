@@ -1,5 +1,7 @@
 # Building The Project
 
+Clone the project: git clone https://github.com/gstawde/XMarksTheSpot.git
+
 ## Front-end: 
 1. Navigate to dev/frontend.
 2. Once in the folder, run npm i.
