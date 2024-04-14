@@ -10,6 +10,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const isAuthenticated = !!Cookies.get('auth');
   const [username, setUsername] = useState("");
+  const [id, setId] = useState(0);
   const [gameplays, setGameplays] = useState([]);
   const [ranks, setRanks] = useState([]);
 
@@ -22,9 +23,13 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (Cookies.get('auth')) {
-      const usernameFromCookie = JSON.parse(Cookies.get('auth')).username;
-      console.log(usernameFromCookie);
+      const authCookie = Cookies.get('auth');
+
+      const usernameFromCookie = JSON.parse(authCookie).username;
       setUsername(usernameFromCookie);
+
+      const idFromCookie = JSON.parse(authCookie).user_id;
+      setId(idFromCookie);
     }
   }, []);
   

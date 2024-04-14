@@ -95,7 +95,7 @@ def login():
     cursor.close()
     connection.close()
     if user and bcrypt.checkpw(password.encode('utf-8'), user['password_hash'].encode('utf-8')):
-      return jsonify({'success': True, 'message': 'Login successful'})
+      return jsonify({'success': True, 'message': 'Login successful', 'result': user})
     else:
       return jsonify({'success': False, 'message': 'Invalid username or password.' })
   except Exception as e:

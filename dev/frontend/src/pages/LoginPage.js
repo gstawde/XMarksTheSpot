@@ -36,9 +36,11 @@ const LoginPage = () => {
     .then(response => response.json())
     .then(login => {
       if(login.success) {
+        const userInfo = login.result;
+        
         // Expiration time is in 1 hr from when the user logs in
         const expirationTime = new Date(new Date().getTime() + 3600000);
-        Cookies.set('auth', JSON.stringify(user), {expires: expirationTime});
+        Cookies.set('auth', JSON.stringify(userInfo), {expires: expirationTime});
         
         // session storage is better for maintaining auth data for the duration of the usr's session
         //sessionStorage.setItem('auth', JSON.stringify(user));
