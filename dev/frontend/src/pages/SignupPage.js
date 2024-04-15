@@ -100,7 +100,7 @@ const SignupPage = () => {
       .then((account) => {
         if (account.success) {
           setError(false);
-          //navigate("/login");
+          navigate("/login");
         } else {
           setError(true);
           setErrorMessage(["Registration Failed!", account.message]);
