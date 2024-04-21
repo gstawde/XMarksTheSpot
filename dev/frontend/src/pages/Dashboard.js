@@ -34,17 +34,20 @@ const Dashboard = () => {
   }, []);
   
   useEffect(() => {
-    fetch(`http://127.0.0.1:4000/gameplays?userid=${1}`)
+    const authCookie = Cookies.get('auth');
+    const idFromCookie = JSON.parse(authCookie).user_id;
+    fetch(`http://127.0.0.1:4000/gameplays?userId=${idFromCookie}`)
         .then((response) => response.json())
         .then((gameplays) => {
             setGameplays(gameplays);
+            console.log(gameplays)
         })
         .catch((error) => console.error("Error fetching user data:", error));
     }, []);
 
 
     // useEffect(() => {
-    //     fetch(`http://127.0.0.1:4000/ranks?userid=${1}`)
+    //     fetch(`http://127.0.0.1:4000/ranks?userId=${1}`)
     //         .then(response => response.json())
     //         .then((data) => {
     //             console.log(data); 
@@ -108,6 +111,7 @@ const Dashboard = () => {
                 </div>
             </div>
             <br/>
+            
             <h1 style={{paddingLeft: "100px", color: "#FFB600"}}>Game History</h1>
             {gameplays.length == 0 && (
                 <h1 style={{color: "#FFB600", textAlign:"center"}}>Start Playing!</h1> // Temporary: we will put an image here!
