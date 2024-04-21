@@ -18,13 +18,12 @@ services:
   xmts-db:
     container_name: xmts-db
     image: mysql:5.7
-    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: "root"
     ports:
       - "32000:3306"
     volumes:
-      - ../backend/db:/docker-entrypoint-initdb.d/
+      - ../backend/db:/docker-entrypoint-initdb.d
     networks:
       - backend-network
 

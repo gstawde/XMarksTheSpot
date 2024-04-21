@@ -1,36 +1,4 @@
-CREATE SCHEMA IF NOT EXISTS x_marks_the_spot;
-
 USE x_marks_the_spot;
-
-CREATE TABLE Milestones(
-	milestone_id INT PRIMARY KEY NOT NULL UNIQUE,
-	milestone_name VARCHAR(255) NOT NULL,
-	milestone_icon VARCHAR(255) NOT NULL,
-  	milestone_points INT NOT NULL
-);
-
-CREATE TABLE Users(
-	user_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  	first_name VARCHAR(255),
-	last_name VARCHAR(255),
-	email VARCHAR(255) NOT NULL UNIQUE,
-	username VARCHAR(255) NOT NULL UNIQUE,
-	password_hash VARCHAR(255) NOT NULL,
-  	user_points INT,
-  	milestone_reached INT DEFAULT 0,
-	FOREIGN KEY (milestone_reached) REFERENCES Milestones(milestone_id)
-
-);
-
-CREATE TABLE Gameplays(
-	game_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT UNIQUE,
-  	game_date DATETIME NOT NULL,
-  	game_finished TINYINT,
-  	user_id INT NOT NULL,
-	game_topic VARCHAR(255) NOT NULL,
-  	user_score INT NOT NULL,
-	FOREIGN KEY (user_id) REFERENCES Users(user_id)
-);
 
 -- Insert initial data for 0 milestones
 INSERT INTO Milestones(milestone_id, milestone_name, milestone_icon, milestone_points) VALUES
@@ -46,19 +14,19 @@ INSERT INTO Users(first_name, last_name, email, username, password_hash, user_po
 INSERT INTO Gameplays(game_date, game_finished, user_id, game_topic, user_score) VALUES 
 	("2024-02-19 00:00:00", 1, 1, "Asia", 200);
 INSERT INTO Gameplays(game_date, game_finished, user_id, game_topic, user_score) VALUES 
-	("2024-02-21 00:00:00", 1, 3, "North America", 1000);
+	("2024-02-21 00:00:00", 1, 2, "North America", 1000);
 
 -- Country Information
 
 -- North America
-INSERT INTO COUNTRIES (COUNTRY_NAME, FLAG, CONTINENT, CAPITAL, COUNTRY_LANGUAGE, CURRENCY, EQUATOR, PRIME_MERIDIAN, CLIMATE, CLOSEST_OCEAN)
+INSERT INTO Countries(country_name, flag, continent, capital, country_language, currency, equator, prime_meridian, climate, closest_ocean)
 VALUES 
 ('United States', NULL, 'North America', 'Washington D.C.', 'English', 'US Dollar', 'North', 'West', NULL, 'Atlantic'),
 ('Canada', NULL, 'North America', 'Ottawa', 'French', 'Canadian Dollar', 'North', 'West', 'Snow', 'Atlantic'),
 ('Mexico', NULL, 'North America', 'Mexico City', 'Spanish', 'Mexican Peso', 'North', 'West', NULL, 'Pacific');
 
 -- South America
-INSERT INTO COUNTRIES (COUNTRY_NAME, FLAG, CONTINENT, CAPITAL, COUNTRY_LANGUAGE, CURRENCY, EQUATOR, PRIME_MERIDIAN, CLIMATE, CLOSEST_OCEAN)
+INSERT INTO Countries(country_name, flag, continent, capital, country_language, currency, equator, prime_meridian, climate, closest_ocean)
 VALUES 
 ('Brazil', NULL, 'South America', 'Brasília', 'Portuguese', 'Brazilian Real', 'South', 'East', 'Monsoon', 'Atlantic'),
 ('Argentina', NULL, 'South America', 'Buenos Aires', 'Spanish', 'Argentine Peso', 'South', 'West', 'Monsoon', 'Atlantic'),
@@ -69,13 +37,13 @@ VALUES
 ('Venezuela', NULL, 'South America', 'Caracas', 'Spanish', 'Venezuelan Bolívar', 'North', 'West', 'Monsoon', 'Atlantic');
 
 -- Africa
-INSERT INTO COUNTRIES (COUNTRY_NAME, FLAG, CONTINENT, CAPITAL, COUNTRY_LANGUAGE, CURRENCY, EQUATOR, PRIME_MERIDIAN, CLIMATE, CLOSEST_OCEAN)
+INSERT INTO Countries(country_name, flag, continent, capital, country_language, currency, equator, prime_meridian, climate, closest_ocean)
 VALUES 
 ('Egypt', NULL, 'Africa', 'Cairo', 'Arabic', 'Egyptian Pound', 'North', 'East', 'Desert', NULL),
 ('South Africa', NULL, 'Africa', 'Pretoria', 'Afrikaans', 'South African Rand', 'South', 'East', 'Monsoon', 'Indian'),
 ('Nigeria', NULL, 'Africa', 'Abuja', 'English', 'Nigerian Naira', 'North', 'East', 'Monsoon', 'Atlantic'),
 ('Kenya', NULL, 'Africa', 'Nairobi', 'Swahili', 'Kenyan Shilling', 'South', 'East', 'Monsoon', 'Indian'),
-('Ethiopia', NULL, 'Africa', 'Addis Ababa', 'Amharic', 'Ethiopian Birr', 'North', 'East', 'Monsoon', 'Indian');
+('Ethiopia', NULL, 'Africa', 'Addis Ababa', 'Amharic', 'Ethiopian Birr', 'North', 'East', 'Monsoon', 'Indian'),
 ('Algeria', NULL, 'Africa', 'Algiers', 'Arabic', 'Algerian Dinar', 'North', 'East', 'Desert', 'Mediterranean'),
 ('Morocco', NULL, 'Africa', 'Rabat', 'Arabic, Berber', 'Moroccan Dirham', 'North', 'West', 'Desert', 'Atlantic'),
 ('Ghana', NULL, 'Africa', 'Accra', 'English', 'Ghanaian Cedi', 'North', 'West', 'Monsoon', 'Atlantic'),
@@ -83,7 +51,7 @@ VALUES
 ('Tanzania', NULL, 'Africa', 'Dodoma', 'Swahili, English', 'Tanzanian Shilling', 'South', 'East', 'Monsoon', 'Indian');
 
 -- Asia
-INSERT INTO COUNTRIES (COUNTRY_NAME, FLAG, CONTINENT, CAPITAL, COUNTRY_LANGUAGE, CURRENCY, EQUATOR, PRIME_MERIDIAN, CLIMATE, CLOSEST_OCEAN)
+INSERT INTO Countries(country_name, flag, continent, capital, country_language, currency, equator, prime_meridian, climate, closest_ocean)
 VALUES 
 ('China', NULL, 'Asia', 'Beijing', 'Mandarin', 'Chinese Yuan', 'North', 'East', 'Monsoon', 'Pacific'),
 ('India', NULL, 'Asia', 'New Delhi', 'Hindi', 'Indian Rupee', 'North', 'East', 'Monsoon', 'Indian'),
@@ -102,19 +70,20 @@ VALUES
 ('Myanmar', NULL, 'Asia', 'Naypyidaw', 'Burmese', 'Burmese Kyat', 'North', 'East', 'Monsoon', 'Indian');
 
 -- Europe
-INSERT INTO COUNTRIES (COUNTRY_NAME, FLAG, CONTINENT, CAPITAL, COUNTRY_LANGUAGE, CURRENCY, EQUATOR, PRIME_MERIDIAN, CLIMATE, CLOSEST_OCEAN)
+INSERT INTO Countries(country_name, flag, continent, capital, country_language, currency, equator, prime_meridian, climate, closest_ocean)
 VALUES 
 ('Russia', NULL, 'Europe', 'Moscow', 'Russian', 'Russian Ruble', 'North', 'East', 'Snow', 'Arctic'),
 ('France', NULL, 'Europe', 'Paris', 'French', 'Euro', 'North', 'East', NULL, 'Atlantic'),
 ('United Kingdom', NULL, 'Europe', 'London', 'English', 'British Pound', 'North', 'West', NULL, 'Atlantic'),
-('Italy', NULL, 'Europe', 'Rome', 'Italian', 'Euro', 'North', 'East', NULL, 'Mediterranean');
+('Italy', NULL, 'Europe', 'Rome', 'Italian', 'Euro', 'North', 'East', NULL, 'Mediterranean'),
 ('Germany', NULL, 'Europe', 'Berlin', 'German', 'Euro', 'North', 'East', NULL, 'Atlantic'),
 ('Spain', NULL, 'Europe', 'Madrid', 'Spanish', 'Euro', 'North', 'West', NULL, 'Atlantic'),
 ('Netherlands', NULL, 'Europe', 'Amsterdam', 'Dutch', 'Euro', 'North', 'East', NULL, 'Atlantic'),
 ('Switzerland', NULL, 'Europe', 'Bern', 'German, French, Italian, Romansh', 'Swiss Franc', 'North', 'East', NULL, 'Atlantic'),
+('Sweden', NULL, 'Europe', 'Stockholm', 'Swedish', 'Swedish Krona', 'North', 'East', NULL, 'Atlantic');
 
--- Insert MC Questions
-INSERT INTO QUESTIONS (QUESTION_ID, QUESTION, QUESTION_TYPE, QUESTION_LEVEL, ANSWER) VALUES
+-- Insert MC Questions 
+INSERT INTO Questions(question_id, question, question_type, question_level, answer) VALUES
 (1, 'What country does this flag belong to?', 'Identification', 1, NULL),
 (2, 'What is the capital of this country?', 'Fact Retrieval', 1, NULL),
 (3, 'What is the official language spoken in this country?', 'Fact Retrieval', 1, NULL),
@@ -127,5 +96,3 @@ INSERT INTO QUESTIONS (QUESTION_ID, QUESTION, QUESTION_TYPE, QUESTION_LEVEL, ANS
 (10, 'Which of the following countries snows in the winter?', 'Climate', 3, NULL),
 (11, 'Which of the following countries has a desert in it?', 'Geographical', 3, NULL),
 (12, 'Which of the following countries have shorelines/are located next to an ocean?', 'Geographical', 3, NULL);
-
-
