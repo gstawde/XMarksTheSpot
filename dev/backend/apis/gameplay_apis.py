@@ -5,19 +5,17 @@ import mysql.connector
 
 @app.route('/gameplays', methods=['GET'])
 def get_gameplays():
-    user_id = request.args.get('userid')
-    print(user_id, flush=True)
     try:
-      connection = mysql.connector.connect(**config)
-      cursor = connection.cursor(dictionary=True)
-      cursor.execute("SELECT * FROM Gameplays")
-      gameplays = cursor.fetchall()
-      
-      cursor.close()
-      connection.close()
-      return jsonify(gameplays)
+        user_id = request.args.get('userId')  
+        connection = mysql.connector.connect(**config)
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM Gameplays WHERE user_id = %s", (user_id,))
+        gameplays = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        return jsonify(gameplays)
     except Exception as e:
-      return jsonify({'error': str(e)})
+        return jsonify({'error': str(e)})
 
 @app.route('/game/start', methods=['POST'])
 def start_game():
