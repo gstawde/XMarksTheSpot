@@ -9,7 +9,7 @@ def get_countries():
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor(dictionary=True)
 
-    cursor.execute("SELECT * FROM CountryInfo")
+    cursor.execute("SELECT * FROM Countries")
     countries = cursor.fetchall()
 
     return jsonify(countries)
