@@ -3,48 +3,68 @@ from app import app, config
 import mysql.connector
 import random
 
+def get_choice_type(question):
+  question_type = question["question_type"]
+  if(question_type == "Identification" or  question_type == "Geographical" or question_type == "Climate"):
+    return "country_name"
+  elif(question_type == "Fact Retrieval"):
+    return question["answer_field"]
+
 @app.route('/countries', methods=['GET'])
 def get_countries():
-#   try:
-#     connection = mysql.connector.connect(**config)
-#     cursor = connection.cursor(dictionary=True)
+  try:
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
 
-#     cursor.execute("SELECT * FROM CountryInfo")
-#     countries = cursor.fetchall()
+    cursor.execute("SELECT * FROM Countries")
+    countries = cursor.fetchall()
 
-#     return jsonify(countries)
-#   except Exception as e:
-#     return jsonify({'error': str(e)})
-    return jsonify({'message': 'In progress!'})
+    return countries
+  except Exception as e:
+    return jsonify({'success': False, 'message': str(e)})
+
+@app.route('/question/get/random', methods=['GET'])
+def get_random_question():
+  try:
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM Questions")
+    questions = cursor.fetchall()
+
+    question = random.sample(questions, 1)[0]
+
+    return question
+  except Exception as e:
+    return jsonify({'success': False, 'message': str(e)})
 
 @app.route('/question/get/mc', methods=['GET'])
 def get_mc_question():
-  #try:
-    # connection = mysql.connector.connect(**config)
-    # cursor = connection.cursor(dictionary=True)
+  try:
+    random_question = get_random_question()
+    question = random_question["question"] 
+    question_type = random_question["question_type"]
+    answer_field = random_question["answer_field"]
+    answer = random_question["answer"]
+    choice_type = get_choice_type(random_question)
+    
+    countries = get_countries()
+    
+    if answer is not None: 
+      correct_countries = [country for country in countries if country[answer_field] == answer]
+      correct_option = random.sample(correct_countries, 1)[0]
+    else:
+      correct_option = random.sample(countries,1)[0]
 
-    # cursor.execute("SELECT * FROM CountryInfo")
-    # countries = cursor.fetchall()
-      
-    # options = random.sample(countries, 4)
 
-    # if options:
-    #   correct_option = options[0]
-    #   second_option = options[1]
-    #   third_option = options[2]
-    #   fourth_option = options[3]
+    incorrect_countries = [country for country in countries if country[answer_field] != correct_option[answer_field]]
+    if len(incorrect_countries) >= 3:
+      options = random.sample(incorrect_countries, 3)
+    else: 
+      options = incorrect_countries
 
-    #   return jsonify({
-    #     'success': True, 
-    #     'correct_option': correct_option['country_name'], 
-    #     '2nd option': second_option['country_name'],
-    #     '3rd option': third_option['country_name'],
-    #     '4th option': fourth_option['country_name']
-    #   })
-    # else:
-    #   return jsonify({'message': 'No countries found!'})
-
-    # cursor.close()
-    # connection.close()
-
-    return jsonify({'message': 'In progress!'})
+    mc_question = {"question": question, "choice_type": choice_type, "correct_option": correct_option, "options": options}
+    
+    return jsonify({'success': True, 'message': 'Multiple choice question generated successfully.', 'result': mc_question})
+  except Exception as e:
+    return jsonify({'success': False, 'message': str(e)})

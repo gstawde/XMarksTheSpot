@@ -83,16 +83,16 @@ VALUES
 ('Sweden', NULL, 'Europe', 'Stockholm', 'Swedish', 'Swedish Krona', 'North', 'East', NULL, 'Atlantic');
 
 -- Insert MC Questions 
-INSERT INTO Questions(question_id, question, question_type, question_level, answer) VALUES
-(1, 'What country does this flag belong to?', 'Identification', 1, NULL),
-(2, 'What is the capital of this country?', 'Fact Retrieval', 1, NULL),
-(3, 'What is the official language spoken in this country?', 'Fact Retrieval', 1, NULL),
-(4, 'What is the official currency of this country?', 'Fact Retrieval', 1, NULL),
-(5, 'Which of the following countries is located below the equator?', 'Geographical', 2, NULL),
-(6, 'Which of the following countries is located above the equator?', 'Geographical', 2, NULL),
-(7, 'Which of the following countries is located west of the Prime Meridian?', 'Geographical', 2, NULL),
-(8, 'Which of the following countries is located east of the Prime Meridian?', 'Geographical', 2, NULL),
-(9, 'Which of the following countries experiences a monsoon season?', 'Climate', 3, NULL),
-(10, 'Which of the following countries snows in the winter?', 'Climate', 3, NULL),
-(11, 'Which of the following countries has a desert in it?', 'Geographical', 3, NULL),
-(12, 'Which of the following countries have shorelines/are located next to an ocean?', 'Geographical', 3, NULL);
+INSERT INTO Questions(question_id, question, question_type, question_level, answer_field, answer) VALUES
+(1, 'What country does this flag belong to?', 'Identification', 1, "flag", NULL),
+(2, 'What is the capital of this country?', 'Fact Retrieval', 1, "capital", NULL),
+(3, 'What is the official language spoken in this country?', 'Fact Retrieval', 1, "country_language", NULL),
+(4, 'What is the official currency of this country?', 'Fact Retrieval', 1, "currency", NULL),
+(5, 'Which country out of the following is located below the equator?', 'Geographical', 2, "equator", "South"),
+(6, 'Which country out of the following is located above the equator?', 'Geographical', 2, "equator", "North"),
+(7, 'Which country out of the following is located west of the Prime Meridian?', 'Geographical', 2, "prime_meridian", "West"),
+(8, 'Which country out of the following is located east of the Prime Meridian?', 'Geographical', 2, "prime_meridian", "East"),
+(9, 'Which country out of the following experiences a monsoon season?', 'Climate', 3, "climate", "Monsoon"),
+(10, 'Which country out of the following snows in the winter?', 'Climate', 3, "climate", "Snow"),
+(11, 'Which country out of the following has a desert in it?', 'Climate', 3, "climate", "Desert");
+--(12, 'Which of the following countries have shorelines/are located next to an ocean?', 'Geographical', 3, "closest_ocean", NULL)
