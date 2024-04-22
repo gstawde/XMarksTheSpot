@@ -5,17 +5,16 @@ import random
 
 @app.route('/countries', methods=['GET'])
 def get_countries():
-#   try:
-#     connection = mysql.connector.connect(**config)
-#     cursor = connection.cursor(dictionary=True)
+  try:
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
 
-#     cursor.execute("SELECT * FROM CountryInfo")
-#     countries = cursor.fetchall()
+    cursor.execute("SELECT * FROM CountryInfo")
+    countries = cursor.fetchall()
 
-#     return jsonify(countries)
-#   except Exception as e:
-#     return jsonify({'error': str(e)})
-    return jsonify({'message': 'In progress!'})
+    return jsonify(countries)
+  except Exception as e:
+    return jsonify({'error': str(e)})
 
 @app.route('/question/get/mc', methods=['GET'])
 def get_mc_question():
