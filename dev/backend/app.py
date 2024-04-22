@@ -28,7 +28,7 @@ def home():
         'message': 'Hello World'
     })
 
-from apis import user_apis, password_apis, gameplay_apis, question_apis
+from apis import user_apis, password_apis, gameplay_apis, question_apis, milestone_apis
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
