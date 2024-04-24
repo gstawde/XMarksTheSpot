@@ -1,0 +1,75 @@
+/*This will contain styling for the user dashboard.*/
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap');
+
+body {
+    font-family: "DynaPuff", system-ui;
+    scroll-behavior: smooth;
+    background-color: #D7BC95;
+    color: #211B11;
+}
+
+h2 {
+    font-size: 40px;
+}
+
+h3 {
+    font-size: 33px;
+}
+
+.circular-input::placeholder {
+    color: rgba(33,27,17,0.5);
+}
+
+.circular-input {
+    opacity: 100%;
+    background-color: rgba(255, 255, 255, 0);
+    width: 40%;
+    height: 40%;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.new-circular-containers {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-top: 5%;
+    padding-left: 8%;
+    padding-right: 8%;
+    text-align: left;}
+
+.circular-container {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background-color: rgba(245,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.round-button {
+    width: 300px;
+    height: 300px;
+    font-size: 18px;
+    color: #211B11;
+    background-color: rgba(245,0,0,0.6);
+    border-radius: 50%;
+    text-align: center;
+}
+
+.round-button-two {
+    width: 300px;
+    height: 300px;
+    color: #211B11;
+    background-color: rgba(255,182,0,0.75);
+    border-radius: 50%;
+    text-align: center;
+}
+
+.submit-answer {
+    color: #D7BC95;
+}

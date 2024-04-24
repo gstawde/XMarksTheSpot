@@ -9,6 +9,7 @@ import GameLandingPage from './pages/GameLandingPage';
 import JoinStartPage from './pages/JoinStartPage';
 import SettingsPage from './pages/SettingsPage';
 import StartGamePage from './pages/StartGamePage';
+import QuizQuestionPage from './pages/QuizQuestionPage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path='gameLanding' element={<GameLandingPage/>} />
         <Route path='join-start' element={<JoinStartPage/>} />
         <Route path='start-game' element={<StartGamePage/>} />
+        <Route path='quiz-question' element={<QuizQuestionPage/>} />
         <Route path='settings' element={<SettingsPage/>} />
       </Routes>
     </Router>
