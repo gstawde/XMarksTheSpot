@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap');
+
+body {
+    font-family: "DynaPuff", system-ui;
+    background-color: #7D633F;
+    color: #211B11;
+}
+
+.game-over {
+    color: #D7BC95;
+    text-align: center;
+    padding-top: 10%;
+    font-size: 75px;
+}
+
+.ranking {
+    color: #FFB600;
+}
+
+.user-score {
+    color: #F50000;
+}
+
+.back-to-dashboard {
+    color: #D7BC95;
+    font-size: 25px;
+}
+
+.img-size {
+    width: 6%;
+}
