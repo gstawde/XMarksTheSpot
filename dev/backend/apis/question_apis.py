@@ -10,6 +10,12 @@ def get_choice_type(question):
   elif(question_type == "Fact Retrieval"):
     return question["answer_field"]
 
+def return_flag(question_type):
+  if question_type == "Identification" or question_type == "Fact Retrieval":
+    return True
+  else: 
+    return False
+
 def reformat_question(question, country_name, answer):
   x_idx = question.find("X")
   y_idx = question.find("Y")
@@ -81,6 +87,7 @@ def get_mc_question():
   try:
     random_question = get_random_question("General")
     question = random_question["question"] 
+    question_type = random_question["question_type"]
     answer_field = random_question["answer_field"]
     answer = random_question["answer"]
     choice_type = get_choice_type(random_question)
@@ -99,7 +106,12 @@ def get_mc_question():
     else: 
       options = incorrect_countries
 
-    mc_question = {"question": question, "choice_type": choice_type, "correct_option": correct_option, "options": options}
+    if return_flag(question_type):
+      display_flag = True
+    else:
+      display_flag = False
+
+    mc_question = {"question": question, "choice_type": choice_type, "correct_option": correct_option, "options": options, "display_flag": display_flag}
     
     return jsonify({'success': True, 'message': 'Multiple choice question generated successfully.', 'result': mc_question})
   except Exception as e:
@@ -110,6 +122,7 @@ def get_fib_question():
   try:
     random_question = get_random_question("General", ["Identification", "Fact Retrieval"])
     question = random_question["question"] 
+    question_type = random_question["question_type"]
     answer_field = random_question["answer_field"]
     answer = random_question["answer"]
     choice_type = get_choice_type(random_question)
@@ -122,7 +135,12 @@ def get_fib_question():
     else:
       correct_option = random.sample(countries,1)[0]    
     
-    fib_question = {"question": question, "choice_type": choice_type, "correct_option": correct_option}
+    if return_flag(question_type):
+      display_flag = True
+    else:
+      display_flag = False
+
+    fib_question = {"question": question, "choice_type": choice_type, "correct_option": correct_option,  "display_flag": display_flag}
 
     return jsonify({'success': True, 'message': 'Fill-in-the-blank question generated successfully', 'result': fib_question})
   except Exception as e:
@@ -133,6 +151,7 @@ def get_tf_question():
   try:
     random_question = get_random_question("TF")
     question = random_question["question"] 
+    question_type = random_question["question_type"]
     reformatted_question = ""
     answer_field = random_question["answer_field"]
     answer = random_question["answer"]
