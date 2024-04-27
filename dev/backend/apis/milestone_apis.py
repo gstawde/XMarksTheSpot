@@ -17,3 +17,22 @@ def get_milestones():
     return jsonify(users)
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
+
+@app.route('/milestone_reached', methods=['GET'])
+def get_milestone_reached():
+  try:
+    user_id = request.args.get('userId')  
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
+    
+    cursor.execute("SELECT milestone_reached FROM Users WHERE user_id = %s", (user_id,))
+    result = cursor.fetchone()
+    
+    cursor.close()
+    connection.close()
+    
+    return jsonify("1")
+
+  except Exception as e:
+    return jsonify({'success': False, 'error': str(e)})
+  

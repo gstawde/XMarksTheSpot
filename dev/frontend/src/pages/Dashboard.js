@@ -5,6 +5,7 @@ import TreasureCoin from "../assets/TreasureCoin.png";
 import XMarksLogo from "../assets/XMarksLogo.png";
 import Cookies from "js-cookie";
 import dayjs from "dayjs";
+import All_Milestones from "../components/all-milestones";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -12,10 +13,20 @@ const Dashboard = () => {
   const [username, setUsername] = useState("");
   const [id, setId] = useState(0);
   const [gameplays, setGameplays] = useState([]);
-  const [ranks, setRanks] = useState([]);
   const [milestones, setMilestones] = useState([]);
+  const [userMilestone, setUserMilestone] = useState(0);
 
-  //const [topThree, setTopThree] = useState([]);
+  const [ranks, setRanks] = useState([]);
+  const [topThree, setTopThree] = useState([]);
+  const [showMilestones, setShowMilestones] = useState(false);
+
+  const handleShowMilestones = () => {
+    setShowMilestones(true);
+  };
+
+  const handleCloseMilestones = () => {
+    setShowMilestones(false);
+  };
 
   const handleLogout = () => {
     Cookies.remove("auth");
@@ -42,6 +53,18 @@ const Dashboard = () => {
       .then((gameplays) => {
         setGameplays(gameplays);
         console.log(gameplays);
+      })
+      .catch((error) => console.error("Error fetching user data:", error));
+  }, []);
+
+  useEffect(() => {
+    const authCookie = Cookies.get("auth");
+    const idFromCookie = JSON.parse(authCookie).user_id;
+    fetch(`http://127.0.0.1:4000/milestone_reached?userId=${idFromCookie}`)
+      .then((response) => response.json())
+      .then((milestone_reached) => {
+        setUserMilestone(milestone_reached);
+        console.log("heruheurer" + userMilestone);
       })
       .catch((error) => console.error("Error fetching user data:", error));
   }, []);
@@ -109,22 +132,38 @@ const Dashboard = () => {
               <div className="row">
                 {milestones.map((milestone, index) => (
                   <div key={index}>
-                    {milestone.milestone_icon !== "N/A" && milestone.milestone_id <= 12 && (
-                      <div className="m-3 flex flex-col justify-center items-center">
-                        <img
-                          src={require("../" + milestone.milestone_icon)}
-                          alt="Milestone"
-                        />
-                        <p className="text-md text-center">{milestone.milestone_name}</p>
-                        <p className="text-sm text-center">{milestone.milestone_points} points</p>
-                      </div>
-                    )}
+                    {milestone.milestone_icon !== "N/A" &&
+                      milestone.milestone_id <= 12 && (
+                        <div
+                          className={`m-3 flex flex-col justify-center items-center ${
+                            milestone.milestone_id <= userMilestone
+                              ? ""
+                              : "grayscale"
+                          }`}
+                        >
+                          <img
+                            src={require("../" + milestone.milestone_icon)}
+                            alt="Milestone"
+                          />
+                          <p className="text-md text-center">
+                            {milestone.milestone_name}
+                          </p>
+                          <p className="text-sm text-center">
+                            {milestone.milestone_points} points
+                          </p>
+                        </div>
+                      )}
                   </div>
                 ))}
               </div>
-              <button className="see-more">See More</button>
+              <button className="see-more" onClick={handleShowMilestones}>
+                See More
+              </button>
             </div>
           </div>
+          {showMilestones && (
+            <All_Milestones close={handleCloseMilestones}></All_Milestones>
+          )}
           <div className="column leaderboard">
             <h1 className="ranking-title">User Rankings</h1>
             <br />
