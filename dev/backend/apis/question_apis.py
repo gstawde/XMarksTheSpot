@@ -159,13 +159,13 @@ def get_tf_question():
     countries = get_countries()
 
     correct_option = random.sample(countries, 1)[0]
-    displayed_answer = None
+    display_flag = False
 
     if answer is not None:
       if answer_field == "flag":
-        displayed_answer = correct_option["flag"]
+        display_flag = True
 
-      reformatted_question += reformat_question(question, correct_option["country_name"])
+      reformatted_question += reformat_question(question, correct_option["country_name"], correct_option[answer_field])
 
       tf = correct_option[answer_field] == answer
     else:
@@ -174,7 +174,7 @@ def get_tf_question():
       # tf will be true
       if random_val == 0:
         if answer_field == "flag":
-          displayed_answer = correct_option["flag"]
+          display_flag = True
 
         reformatted_question += reformat_question(question, correct_option["country_name"], correct_option[answer_field])
         
@@ -182,7 +182,7 @@ def get_tf_question():
       # tf will be false
       elif random_val == 1:
         if answer_field == "flag":
-          displayed_answer = correct_option["flag"]
+          display_flag = True
 
           incorrect_countries = [country for country in countries if country != correct_option]
         else:
@@ -194,7 +194,7 @@ def get_tf_question():
         
         tf = False
 
-    tf_question = {"question": reformatted_question, "correct_option": correct_option, "tf": tf, "displayed_answer": displayed_answer}
+    tf_question = {"question": reformatted_question, "correct_option": correct_option, "tf": tf, "display_flag": display_flag}
 
     return jsonify({'success': True, 'message': 'True/False question generated successfully', 'result': tf_question})
   except Exception as e:
