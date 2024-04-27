@@ -32,6 +32,7 @@ CREATE TABLE Gameplays(
 CREATE TABLE Questions (
   question_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   question VARCHAR(255) NOT NULL,
+  question_format VARCHAR(20) NOT NULL,
   question_type VARCHAR(50) NOT NULL,
   question_level INT NOT NULL,
   answer_field VARCHAR(255),
