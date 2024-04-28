@@ -42,41 +42,34 @@ const Dashboard = () => {
 
       const idFromCookie = JSON.parse(authCookie).user_id;
       setId(idFromCookie);
-    }
-  }, []);
 
-  useEffect(() => {
-    const authCookie = Cookies.get("auth");
-    const idFromCookie = JSON.parse(authCookie).user_id;
-    fetch(`http://127.0.0.1:4000/gameplays?userId=${idFromCookie}`)
+      // Get user's gameplays
+      fetch(`http://127.0.0.1:4000/gameplays?userId=${idFromCookie}`)
       .then((response) => response.json())
       .then((gameplays) => {
         setGameplays(gameplays);
         console.log(gameplays);
       })
       .catch((error) => console.error("Error fetching user data:", error));
-  }, []);
 
-  useEffect(() => {
-    const authCookie = Cookies.get("auth");
-    const idFromCookie = JSON.parse(authCookie).user_id;
-    fetch(`http://127.0.0.1:4000/milestone_reached?userId=${idFromCookie}`)
+      // Get user's reached milestone
+      fetch(`http://127.0.0.1:4000/milestone_reached?userId=${idFromCookie}`)
       .then((response) => response.json())
       .then((milestone_reached) => {
         setUserMilestone(milestone_reached);
         console.log("heruheurer" + userMilestone);
       })
       .catch((error) => console.error("Error fetching user data:", error));
-  }, []);
 
-  useEffect(() => {
-    fetch(`http://127.0.0.1:4000/milestones`)
+      // Get milestones
+      fetch(`http://127.0.0.1:4000/milestones`)
       .then((response) => response.json())
       .then((milestones) => {
         setMilestones(milestones);
         console.log(milestones);
       })
       .catch((error) => console.error("Error fetching user data:", error));
+    }
   }, []);
 
   // useEffect(() => {
