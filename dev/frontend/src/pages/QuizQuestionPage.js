@@ -105,7 +105,7 @@ const QuizQuestionPage = () => {
     //   if (fibAnswer === correctAnswer[choiceType]) {
     //     const newScore = Math.floor((100 / (30 - secondsLeft)) * 1); // need to add difficulty level
     //     setUserScore(prevScore => prevScore + newScore);
-    //     setSecondsLeft(30);
+         setSecondsLeft(30);
     //   }
     // }
     setSubmitted(true);
