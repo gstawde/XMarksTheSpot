@@ -26,6 +26,6 @@ def generate_quiz():
         tf_question = get_tf_question()
         quiz.append(tf_question)
 
-    return {'success': True, 'message': 'Quiz generated successfully', 'quiz': quiz} 
+    return {'success': True, 'message': 'Quiz generated successfully', 'result': quiz} 
   except Exception as e:
     return jsonify({'success': False, 'message': str(e)})

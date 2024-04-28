@@ -72,6 +72,7 @@ def get_mc_question():
     random_question = get_random_question("General")
     question = random_question["question"] 
     question_type = random_question["question_type"]
+    question_level = random_question["question_level"]
     answer_field = random_question["answer_field"]
     answer = random_question["answer"]
     
@@ -93,7 +94,7 @@ def get_mc_question():
     else: 
       incorrect_options = incorrect_countries
 
-    mc_question = {"question": question, "question_type": "mc", "choice_type": choice_type, "main_option": main_option, "incorrect_options": incorrect_options, "display_flag": display_flag}
+    mc_question = {"question": question, "question_level": question_level, "question_type": "mc", "choice_type": choice_type, "main_option": main_option, "incorrect_options": incorrect_options, "display_flag": display_flag}
     
     return mc_question
   except Exception as e:
@@ -105,6 +106,7 @@ def get_fib_question():
     random_question = get_random_question("General", ["Identification", "Fact Retrieval"])
     question = random_question["question"] 
     question_type = random_question["question_type"]
+    question_level = random_question["question_level"]
     answer_field = random_question["answer_field"]
     answer = random_question["answer"]
     
@@ -116,7 +118,7 @@ def get_fib_question():
 
     main_option = random.sample(countries,1)[0]    
     
-    fib_question = {"question": question, "question_type": "fib", "choice_type": choice_type, "main_option": main_option,  "display_flag": display_flag}
+    fib_question = {"question": question, "question_level": question_level, "question_type": "fib", "choice_type": choice_type, "main_option": main_option,  "display_flag": display_flag}
 
     return fib_question
   except Exception as e:
@@ -128,6 +130,7 @@ def get_tf_question():
     random_question = get_random_question("TF")
     question = random_question["question"] 
     question_type = random_question["question_type"]
+    question_level = random_question["question_level"]
     answer_field = random_question["answer_field"]
     answer = random_question["answer"]
 
@@ -167,7 +170,7 @@ def get_tf_question():
         
         tf = False
 
-    tf_question = {"question": reformatted_question, "question_type": "tf", "main_option": main_option, "incorrect_option": incorrect_option, "tf": tf, "display_flag": display_flag}
+    tf_question = {"question": reformatted_question, "question_level": question_level, "question_type": "tf", "main_option": main_option, "incorrect_option": incorrect_option, "tf": tf, "display_flag": display_flag}
 
     return tf_question
   except Exception as e:
