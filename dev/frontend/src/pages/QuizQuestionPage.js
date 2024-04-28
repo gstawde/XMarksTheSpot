@@ -34,82 +34,80 @@ const QuizQuestionPage = () => {
     const randomNumber = Math.floor(Math.random() * 3) + 1; // Generate a random number between 1 and 3
     setSelectedDisplay(randomNumber);
 
-    // 1 = fib, 2 = mc, 3 = tf
-    const questionType =
-      randomNumber === 1 ? "fib" : randomNumber === 2 ? "mc" : "tf";
+    // // 1 = fib, 2 = mc, 3 = tf
+    // const questionType =
+    //   randomNumber === 1 ? "fib" : randomNumber === 2 ? "mc" : "tf";
 
-    fetch(`http://127.0.0.1:4000/question/get/${questionType}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((question) => {
-        if (question.success) {
-          const result = question.result;
+    // fetch(`http://127.0.0.1:4000/question/get/${questionType}`, {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+    //   .then((response) => response.json())
+    //   .then((question) => {
+    //     if (question.success) {
+    //       const result = question.result;
 
-          const q = result.question;
-          setQuestion(q);
+    //       const q = result.question;
+    //       setQuestion(q);
 
-          const flag = result.display_flag;
-          setFlag(flag);
+    //       const flag = result.display_flag;
+    //       setFlag(flag);
 
-          console.log(result.display_flag);
+    //       console.log(result.display_flag);
 
-          if (questionType == "mc" || questionType == "fib") {
-            const choice_type = result.choice_type;
-            setChoiceType(choice_type);
+    //       if (questionType == "mc" || questionType == "fib") {
+    //         const choice_type = result.choice_type;
+    //         setChoiceType(choice_type);
 
-            const correct_option = result.correct_option;
-            setCorrectAnswer(correct_option);
+    //         const correct_option = result.correct_option;
+    //         setCorrectAnswer(correct_option);
 
-            if (questionType == "mc") {
-              const options = result.options;
+    //         if (questionType == "mc") {
+    //           const options = result.options;
 
-              const newMcChoices = [null, null, null, null];
+    //           const newMcChoices = [null, null, null, null];
 
-              options.forEach((option) => {
-                const nullIndices = newMcChoices
-                  .map((value, index) => (value === null ? index : -1))
-                  .filter((index) => index !== -1);
-                const randomIndex =
-                  nullIndices[Math.floor(Math.random() * nullIndices.length)];
+    //           options.forEach((option) => {
+    //             const nullIndices = newMcChoices
+    //               .map((value, index) => (value === null ? index : -1))
+    //               .filter((index) => index !== -1);
+    //             const randomIndex =
+    //               nullIndices[Math.floor(Math.random() * nullIndices.length)];
 
-                newMcChoices[randomIndex] = option;
-              });
+    //             newMcChoices[randomIndex] = option;
+    //           });
 
-              const emptyIndex = newMcChoices.findIndex((idx) => idx === null);
-              if (emptyIndex !== -1) {
-                newMcChoices[emptyIndex] = correctAnswer;
-              }
+    //           const emptyIndex = newMcChoices.findIndex((idx) => idx === null);
+    //           if (emptyIndex !== -1) {
+    //             newMcChoices[emptyIndex] = correctAnswer;
+    //           }
 
-              setMcChoices(newMcChoices);
-              console.log(newMcChoices);
-            }
-          } else if (questionType == "tf") {
-            const tf = result.tf;
-            setTfChoice(tf);
-          }
-        } else {
-          console.log("Fail: ", question.message);
-        }
-      });
+    //           setMcChoices(newMcChoices);
+    //           console.log(newMcChoices);
+    //         }
+    //       } else if (questionType == "tf") {
+    //         const tf = result.tf;
+    //         setTfChoice(tf);
+    //       }
+    //     } else {
+    //       console.log("Fail: ", question.message);
+    //     }
+    //   });
   }, [submitted]);
 
   const handleButtonClick = () => {
-    // generates random number to user for selecting which elements to dynamically generate
-    //check answer
-    console.log(choiceType);
-    console.log(correctAnswer);
-    console.log(fibAnswer);
-    if (selectedDisplay === 1) { 
-      if (fibAnswer === correctAnswer[choiceType]) {
-        const newScore = Math.floor((100 / (30 - secondsLeft)) * 1); // need to add difficulty level
-        setUserScore(prevScore => prevScore + newScore);
-        setSecondsLeft(30);
-      }
-    }
+    // console.log(choiceType);
+    // console.log(correctAnswer);
+    // console.log(fibAnswer);
+    // if (selectedDisplay === 1) { 
+    //   if (fibAnswer === correctAnswer[choiceType]) {
+    //     const newScore = Math.floor((100 / (30 - secondsLeft)) * 1); // need to add difficulty level
+    //     setUserScore(prevScore => prevScore + newScore);
+    //     setSecondsLeft(30);
+    //   }
+    // }
     setSubmitted(true);
   };
 
@@ -133,8 +131,7 @@ const QuizQuestionPage = () => {
         <div className="row center-on-page">
           <div className="column">
             {" "}
-            {/*column containing the question*/}
-            {flag && (
+            {/*flag && (
               <div>
                 <img
                   className="mb-10"
@@ -142,8 +139,8 @@ const QuizQuestionPage = () => {
                   alt="Country Flag"
                 />
               </div>
-            )}
-            <h2>{question}</h2>
+            )} */}
+            <h2>Question</h2>
           </div>
           <div className="column">
             {" "}
@@ -155,22 +152,26 @@ const QuizQuestionPage = () => {
                     type="text"
                     className="circular-input"
                     placeholder="Type in answer..."
-                    onChange={(event) => {
-                      setFibAnswer(event.target.value);
-                    }}
+                    // onChange={(event) => {
+                    //   setFibAnswer(event.target.value);
+                    // }}
                   />
                 </div>
               )}
               {selectedDisplay === 2 && ( // 2 = mcq
                 <div className="new-circular-containers">
-                  {mcChoices.map((choice, key) => (
+                  {/* {mcChoices.map((choice, key) => (
                     <button
                       key={key}
                       className={`round-button${key % 2 != 0 ? "-two" : ""}`}
                     >
                       {choice[choiceType]}
                     </button>
-                  ))}
+                  ))} */}
+                  <button className="round-button">TEST</button>
+                  <button className="round-button-two">TEST</button>
+                  <button className="round-button-two">TEST</button>
+                  <button className="round-button">TEST</button>
                 </div>
               )}
               {selectedDisplay === 3 && ( // 3 = TF
