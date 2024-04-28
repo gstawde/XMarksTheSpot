@@ -1,8 +1,36 @@
 import './settings-page.css';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Cookies from "js-cookie";
 import XMarksLogo from "../assets/XMarksLogo.png";
 
 const SettingsPage = () => {
-    return (
+  const navigate = useNavigate();
+
+  const isAuthenticated = !!Cookies.get("auth");
+  const [userId, setUserId] = useState(0);
+
+  useEffect(() => {
+    if (Cookies.get("auth")) {
+      const authCookie = Cookies.get("auth");
+      const idFromCookie = JSON.parse(authCookie).user_id;
+      setUserId(idFromCookie);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    Cookies.remove("auth");
+    navigate("/");
+  };
+
+  if (!isAuthenticated) {
+    setTimeout(() => {
+      navigate("/login");
+    }, 0);
+    return null;
+  }
+
+  return (
         <html lang="en">
         <head>
             <meta charSet="utf-8"/>
@@ -11,7 +39,7 @@ const SettingsPage = () => {
         </head>
         <body>
             <div className="navbar">
-                <a>Logout</a>
+                <a onClick={ handleLogout }>Logout</a>
                 <a className="active" href="/settings">Settings</a>
                 <a href="/join-start">Play!</a>
                 <a href="/dashboard">Dashboard</a>

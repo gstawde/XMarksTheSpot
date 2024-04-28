@@ -7,6 +7,30 @@ import XMarksLogo from "../assets/XMarksLogo.png";
 const StartGame = () => {
   let { gameId } = useParams();
   const navigate = useNavigate();
+
+  const isAuthenticated = !!Cookies.get("auth");
+  const [userId, setUserId] = useState(0);
+
+  useEffect(() => {
+    if (Cookies.get("auth")) {
+      const authCookie = Cookies.get("auth");
+      
+      const idFromCookie = JSON.parse(authCookie).user_id;
+      setUserId(idFromCookie);
+    }
+  }, [])
+
+  const handleLogout = () => {
+    Cookies.remove("auth");
+    navigate("/");
+  };
+
+  if (!isAuthenticated) {
+    setTimeout(() => {
+      navigate("/login");
+    }, 0);
+    return null;
+  }
   
   const goToQuiz = () => {
     fetch("http://127.0.0.1:4000/quiz", {
