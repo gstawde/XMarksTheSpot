@@ -186,7 +186,7 @@ const QuizQuestionPage = () => {
           {" "}
           {/*row contains timer and arbitrary submit button*/}
           <div className="column column-1">
-            <h3>Time Remaining: {secondsLeft > 0 ? secondsLeft : setSubmitted(true)} seconds</h3>
+            <h3>Time Remaining: {secondsLeft > 0 ? secondsLeft : "Time's up!"} seconds</h3> 
           </div>
           <div className="column column-1">
             <button onClick={handleButtonClick} className="submit-answer">
