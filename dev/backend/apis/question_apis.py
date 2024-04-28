@@ -170,7 +170,7 @@ def get_tf_question():
         
         tf = False
 
-    tf_question = {"question": reformatted_question, "question_level": question_level, "question_type": "tf", "main_option": main_option, "incorrect_option": incorrect_option, "tf": tf, "display_flag": display_flag}
+    tf_question = {"question": reformatted_question, "question_level": question_level, "question_type": "tf", "main_option": main_option, "incorrect_options": incorrect_option, "tf": tf, "display_flag": display_flag}
 
     return tf_question
   except Exception as e:
