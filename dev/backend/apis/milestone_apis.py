@@ -31,7 +31,7 @@ def get_milestone_reached():
     cursor.close()
     connection.close()
     
-    return jsonify("1")
+    return jsonify(result)
 
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
