@@ -13,7 +13,7 @@ const SettingsPage = () => {
             <div className="navbar">
                 <a>Logout</a>
                 <a className="active" href="/settings">Settings</a>
-                <a href="/gameLanding">Play!</a>
+                <a href="/join-start">Play!</a>
                 <a href="/dashboard">Dashboard</a>
                 <img className="split" src={XMarksLogo} width="100" height="100" alt="X Marks the Spot Logo"/>
             </div>

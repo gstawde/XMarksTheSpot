@@ -1,8 +1,11 @@
 import "./quiz-question-page.css";
 import XMarksLogo from "../assets/XMarksLogo.png";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const QuizQuestionPage = () => {
+  let { gameId } = useParams();
+
   const [submitted, setSubmitted] = useState(false);
   const [selectedDisplay, setSelectedDisplay] = useState(null);
 
@@ -20,13 +23,13 @@ const QuizQuestionPage = () => {
 
   const [secondsLeft, setSecondsLeft] = useState(30);
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setSecondsLeft((prevSeconds) => prevSeconds - 1);
-        }, 1000);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSecondsLeft((prevSeconds) => prevSeconds - 1);
+    }, 1000);
 
-        return () => clearInterval(timer);
-    }, []);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     setSubmitted(false);

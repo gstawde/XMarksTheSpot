@@ -2,7 +2,7 @@ import './game-landing-page.css';
 import XMarksLogo from "../assets/XMarksLogo.png";
 import TreasureCoin from "../assets/TreasureCoin.png";
 
-const GameLandingPage = () => {
+const Modules = () => {
     return (
         <html lang="en">
         <head>
@@ -14,7 +14,7 @@ const GameLandingPage = () => {
             <div className="navbar">
                 <a>Logout</a>
                 <a href="/settings">Settings</a>
-                <a className="active" href="/gameLanding">Play!</a>
+                <a className="active" href="/join-start">Play!</a>
                 <a href="/dashboard">Dashboard</a>
                 <img className="split" src={XMarksLogo} width="100" height="100" alt="X Marks the Spot Logo"/>
             </div>
@@ -65,4 +65,4 @@ const GameLandingPage = () => {
         </html>
     )
 }
-export default GameLandingPage;
+export default Modules;

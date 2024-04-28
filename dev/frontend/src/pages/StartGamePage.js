@@ -1,18 +1,33 @@
 import "./start-game-page.css";
-import XMarksLogo from "../assets/XMarksLogo.png";
 import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Cookies from "js-cookie";
+import XMarksLogo from "../assets/XMarksLogo.png";
 
 const StartGame = () => {
-  const [gameCode, setGameCode] = useState(null);
-
-  const generateGameCode = () => {
-    const createGameCode = Math.floor(Math.random() * 900000) + 100000;
-    setGameCode(createGameCode.toString().padStart(6, "0"));
-  };
+  let { gameId } = useParams();
+  const navigate = useNavigate();
   
-  useEffect(() => {
-    generateGameCode();
-  }, []);
+  const goToQuiz = () => {
+    fetch("http://127.0.0.1:4000/quiz", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => response.json())
+    .then((quiz) => {
+      if(quiz.success) {
+        const quizQs = quiz.result;
+        console.log(quiz.result);
+
+        navigate(`/quiz/${gameId}`)
+      } else {
+        console.log(quiz.message);
+      }
+    });
+  };
+
   return (
     <html lang="en">
       <head>
@@ -24,9 +39,7 @@ const StartGame = () => {
         <div className="navbar">
           <a>Logout</a>
           <a href="/settings">Settings</a>
-          <a className="active" href="/gameLanding">
-            Play!
-          </a>
+          <a className="active" href="/join-start">Play!</a>
           <a href="/dashboard">Dashboard</a>
           <img
             className="split"
@@ -38,19 +51,12 @@ const StartGame = () => {
         </div>
         <div className="row">
           <div className="column">
-            {generateGameCode && (
-              <h1 className="text-7xl text-[#FFB600]">CODE: {gameCode}</h1>
-            )}
-            {!generateGameCode && (
-              <h1 className="text-7xl text-[#FFB600]">
-                CODE: ERROR - Please Try Again!
-              </h1>
-            )}
+            <h1 className="text-7xl text-[#FFB600]">CODE: {gameId}</h1>
             <div style={{ "margin-top": "auto" }} className="row">
               <p className="text-[#FFB600]">
                 Wait for other players to join, or start now!
               </p>
-              <button className="start-button">START GAME</button>
+              <button onClick={ goToQuiz } className="start-button">START GAME</button>
             </div>
           </div>
         </div>

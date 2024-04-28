@@ -5,7 +5,7 @@ import SignUpPage from './pages/SignupPage';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import DashboardPage from './pages/Dashboard';
-import GameLandingPage from './pages/GameLandingPage';
+import Modules from './pages/Modules';
 import JoinStartPage from './pages/JoinStartPage';
 import SettingsPage from './pages/SettingsPage';
 import StartGamePage from './pages/StartGamePage';
@@ -22,10 +22,10 @@ function App() {
         <Route path='forgot-password' element={<ForgotPassword/>}></Route>
         <Route path='reset-password' element={<ResetPassword/>}></Route>
         <Route path='dashboard' element={<DashboardPage/>} />
-        <Route path='gameLanding' element={<GameLandingPage/>} />
+        <Route path='modules' element={<Modules/>} />
         <Route path='join-start' element={<JoinStartPage/>} />
-        <Route path='start-game' element={<StartGamePage/>} />
-        <Route path='quiz-question' element={<QuizQuestionPage/>} />
+        <Route path='start/:gameId' element={<StartGamePage/>} />
+        <Route path='quiz/:gameId' element={<QuizQuestionPage/>} />
         <Route path='game-end' element={<GameEndPage/>} />
         <Route path='settings' element={<SettingsPage/>} />
       </Routes>
