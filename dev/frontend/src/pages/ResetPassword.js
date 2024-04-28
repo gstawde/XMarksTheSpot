@@ -20,38 +20,54 @@ const ResetPassword = () => {
     }, 0);
     return null;
   } 
+  
+  const validatePassword = (pw) => {
+    const passwordRegex =
+      /^.{8,}$/;
+
+    if (!passwordRegex.test(pw)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const resetData = {
-      token: token, 
-      password: password 
-    };
-
-    fetch("http://127.0.0.1:4000/password/reset", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(resetData)
-    })
-    .then(response => response.json())
-    .then(reset => {
-      if(reset.success) {
-        setMessage(reset.message);
-        setResetSuccess(true);
-        setResetFailure(false);
-        
-        setTimeout(() => {
-          window.location.href = "/login";
-        }, 5000);
-      } else {
-        setResetSuccess(false);
-        setResetFailure(true);
-      }
-    })
-    .catch(error => console.log(error));
+    if(!validatePassword(password)) {
+      setMessage("Password must be at least 8 characters.")
+    } else {
+      const resetData = {
+        token: token, 
+        password: password 
+      };
+  
+      fetch("http://127.0.0.1:4000/password/reset", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(resetData)
+      })
+      .then(response => response.json())
+      .then(reset => {
+        if(reset.success) {
+          setMessage(reset.message);
+          setResetSuccess(true);
+          setResetFailure(false);
+          
+          setTimeout(() => {
+            window.location.href = "/login";
+          }, 5000);
+        } else {
+          setMessage(reset.message);
+          setResetSuccess(false);
+          setResetFailure(true);
+        }
+      })
+      .catch(error => console.log(error));
+    }
   };
 
   return (
