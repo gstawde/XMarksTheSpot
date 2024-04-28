@@ -14,6 +14,19 @@ const QuizQuestionPage = () => {
 
   const [mcChoices, setMcChoices] = useState([]);
   const [tfChoice, setTfChoice] = useState(null);
+  const [fibAnswer, setFibAnswer] = useState();
+
+  const [userScore, setUserScore] = useState(0);
+
+  const [secondsLeft, setSecondsLeft] = useState(30);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setSecondsLeft((prevSeconds) => prevSeconds - 1);
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, []);
 
   useEffect(() => {
     setSubmitted(false);
@@ -51,8 +64,6 @@ const QuizQuestionPage = () => {
             const correct_option = result.correct_option;
             setCorrectAnswer(correct_option);
 
-            console.log("hello" + result.flag);
-
             if (questionType == "mc") {
               const options = result.options;
 
@@ -89,7 +100,16 @@ const QuizQuestionPage = () => {
   const handleButtonClick = () => {
     // generates random number to user for selecting which elements to dynamically generate
     //check answer
-
+    console.log(choiceType);
+    console.log(correctAnswer);
+    console.log(fibAnswer);
+    if (selectedDisplay === 1) { 
+      if (fibAnswer === correctAnswer[choiceType]) {
+        const newScore = Math.floor((100 / (30 - secondsLeft)) * 1); // need to add difficulty level
+        setUserScore(prevScore => prevScore + newScore);
+        setSecondsLeft(30);
+      }
+    }
     setSubmitted(true);
   };
 
@@ -106,7 +126,7 @@ const QuizQuestionPage = () => {
             <p className="top-score">Top Score: </p>
           </div>
           <div className="column-0">
-            <p className="user-score">Your Score: </p>
+            <p className="user-score">Your Score: {userScore}</p>
           </div>
         </div>{" "}
         {/*top and current user scores*/}
@@ -116,8 +136,11 @@ const QuizQuestionPage = () => {
             {/*column containing the question*/}
             {flag && (
               <div>
-                <img className= "mb-10"
-                src={require("../" + correctAnswer.flag)} alt="Country Flag" />
+                <img
+                  className="mb-10"
+                  src={require("../" + correctAnswer.flag)}
+                  alt="Country Flag"
+                />
               </div>
             )}
             <h2>{question}</h2>
@@ -132,6 +155,9 @@ const QuizQuestionPage = () => {
                     type="text"
                     className="circular-input"
                     placeholder="Type in answer..."
+                    onChange={(event) => {
+                      setFibAnswer(event.target.value);
+                    }}
                   />
                 </div>
               )}
@@ -160,7 +186,7 @@ const QuizQuestionPage = () => {
           {" "}
           {/*row contains timer and arbitrary submit button*/}
           <div className="column column-1">
-            <h3>Time Remaining: XX seconds</h3>
+            <h3>Time Remaining: {secondsLeft > 0 ? secondsLeft : setSubmitted(true)} seconds</h3>
           </div>
           <div className="column column-1">
             <button onClick={handleButtonClick} className="submit-answer">

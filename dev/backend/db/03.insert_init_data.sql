@@ -77,7 +77,7 @@ VALUES
 ('Saudi Arabia', 'country_flags/saudi_arabia.png', 'Asia', 'Riyadh', 'Arabic', 'Saudi Riyal', 'North', 'East', 'Desert', 'Indian'),
 ('Thailand', 'country_flags/thailand.png', 'Asia', 'Bangkok', 'Thai', 'Thai Baht', 'North', 'East', 'Monsoon', 'Pacific'),
 ('Vietnam', 'country_flags/vietnam.png', 'Asia', 'Hanoi', 'Vietnamese', 'Vietnamese Dong', 'North', 'East', 'Monsoon', 'Pacific'),
-('Pakistan', 'country_flags/pakistan.png', 'Asia', 'Islamabad', 'Urdu,', 'Pakistani Rupee', 'North', 'East', 'Monsoon', 'Indian'),
+('Pakistan', 'country_flags/pakistan.png', 'Asia', 'Islamabad', 'Urdu', 'Pakistani Rupee', 'North', 'East', 'Monsoon', 'Indian'),
 ('Indonesia', 'country_flags/indonesia.png', 'Asia', 'Jakarta', 'Indonesian', 'Indonesian Rupiah', 'South', 'East', 'Monsoon', 'Indian'),
 ('Philippines', 'country_flags/philippines.png', 'Asia', 'Manila', 'Filipino', 'Philippine Peso', 'North', 'East', 'Monsoon', 'Pacific'),
 ('Singapore', 'country_flags/singapore.png', 'Asia', 'Singapore', 'English, Malay, Mandarin, Tamil', 'Singapore Dollar', 'North', 'East', 'Monsoon', 'Pacific'),
