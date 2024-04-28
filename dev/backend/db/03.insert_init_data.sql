@@ -38,66 +38,66 @@ INSERT INTO Gameplays(game_date, game_finished, user_id, game_topic, user_score)
 -- North America
 INSERT INTO Countries(country_name, flag, continent, capital, country_language, currency, equator, prime_meridian, climate, closest_ocean)
 VALUES 
-('United States', NULL, 'North America', 'Washington D.C.', 'English', 'US Dollar', 'North', 'West', NULL, 'Atlantic'),
-('Canada', NULL, 'North America', 'Ottawa', 'French', 'Canadian Dollar', 'North', 'West', 'Snow', 'Atlantic'),
-('Mexico', NULL, 'North America', 'Mexico City', 'Spanish', 'Mexican Peso', 'North', 'West', NULL, 'Pacific');
+('United States', 'country_flags/usa.png', 'North America', 'Washington D.C.', 'English', 'US Dollar', 'North', 'West', NULL, 'Atlantic'),
+('Canada', 'country_flags/canada.png', 'North America', 'Ottawa', 'French', 'Canadian Dollar', 'North', 'West', 'Snow', 'Atlantic'),
+('Mexico', 'country_flags/mexico.png', 'North America', 'Mexico City', 'Spanish', 'Mexican Peso', 'North', 'West', NULL, 'Pacific');
 
 -- South America
 INSERT INTO Countries(country_name, flag, continent, capital, country_language, currency, equator, prime_meridian, climate, closest_ocean)
 VALUES 
-('Brazil', NULL, 'South America', 'Brasília', 'Portuguese', 'Brazilian Real', 'South', 'East', 'Monsoon', 'Atlantic'),
-('Argentina', NULL, 'South America', 'Buenos Aires', 'Spanish', 'Argentine Peso', 'South', 'West', 'Monsoon', 'Atlantic'),
-('Colombia', NULL, 'South America', 'Bogotá', 'Spanish', 'Colombian Peso', 'North', 'West', 'Monsoon', 'Atlantic'),
-('Peru', NULL, 'South America', 'Lima', 'Spanish', 'Peruvian Sol', 'South', 'West', 'Monsoon', 'Pacific'),
-('Chile', NULL, 'South America', 'Santiago', 'Spanish', 'Chilean Peso', 'South', 'West', 'Monsoon', 'Pacific'),
-('Ecuador', NULL, 'South America', 'Quito', 'Spanish', 'United States Dollar', 'South', 'West', 'Monsoon', 'Pacific'),
-('Venezuela', NULL, 'South America', 'Caracas', 'Spanish', 'Venezuelan Bolívar', 'North', 'West', 'Monsoon', 'Atlantic');
+('Brazil', 'country_flags/brazil.png', 'South America', 'Brasília', 'Portuguese', 'Brazilian Real', 'South', 'East', 'Monsoon', 'Atlantic'),
+('Argentina', 'country_flags/argentina.png', 'South America', 'Buenos Aires', 'Spanish', 'Argentine Peso', 'South', 'West', 'Monsoon', 'Atlantic'),
+('Colombia', 'country_flags/colombia.png', 'South America', 'Bogotá', 'Spanish', 'Colombian Peso', 'North', 'West', 'Monsoon', 'Atlantic'),
+('Peru', 'country_flags/peru.png', 'South America', 'Lima', 'Spanish', 'Peruvian Sol', 'South', 'West', 'Monsoon', 'Pacific'),
+('Chile', 'country_flags/chile.png', 'South America', 'Santiago', 'Spanish', 'Chilean Peso', 'South', 'West', 'Monsoon', 'Pacific'),
+('Ecuador', 'country_flags/ecuador.png', 'South America', 'Quito', 'Spanish', 'United States Dollar', 'South', 'West', 'Monsoon', 'Pacific'),
+('Venezuela', 'country_flags/venezuela.png', 'South America', 'Caracas', 'Spanish', 'Venezuelan Bolívar', 'North', 'West', 'Monsoon', 'Atlantic');
 
 -- Africa
 INSERT INTO Countries(country_name, flag, continent, capital, country_language, currency, equator, prime_meridian, climate, closest_ocean)
 VALUES 
-('Egypt', NULL, 'Africa', 'Cairo', 'Arabic', 'Egyptian Pound', 'North', 'East', 'Desert', NULL),
-('South Africa', NULL, 'Africa', 'Pretoria', 'Afrikaans', 'South African Rand', 'South', 'East', 'Monsoon', 'Indian'),
-('Nigeria', NULL, 'Africa', 'Abuja', 'English', 'Nigerian Naira', 'North', 'East', 'Monsoon', 'Atlantic'),
-('Kenya', NULL, 'Africa', 'Nairobi', 'Swahili', 'Kenyan Shilling', 'South', 'East', 'Monsoon', 'Indian'),
-('Ethiopia', NULL, 'Africa', 'Addis Ababa', 'Amharic', 'Ethiopian Birr', 'North', 'East', 'Monsoon', 'Indian'),
-('Algeria', NULL, 'Africa', 'Algiers', 'Arabic', 'Algerian Dinar', 'North', 'East', 'Desert', 'Mediterranean'),
-('Morocco', NULL, 'Africa', 'Rabat', 'Arabic, Berber', 'Moroccan Dirham', 'North', 'West', 'Desert', 'Atlantic'),
-('Ghana', NULL, 'Africa', 'Accra', 'English', 'Ghanaian Cedi', 'North', 'West', 'Monsoon', 'Atlantic'),
-('Uganda', NULL, 'Africa', 'Kampala', 'English, Swahili', 'Ugandan Shilling', 'North', 'East', 'Monsoon', 'Indian'),
-('Tanzania', NULL, 'Africa', 'Dodoma', 'Swahili, English', 'Tanzanian Shilling', 'South', 'East', 'Monsoon', 'Indian');
+('Egypt', 'country_flags/egypt.png', 'Africa', 'Cairo', 'Arabic', 'Egyptian Pound', 'North', 'East', 'Desert', NULL),
+('South Africa', 'country_flags/south_africa.png', 'Africa', 'Pretoria', 'Afrikaans', 'South African Rand', 'South', 'East', 'Monsoon', 'Indian'),
+('Nigeria', 'country_flags/nigeria.png', 'Africa', 'Abuja', 'English', 'Nigerian Naira', 'North', 'East', 'Monsoon', 'Atlantic'),
+('Kenya', 'country_flags/kenya.png', 'Africa', 'Nairobi', 'Swahili', 'Kenyan Shilling', 'South', 'East', 'Monsoon', 'Indian'),
+('Ethiopia', 'country_flags/ethiopia.png', 'Africa', 'Addis Ababa', 'Amharic', 'Ethiopian Birr', 'North', 'East', 'Monsoon', 'Indian'),
+('Algeria', 'country_flags/algeria.png', 'Africa', 'Algiers', 'Arabic', 'Algerian Dinar', 'North', 'East', 'Desert', 'Mediterranean'),
+('Morocco', 'country_flags/morocco.png', 'Africa', 'Rabat', 'Arabic, Berber', 'Moroccan Dirham', 'North', 'West', 'Desert', 'Atlantic'),
+('Ghana', 'country_flags/ghana.png', 'Africa', 'Accra', 'English', 'Ghanaian Cedi', 'North', 'West', 'Monsoon', 'Atlantic'),
+('Uganda', 'country_flags/uganda.png', 'Africa', 'Kampala', 'English, Swahili', 'Ugandan Shilling', 'North', 'East', 'Monsoon', 'Indian'),
+('Tanzania', 'country_flags/tanzania.png', 'Africa', 'Dodoma', 'Swahili, English', 'Tanzanian Shilling', 'South', 'East', 'Monsoon', 'Indian');
 
 -- Asia
 INSERT INTO Countries(country_name, flag, continent, capital, country_language, currency, equator, prime_meridian, climate, closest_ocean)
 VALUES 
-('China', NULL, 'Asia', 'Beijing', 'Mandarin', 'Chinese Yuan', 'North', 'East', 'Monsoon', 'Pacific'),
-('India', NULL, 'Asia', 'New Delhi', 'Hindi', 'Indian Rupee', 'North', 'East', 'Monsoon', 'Indian'),
-('Japan', NULL, 'Asia', 'Tokyo', 'Japanese', 'Japanese Yen', 'North', 'East', 'Monsoon', 'Pacific'),
-('South Korea', NULL, 'Asia', 'Seoul', 'Korean', 'South Korean Won', 'North', 'East', 'Monsoon', 'Pacific'),
-('Saudi Arabia', NULL, 'Asia', 'Riyadh', 'Arabic', 'Saudi Riyal', 'North', 'East', 'Desert', 'Indian'),
-('Thailand', NULL, 'Asia', 'Bangkok', 'Thai', 'Thai Baht', 'North', 'East', 'Monsoon', 'Pacific'),
-('Vietnam', NULL, 'Asia', 'Hanoi', 'Vietnamese', 'Vietnamese Dong', 'North', 'East', 'Monsoon', 'Pacific'),
-('Pakistan', NULL, 'Asia', 'Islamabad', 'Urdu,', 'Pakistani Rupee', 'North', 'East', 'Monsoon', 'Indian'),
-('Indonesia', NULL, 'Asia', 'Jakarta', 'Indonesian', 'Indonesian Rupiah', 'South', 'East', 'Monsoon', 'Indian'),
-('Philippines', NULL, 'Asia', 'Manila', 'Filipino', 'Philippine Peso', 'North', 'East', 'Monsoon', 'Pacific'),
-('Singapore', NULL, 'Asia', 'Singapore', 'English, Malay, Mandarin, Tamil', 'Singapore Dollar', 'North', 'East', 'Monsoon', 'Pacific'),
-('Bangladesh', NULL, 'Asia', 'Dhaka', 'Bengali', 'Bangladeshi Taka', 'North', 'East', 'Monsoon', 'Indian'),
-('Malaysia', NULL, 'Asia', 'Kuala Lumpur', 'Malay', 'Malaysian Ringgit', 'North', 'East', 'Monsoon', 'Pacific'),
-('Sri Lanka', NULL, 'Asia', 'Colombo', 'Sinhala & Tamil', 'Sri Lankan Rupee', 'North', 'East', 'Monsoon', 'Indian'),
-('Myanmar', NULL, 'Asia', 'Naypyidaw', 'Burmese', 'Burmese Kyat', 'North', 'East', 'Monsoon', 'Indian');
+('China', 'country_flags/china.png', 'Asia', 'Beijing', 'Mandarin', 'Chinese Yuan', 'North', 'East', 'Monsoon', 'Pacific'),
+('India', 'country_flags/india.png', 'Asia', 'New Delhi', 'Hindi', 'Indian Rupee', 'North', 'East', 'Monsoon', 'Indian'),
+('Japan', 'country_flags/japan.png', 'Asia', 'Tokyo', 'Japanese', 'Japanese Yen', 'North', 'East', 'Monsoon', 'Pacific'),
+('South Korea', 'country_flags/south_korea.png', 'Asia', 'Seoul', 'Korean', 'South Korean Won', 'North', 'East', 'Monsoon', 'Pacific'),
+('Saudi Arabia', 'country_flags/saudi_arabia.png', 'Asia', 'Riyadh', 'Arabic', 'Saudi Riyal', 'North', 'East', 'Desert', 'Indian'),
+('Thailand', 'country_flags/thailand.png', 'Asia', 'Bangkok', 'Thai', 'Thai Baht', 'North', 'East', 'Monsoon', 'Pacific'),
+('Vietnam', 'country_flags/vietnam.png', 'Asia', 'Hanoi', 'Vietnamese', 'Vietnamese Dong', 'North', 'East', 'Monsoon', 'Pacific'),
+('Pakistan', 'country_flags/pakistan.png', 'Asia', 'Islamabad', 'Urdu,', 'Pakistani Rupee', 'North', 'East', 'Monsoon', 'Indian'),
+('Indonesia', 'country_flags/indonesia.png', 'Asia', 'Jakarta', 'Indonesian', 'Indonesian Rupiah', 'South', 'East', 'Monsoon', 'Indian'),
+('Philippines', 'country_flags/philippines.png', 'Asia', 'Manila', 'Filipino', 'Philippine Peso', 'North', 'East', 'Monsoon', 'Pacific'),
+('Singapore', 'country_flags/singapore.png', 'Asia', 'Singapore', 'English, Malay, Mandarin, Tamil', 'Singapore Dollar', 'North', 'East', 'Monsoon', 'Pacific'),
+('Bangladesh', 'country_flags/bangladesh.png', 'Asia', 'Dhaka', 'Bengali', 'Bangladeshi Taka', 'North', 'East', 'Monsoon', 'Indian'),
+('Malaysia', 'country_flags/malaysia.png', 'Asia', 'Kuala Lumpur', 'Malay', 'Malaysian Ringgit', 'North', 'East', 'Monsoon', 'Pacific'),
+('Sri Lanka', 'country_flags/sri_lanka.png', 'Asia', 'Colombo', 'Sinhala & Tamil', 'Sri Lankan Rupee', 'North', 'East', 'Monsoon', 'Indian'),
+('Myanmar', 'country_flags/myanmar.png', 'Asia', 'Naypyidaw', 'Burmese', 'Burmese Kyat', 'North', 'East', 'Monsoon', 'Indian');
 
 -- Europe
 INSERT INTO Countries(country_name, flag, continent, capital, country_language, currency, equator, prime_meridian, climate, closest_ocean)
 VALUES 
-('Russia', NULL, 'Europe', 'Moscow', 'Russian', 'Russian Ruble', 'North', 'East', 'Snow', 'Arctic'),
-('France', NULL, 'Europe', 'Paris', 'French', 'Euro', 'North', 'East', NULL, 'Atlantic'),
-('United Kingdom', NULL, 'Europe', 'London', 'English', 'British Pound', 'North', 'West', NULL, 'Atlantic'),
-('Italy', NULL, 'Europe', 'Rome', 'Italian', 'Euro', 'North', 'East', NULL, 'Mediterranean'),
-('Germany', NULL, 'Europe', 'Berlin', 'German', 'Euro', 'North', 'East', NULL, 'Atlantic'),
-('Spain', NULL, 'Europe', 'Madrid', 'Spanish', 'Euro', 'North', 'West', NULL, 'Atlantic'),
-('Netherlands', NULL, 'Europe', 'Amsterdam', 'Dutch', 'Euro', 'North', 'East', NULL, 'Atlantic'),
-('Switzerland', NULL, 'Europe', 'Bern', 'German, French, Italian, Romansh', 'Swiss Franc', 'North', 'East', NULL, 'Atlantic'),
-('Sweden', NULL, 'Europe', 'Stockholm', 'Swedish', 'Swedish Krona', 'North', 'East', NULL, 'Atlantic');
+('Russia', 'country_flags/russia.png', 'Europe', 'Moscow', 'Russian', 'Russian Ruble', 'North', 'East', 'Snow', 'Arctic'),
+('France', 'country_flags/france.png', 'Europe', 'Paris', 'French', 'Euro', 'North', 'East', NULL, 'Atlantic'),
+('United Kingdom', 'country_flags/uk.png', 'Europe', 'London', 'English', 'British Pound', 'North', 'West', NULL, 'Atlantic'),
+('Italy', 'country_flags/italy.png', 'Europe', 'Rome', 'Italian', 'Euro', 'North', 'East', NULL, 'Mediterranean'),
+('Germany', 'country_flags/germany.png', 'Europe', 'Berlin', 'German', 'Euro', 'North', 'East', NULL, 'Atlantic'),
+('Spain', 'country_flags/spain.png', 'Europe', 'Madrid', 'Spanish', 'Euro', 'North', 'West', NULL, 'Atlantic'),
+('Netherlands', 'country_flags/netherlands.png', 'Europe', 'Amsterdam', 'Dutch', 'Euro', 'North', 'East', NULL, 'Atlantic'),
+('Switzerland', 'country_flags/switzerland.png', 'Europe', 'Bern', 'German, French, Italian, Romansh', 'Swiss Franc', 'North', 'East', NULL, 'Atlantic'),
+('Sweden', 'country_flags/sweden.png', 'Europe', 'Stockholm', 'Swedish', 'Swedish Krona', 'North', 'East', NULL, 'Atlantic');
 
 -- Insert MC Questions 
 INSERT INTO Questions(question_id, question, question_format, question_type, question_level, answer_field, answer) VALUES

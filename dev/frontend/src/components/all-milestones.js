@@ -84,7 +84,6 @@ const All_Milestones = ({ close }) => {
                       )}
                   </div>
                 ))}
-              
             </div>
           </div>
         </div>
