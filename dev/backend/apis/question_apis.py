@@ -44,22 +44,6 @@ def get_countries():
   except Exception as e:
     return jsonify({'success': False, 'message': str(e)})
 
-@app.route('/questions', methods=['GET'])
-def get_questions():
-  try:
-    connection = mysql.connector.connect(**config)
-    cursor = connection.cursor(dictionary=True)
-      
-    cursor.execute("SELECT * FROM Questions")
-    questions = cursor.fetchall()
-      
-    cursor.close()
-    connection.close()
-    
-    return jsonify(questions)
-  except Exception as e:
-    return jsonify({'success': False, 'error': str(e)})
-
 @app.route('/question/get/random/<question_format>', methods=['GET'])
 def get_random_question(question_format, question_types=None):
   try:
@@ -82,7 +66,7 @@ def get_random_question(question_format, question_types=None):
   except Exception as e:
     return jsonify({'success': False, 'message': str(e)})
 
-@app.route('/question/get/mc', methods=['GET'])
+#@app.route('/question/get/mc', methods=['GET'])
 def get_mc_question():
   try:
     random_question = get_random_question("General")
@@ -90,34 +74,32 @@ def get_mc_question():
     question_type = random_question["question_type"]
     answer_field = random_question["answer_field"]
     answer = random_question["answer"]
+    
     choice_type = get_choice_type(random_question)
     
+    display_flag = return_flag(question_type)
+
     countries = get_countries()
 
     if answer is not None: 
       correct_countries = [country for country in countries if country[answer_field] == answer]
-      correct_option = random.sample(correct_countries, 1)[0]
+      main_option = random.sample(correct_countries, 1)[0]
     else:
-      correct_option = random.sample(countries,1)[0]
+      main_option = random.sample(countries,1)[0]
 
-    incorrect_countries = [country for country in countries if country[answer_field] != correct_option[answer_field]]
+    incorrect_countries = [country for country in countries if country[answer_field] != main_option[answer_field]]
     if len(incorrect_countries) >= 3:
-      options = random.sample(incorrect_countries, 3)
+      incorrect_options = random.sample(incorrect_countries, 3)
     else: 
-      options = incorrect_countries
+      incorrect_options = incorrect_countries
 
-    if return_flag(question_type):
-      display_flag = True
-    else:
-      display_flag = False
-
-    mc_question = {"question": question, "choice_type": choice_type, "correct_option": correct_option, "options": options, "display_flag": display_flag}
+    mc_question = {"question": question, "question_type": "mc", "choice_type": choice_type, "main_option": main_option, "incorrect_options": incorrect_options, "display_flag": display_flag}
     
-    return jsonify({'success': True, 'message': 'Multiple choice question generated successfully.', 'result': mc_question})
+    return mc_question
   except Exception as e:
     return jsonify({'success': False, 'message': str(e)})
 
-@app.route('/question/get/fib', methods=['GET'])
+#@app.route('/question/get/fib', methods=['GET'])
 def get_fib_question():
   try:
     random_question = get_random_question("General", ["Identification", "Fact Retrieval"])
@@ -125,78 +107,69 @@ def get_fib_question():
     question_type = random_question["question_type"]
     answer_field = random_question["answer_field"]
     answer = random_question["answer"]
+    
     choice_type = get_choice_type(random_question)
+
+    display_flag = return_flag(question_type)
 
     countries = get_countries()
 
-    if answer is not None: 
-      correct_countries = [country for country in countries if country[answer_field] == answer]
-      correct_option = random.sample(correct_countries, 1)[0]
-    else:
-      correct_option = random.sample(countries,1)[0]    
+    main_option = random.sample(countries,1)[0]    
     
-    if return_flag(question_type):
-      display_flag = True
-    else:
-      display_flag = False
+    fib_question = {"question": question, "question_type": "fib", "choice_type": choice_type, "main_option": main_option,  "display_flag": display_flag}
 
-    fib_question = {"question": question, "choice_type": choice_type, "correct_option": correct_option,  "display_flag": display_flag}
-
-    return jsonify({'success': True, 'message': 'Fill-in-the-blank question generated successfully', 'result': fib_question})
+    return fib_question
   except Exception as e:
     return jsonify({'success': False, 'message': str(e)})
   
-@app.route('/question/get/tf', methods=['GET'])
+#@app.route('/question/get/tf', methods=['GET'])
 def get_tf_question():
   try:
     random_question = get_random_question("TF")
     question = random_question["question"] 
     question_type = random_question["question_type"]
-    reformatted_question = ""
     answer_field = random_question["answer_field"]
     answer = random_question["answer"]
 
+    reformatted_question = ""
+
+    display_flag = True if question_type == "Identification" else False
+
     countries = get_countries()
 
-    correct_option = random.sample(countries, 1)[0]
-    display_flag = False
+    main_option = random.sample(countries, 1)[0]
 
+    # See if it works with if answer:
     if answer is not None:
-      if answer_field == "flag":
-        display_flag = True
+      reformatted_question += reformat_question(question, main_option["country_name"], main_option[answer_field])
+      
+      incorrect_option = ""
 
-      reformatted_question += reformat_question(question, correct_option["country_name"], correct_option[answer_field])
-
-      tf = correct_option[answer_field] == answer
+      tf = main_option[answer_field] == answer
     else:
-      random_val = random.sample([0,1], 1)[0]
+      tf_decider = random.sample([0,1], 1)[0]
       
       # tf will be true
-      if random_val == 0:
-        if answer_field == "flag":
-          display_flag = True
-
-        reformatted_question += reformat_question(question, correct_option["country_name"], correct_option[answer_field])
+      if tf_decider == 0:
+        reformatted_question += reformat_question(question, main_option["country_name"], main_option[answer_field])
         
-        tf = True
-      # tf will be false
-      elif random_val == 1:
-        if answer_field == "flag":
-          display_flag = True
+        incorrect_option = ""
 
-          incorrect_countries = [country for country in countries if country != correct_option]
-        else:
-          incorrect_countries = [country for country in countries if country[answer_field] != answer]
+        tf = True
+
+      # tf will be false
+      elif tf_decider == 1:
+        incorrect_countries = [country for country in countries if country[answer_field] != answer]
         
         incorrect_option = random.sample(incorrect_countries, 1)[0]
 
-        reformatted_question += reformat_question(question, correct_option["country_name"], incorrect_option[answer_field])
+        reformatted_question += reformat_question(question, main_option["country_name"], incorrect_option[answer_field])
         
         tf = False
 
-    tf_question = {"question": reformatted_question, "correct_option": correct_option, "tf": tf, "display_flag": display_flag}
+    tf_question = {"question": reformatted_question, "question_type": "tf", "main_option": main_option, "incorrect_option": incorrect_option, "tf": tf, "display_flag": display_flag}
 
-    return jsonify({'success': True, 'message': 'True/False question generated successfully', 'result': tf_question})
+    return tf_question
   except Exception as e:
     return jsonify({'success': False, 'message': str(e) })
   
