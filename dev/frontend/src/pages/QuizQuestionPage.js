@@ -15,6 +15,18 @@ const QuizQuestionPage = () => {
   const [mcChoices, setMcChoices] = useState([]);
   const [tfChoice, setTfChoice] = useState(null);
 
+  const [seconds, setSeconds] = useState(30); // Timer
+
+  useEffect(() => { // Timer
+    const timer = setInterval(() => {
+      if (seconds > 0) {
+        setSeconds(prevSeconds => prevSeconds - 1);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [seconds]);
+
   useEffect(() => {
     setSubmitted(false);
 
@@ -160,7 +172,7 @@ const QuizQuestionPage = () => {
           {" "}
           {/*row contains timer and arbitrary submit button*/}
           <div className="column column-1">
-            <h3>Time Remaining: XX seconds</h3>
+            <h3>Timer: {seconds} seconds remaining...</h3>
           </div>
           <div className="column column-1">
             <button onClick={handleButtonClick} className="submit-answer">
