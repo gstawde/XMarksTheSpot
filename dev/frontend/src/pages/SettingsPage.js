@@ -9,12 +9,21 @@ const SettingsPage = () => {
 
   const isAuthenticated = !!Cookies.get("auth");
   const [userId, setUserId] = useState(0);
+  const [userData, setUserData] = useState([]);
 
   useEffect(() => {
     if (Cookies.get("auth")) {
       const authCookie = Cookies.get("auth");
       const idFromCookie = JSON.parse(authCookie).user_id;
       setUserId(idFromCookie);
+
+      fetch(`http://127.0.0.1:4000/user?userId=${idFromCookie}`)
+      .then((response) => response.json())
+      .then((userData) => {
+        setUserData(userData);
+        console.log(userData);
+      })
+      .catch((error) => console.error("Error fetching user data:", error));
     }
   }, []);
 
@@ -51,7 +60,7 @@ const SettingsPage = () => {
                     <p>First Name</p>
                 </div>
                 <div className="column user-information">
-                    <p>f name</p>
+                    <p>{userData["first_name"]}</p>
                 </div>
             </div>
             <div className="row">
@@ -59,7 +68,7 @@ const SettingsPage = () => {
                     <p>Last Name</p>
                 </div>
                 <div className="column user-information">
-                    <p>l name</p>
+                    <p>{userData["last_name"]}</p>
                 </div>
             </div>
             <div className="row">
@@ -67,7 +76,7 @@ const SettingsPage = () => {
                     <p>Email</p>
                 </div>
                 <div className="column user-information">
-                    <p>email address</p>
+                    <p>{userData["email"]}</p>
                 </div>
             </div>
             <div className="change-and-delete-buttons">
