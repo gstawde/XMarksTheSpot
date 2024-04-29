@@ -42,10 +42,10 @@ const StartGame = () => {
     .then((response) => response.json())
     .then((quiz) => {
       if(quiz.success) {
-        const quizQs = quiz.result;
+        //const quizQs = quiz.result;
         console.log(quiz.result);
 
-        navigate(`/quiz/${gameId}`)
+        navigate(`/quiz/${gameId}`, { state: { quiz: quiz.result } });
       } else {
         console.log(quiz.message);
       }
@@ -61,7 +61,7 @@ const StartGame = () => {
       </head>
       <body>
         <div className="navbar">
-          <a>Logout</a>
+          <a onClick={ handleLogout }>Logout</a>
           <a href="/settings">Settings</a>
           <a className="active" href="/join-start">Play!</a>
           <a href="/dashboard">Dashboard</a>

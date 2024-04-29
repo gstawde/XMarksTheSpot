@@ -1,27 +1,80 @@
 import "./quiz-question-page.css";
 import XMarksLogo from "../assets/XMarksLogo.png";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const QuizQuestionPage = () => {
-  let { gameId } = useParams();
-
-  const [submitted, setSubmitted] = useState(false);
-  const [selectedDisplay, setSelectedDisplay] = useState(null);
-
-  const [question, setQuestion] = useState("");
-  const [flag, setFlag] = useState(false);
-
-  const [correctAnswer, setCorrectAnswer] = useState("");
-  const [choiceType, setChoiceType] = useState("");
-
-  const [mcChoices, setMcChoices] = useState([]);
-  const [tfChoice, setTfChoice] = useState(null);
-  const [fibAnswer, setFibAnswer] = useState();
-
-  const [userScore, setUserScore] = useState(0);
+  const { gameId } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [secondsLeft, setSecondsLeft] = useState(30);
+
+  const quiz = location.state?.quiz;
+
+  const [quizIdx, setQuizIdx] = useState(0);
+  const [quizQuestion, setQuizQuestion] = useState(quiz[0]);
+
+  const [display, setDisplay] = useState(quizQuestion.question_type);
+  const [question, setQuestion] = useState(quizQuestion.question);
+  const [level, setLevel] = useState(quizQuestion.level);
+  const [choiceType, setChoiceType] = useState(quizQuestion.choice_type);
+  const [correctOption, setCorrectOption] = useState(quizQuestion.main_option);
+
+  function setOptionChoices(q) {
+    if(q.question_type == "mc") {
+      let arrayLen = q.incorrect_options.length + 1;
+      const optionChoices = Array(arrayLen).fill(null);
+
+      const incorrectOptions = q.incorrect_options;
+
+      incorrectOptions.forEach(option => {
+        const nullIndices = optionChoices.map((value, index) => value === null ? index : -1).filter(index => index !== -1);
+        const randomIndex = nullIndices[Math.floor(Math.random() * nullIndices.length)];
+
+        optionChoices[randomIndex] = option
+      });
+
+      const emptyIndex = optionChoices.findIndex(idx => idx === null);
+      if (emptyIndex !== -1) {
+        optionChoices[emptyIndex] = q.main_option;
+      }
+
+      return optionChoices;
+    } else if (q.question_type == "tf") {
+      const optionChoices = ["True", "False"]
+    } else {
+      return null;
+    }
+  }
+  const [options, setOptions] = useState(setOptionChoices(quizQuestion));
+
+  function setFlagPath(q) {
+    if(q.question_type == "mc" || q.question_type == "fib") {
+      if(q.display_flag) {
+        return q.main_option.flag;
+      } else {
+        return null;
+      }
+    } else if(q.question_type == "tf") {
+      if(q.tf) {
+        if(q.display_flag) {
+          return q.main_option.flag;
+        } else {
+          return null;
+        }
+      } else {
+        if(q.display_flag) {
+          return q.incorrect_options.flag;
+        } else {
+          return null;
+        }
+      }
+    }
+  }
+  const [flag, setFlag] = useState(setFlagPath(quizQuestion));
+
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -32,86 +85,50 @@ const QuizQuestionPage = () => {
   }, []);
 
   useEffect(() => {
-    setSubmitted(false);
+    if(secondsLeft == 30) {
+      
+    }
 
-    const randomNumber = Math.floor(Math.random() * 3) + 1; // Generate a random number between 1 and 3
-    setSelectedDisplay(randomNumber);
+    if(secondsLeft === 0 && quizIdx < 14) {
+      setQuizIdx((prevIdx) => prevIdx + 1);
 
-    // // 1 = fib, 2 = mc, 3 = tf
-    // const questionType =
-    //   randomNumber === 1 ? "fib" : randomNumber === 2 ? "mc" : "tf";
+      const nextQuestion = quiz[quizIdx + 1];
+      
+      setQuizQuestion(nextQuestion);
 
-    // fetch(`http://127.0.0.1:4000/question/get/${questionType}`, {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((question) => {
-    //     if (question.success) {
-    //       const result = question.result;
+      console.log(nextQuestion);
+      
+      setSecondsLeft(30);
+    } else if (quizIdx == 14) {
+      console.log("Quiz done");
+    }
 
-    //       const q = result.question;
-    //       setQuestion(q);
+  }, [secondsLeft]);
 
-    //       const flag = result.display_flag;
-    //       setFlag(flag);
+  useEffect(() => {
+    setDisplay(quizQuestion.question_type);
+    setQuestion(quizQuestion.question);
+    setLevel(quizQuestion.question_level);
+    setChoiceType(quizQuestion.choice_type);
+    setCorrectOption(quizQuestion.main_option);
+    setOptions(setOptionChoices(quizQuestion));
+    setFlag(setFlagPath(quizQuestion));
+  }, [quizQuestion])
 
-    //       console.log(result.display_flag);
-
-    //       if (questionType == "mc" || questionType == "fib") {
-    //         const choice_type = result.choice_type;
-    //         setChoiceType(choice_type);
-
-    //         const correct_option = result.correct_option;
-    //         setCorrectAnswer(correct_option);
-
-    //         if (questionType == "mc") {
-    //           const options = result.options;
-
-    //           const newMcChoices = [null, null, null, null];
-
-    //           options.forEach((option) => {
-    //             const nullIndices = newMcChoices
-    //               .map((value, index) => (value === null ? index : -1))
-    //               .filter((index) => index !== -1);
-    //             const randomIndex =
-    //               nullIndices[Math.floor(Math.random() * nullIndices.length)];
-
-    //             newMcChoices[randomIndex] = option;
-    //           });
-
-    //           const emptyIndex = newMcChoices.findIndex((idx) => idx === null);
-    //           if (emptyIndex !== -1) {
-    //             newMcChoices[emptyIndex] = correctAnswer;
-    //           }
-
-    //           setMcChoices(newMcChoices);
-    //           console.log(newMcChoices);
-    //         }
-    //       } else if (questionType == "tf") {
-    //         const tf = result.tf;
-    //         setTfChoice(tf);
-    //       }
-    //     } else {
-    //       console.log("Fail: ", question.message);
-    //     }
-    //   });
-  }, [submitted]);
-
+  const [fib, setFib] = useState("");
+  const [userScore, setUserScore] = useState(0);
+  
   const handleButtonClick = () => {
-    // console.log(choiceType);
-    // console.log(correctAnswer);
-    // console.log(fibAnswer);
-    // if (selectedDisplay === 1) { 
-    //   if (fibAnswer === correctAnswer[choiceType]) {
-    //     const newScore = Math.floor((100 / (30 - secondsLeft)) * 1); // need to add difficulty level
-    //     setUserScore(prevScore => prevScore + newScore);
-         setSecondsLeft(30);
-    //   }
-    // }
-    setSubmitted(true);
+    console.log(choiceType);
+    console.log(correctOption);
+    console.log(fib);
+    if (display === "fib") { 
+      if (fib === correctOption[choiceType]) {
+        const newScore = Math.floor((100 / (30 - secondsLeft)) * 1); // need to add difficulty level
+        setUserScore(prevScore => prevScore + newScore);
+        setSecondsLeft(30);
+      }
+    }
   };
 
   const [buttonClicked, setButtonClicked] = useState(false);
@@ -142,22 +159,22 @@ const QuizQuestionPage = () => {
         <div className="row center-on-page">
           <div className="column">
             {" "}
-            {/*flag && (
+            <h2>{question}</h2>
+            {flag && (
               <div>
                 <img
                   className="mb-10"
-                  src={require("../" + correctAnswer.flag)}
+                  src={require("../" + flag)}
                   alt="Country Flag"
                 />
               </div>
-            )} */}
-            <h2>Question</h2>
+            )}   
           </div>
           <div className="column">
             {" "}
             {/*column containing the answer choices*/}
             <div className="display-container">
-              {selectedDisplay === 1 && ( // 1 = fib
+              {display == "fib" && ( // 1 = fib
                 <div className="circular-container">
                   <input
                     type="text"
@@ -165,16 +182,14 @@ const QuizQuestionPage = () => {
                     placeholder="Type in answer..."
                     onChange={(event) => {
                       alert("Your answer has been noted. Sit tight while everyone answers!");
+                      setFib(event.target.value);
                     }}
-                    // onChange={(event) => {
-                    //   setFibAnswer(event.target.value);
-                    // }}
                   />
                 </div>
               )}
-              {selectedDisplay === 2 && ( // 2 = mcq
+              {display == "mc" && ( // 2 = mcq
                 <div className="new-circular-containers">
-                  {/* {mcChoices.map((choice, key) => (
+                  {options.map((choice, key) => (
                     <button
                       key={key}
                       className={`round-button${key % 2 != 0 ? "-two" : ""}`}
@@ -186,9 +201,10 @@ const QuizQuestionPage = () => {
                   <button onClick={testFunc} className="round-button-two">TEST</button>
                   <button onClick={testFunc} className="round-button-two">TEST</button>
                   <button onClick={testFunc} className="round-button">TEST</button>
+                  ))}
                 </div>
               )}
-              {selectedDisplay === 3 && ( // 3 = TF
+              {display == "tf" && ( // 3 = TF
                 <div className="new-circular-containers">
                   <button onClick={testFunc} className="round-button">True</button>
                   {/*{buttonClicked && secondsLeft > 0 && <p>Sit tight!</p>}*/}
