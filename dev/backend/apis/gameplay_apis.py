@@ -16,7 +16,7 @@ def get_gameplays():
     except Exception as e:
         return jsonify({'error': str(e)})
 
-@app.route('/gameplays', methods=['GET'])
+@app.route('/user_gameplays', methods=['GET'])
 def get_user_gameplays():
     try:
         user_id = request.args.get('userId')  

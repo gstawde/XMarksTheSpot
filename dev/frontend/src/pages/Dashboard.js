@@ -44,7 +44,7 @@ const Dashboard = () => {
       setId(idFromCookie);
 
       // Get user's gameplays
-      fetch(`http://127.0.0.1:4000/gameplays?userId=${idFromCookie}`)
+      fetch(`http://127.0.0.1:4000/user_gameplays?userId=${idFromCookie}`)
       .then((response) => response.json())
       .then((gameplays) => {
         setGameplays(gameplays);
