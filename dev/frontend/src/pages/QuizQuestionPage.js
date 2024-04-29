@@ -12,6 +12,15 @@ const QuizQuestionPage = () => {
   const [secondsLeft, setSecondsLeft] = useState(30);
   const [id, setId] = useState();
 
+  useEffect(() => {
+    if (Cookies.get("auth")) {
+      const authCookie = Cookies.get("auth");
+
+      const idFromCookie = JSON.parse(authCookie).user_id;
+      setId(idFromCookie);
+    }
+  }, []);
+
   const quiz = location.state?.quiz;
 
   const [quizIdx, setQuizIdx] = useState(0);
@@ -43,8 +52,6 @@ const QuizQuestionPage = () => {
       }
 
       return optionChoices;
-    } else if (q.question_type == "tf") {
-      const optionChoices = ["True", "False"]
     } else {
       return null;
     }
@@ -77,14 +84,7 @@ const QuizQuestionPage = () => {
 
   const [flag, setFlag] = useState(setFlagPath(quizQuestion));
 
-  useEffect(() => {
-    if (Cookies.get("auth")) {
-      const authCookie = Cookies.get("auth");
-
-      const idFromCookie = JSON.parse(authCookie).user_id;
-      setId(idFromCookie);
-    }
-  }, []);
+  
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -125,7 +125,6 @@ const QuizQuestionPage = () => {
     setFlag(setFlagPath(quizQuestion));
   }, [quizQuestion])
 
-  const [fib, setFib] = useState("");
   const [userScore, setUserScore] = useState(0);
   const [topScore, setTopScore] = useState(0);
 
@@ -137,13 +136,21 @@ const QuizQuestionPage = () => {
     setButtonClicked(true);
   };
 
+  const [fibAnswer, setFibAnswer] = useState("");
+
+  const [tfAnswer, setTfAnswer] = useState(null);
+  function handleTfClick(val) {
+    setTfAnswer(val);
+    console.log(val == quizQuestion.tf);
+  }
+
   const handleButtonClick = () => {
     testFunc();
     console.log(choiceType);
     console.log(correctOption);
-    console.log(fib);
+    console.log(fibAnswer);
     if (display === "fib") { 
-      if (fib === correctOption[choiceType]) {
+      if (fibAnswer === correctOption[choiceType]) {
         const newScore = Math.floor((100 / (30 - secondsLeft)) * level); 
         setUserScore(prevScore => prevScore + newScore);
 
@@ -163,7 +170,7 @@ const QuizQuestionPage = () => {
           console.log(score);
           if (score.success) {
             setSecondsLeft(30);
-            setFib("");
+            setFibAnswer("");
             fetch(`http://127.0.0.1:4000/game_top_score?gameId=${gameId}`)
             .then((response) => response.json())
             .then((topUserScore) => {
@@ -223,7 +230,7 @@ const QuizQuestionPage = () => {
                     placeholder="Type in answer..."
                     onChange={(event) => {
                       // alert("Your answer has been noted. Sit tight while everyone answers!");
-                      setFib(event.target.value);
+                      setFibAnswer(event.target.value);
                     }}
                   />
                 </div>
@@ -247,8 +254,8 @@ const QuizQuestionPage = () => {
               )}
               {display == "tf" && ( // 3 = TF
                 <div className="new-circular-containers">
-                  <button className="round-button">True</button>
-                  <button className="round-button-two">False</button>
+                  <button onClick={() => handleTfClick(true)} className="round-button">True</button>
+                  <button onClick={() => handleTfClick(false)} className="round-button-two">False</button>
                 </div>
               )}
             </div>

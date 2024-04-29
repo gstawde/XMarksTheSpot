@@ -47,7 +47,6 @@ const SignupPage = () => {
       setPasswordError(true);
     } else {
       setPasswordError(false);
-      confirmPassword();
     }
   };
 
