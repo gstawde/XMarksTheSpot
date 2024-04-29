@@ -114,6 +114,14 @@ const QuizQuestionPage = () => {
     setSubmitted(true);
   };
 
+  const [buttonClicked, setButtonClicked] = useState(false);
+  const testFunc = () => {
+    if (secondsLeft > 0) {
+      alert(`There are ${secondsLeft} seconds left. Sit tight while everyone submits their answers!`);
+    }
+    setButtonClicked(true);
+  };
+
   return (
     <html lang="en">
       <head>
@@ -155,6 +163,9 @@ const QuizQuestionPage = () => {
                     type="text"
                     className="circular-input"
                     placeholder="Type in answer..."
+                    onChange={(event) => {
+                      alert("Your answer has been noted. Sit tight while everyone answers!");
+                    }}
                     // onChange={(event) => {
                     //   setFibAnswer(event.target.value);
                     // }}
@@ -171,16 +182,17 @@ const QuizQuestionPage = () => {
                       {choice[choiceType]}
                     </button>
                   ))} */}
-                  <button className="round-button">TEST</button>
-                  <button className="round-button-two">TEST</button>
-                  <button className="round-button-two">TEST</button>
-                  <button className="round-button">TEST</button>
+                  <button onClick={testFunc} className="round-button">TEST</button>
+                  <button onClick={testFunc} className="round-button-two">TEST</button>
+                  <button onClick={testFunc} className="round-button-two">TEST</button>
+                  <button onClick={testFunc} className="round-button">TEST</button>
                 </div>
               )}
               {selectedDisplay === 3 && ( // 3 = TF
                 <div className="new-circular-containers">
-                  <button className="round-button">True</button>
-                  <button className="round-button-two">False</button>
+                  <button onClick={testFunc} className="round-button">True</button>
+                  {/*{buttonClicked && secondsLeft > 0 && <p>Sit tight!</p>}*/}
+                  <button onClick={testFunc} className="round-button-two">False</button>
                 </div>
               )}
             </div>
