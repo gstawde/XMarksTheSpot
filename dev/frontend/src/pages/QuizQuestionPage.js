@@ -74,7 +74,9 @@ const QuizQuestionPage = () => {
       }
     }
   }
+
   const [flag, setFlag] = useState(setFlagPath(quizQuestion));
+
   useEffect(() => {
     if (Cookies.get("auth")) {
       const authCookie = Cookies.get("auth");
@@ -127,8 +129,16 @@ const QuizQuestionPage = () => {
   const [userScore, setUserScore] = useState(0);
   const [topScore, setTopScore] = useState(0);
 
-  
+  const [buttonClicked, setButtonClicked] = useState(false);
+  const testFunc = () => {
+    if (secondsLeft > 0) {
+      alert(`There are ${secondsLeft} seconds left. Sit tight while everyone submits their answers!`);
+    }
+    setButtonClicked(true);
+  };
+
   const handleButtonClick = () => {
+    testFunc();
     console.log(choiceType);
     console.log(correctOption);
     console.log(fib);
@@ -169,14 +179,6 @@ const QuizQuestionPage = () => {
       }
     }     
   }
-
-  const [buttonClicked, setButtonClicked] = useState(false);
-  const testFunc = () => {
-    if (secondsLeft > 0) {
-      alert(`There are ${secondsLeft} seconds left. Sit tight while everyone submits their answers!`);
-    }
-    setButtonClicked(true);
-  };
 
   return (
     <html lang="en">
@@ -220,7 +222,7 @@ const QuizQuestionPage = () => {
                     className="circular-input"
                     placeholder="Type in answer..."
                     onChange={(event) => {
-                      alert("Your answer has been noted. Sit tight while everyone answers!");
+                      // alert("Your answer has been noted. Sit tight while everyone answers!");
                       setFib(event.target.value);
                     }}
                   />
@@ -236,18 +238,17 @@ const QuizQuestionPage = () => {
                       {choice[choiceType]}
                     </button>
                   ))} 
-                  <button onClick={testFunc} className="round-button">TEST</button>
-                  <button onClick={testFunc} className="round-button-two">TEST</button>
-                  <button onClick={testFunc} className="round-button-two">TEST</button>
-                  <button onClick={testFunc} className="round-button">TEST</button>
+                  <button className="round-button">TEST</button>
+                  <button className="round-button-two">TEST</button>
+                  <button className="round-button-two">TEST</button>
+                  <button className="round-button">TEST</button>
                   
                 </div>
               )}
               {display == "tf" && ( // 3 = TF
                 <div className="new-circular-containers">
-                  <button onClick={testFunc} className="round-button">True</button>
-                  {/*{buttonClicked && secondsLeft > 0 && <p>Sit tight!</p>}*/}
-                  <button onClick={testFunc} className="round-button-two">False</button>
+                  <button className="round-button">True</button>
+                  <button className="round-button-two">False</button>
                 </div>
               )}
             </div>
