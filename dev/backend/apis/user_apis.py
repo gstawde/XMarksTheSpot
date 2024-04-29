@@ -3,6 +3,25 @@ from app import app, config
 import mysql.connector
 import bcrypt
 
+def delete_user_gameplays(user_id):
+  try:
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM Gameplays WHERE user_id = %s", (user_id,))
+    gameplays = cursor.fetchall()  
+
+    if gameplays:
+      cursor.execute("DELETE FROM Gameplays WHERE user_id = %s", (user_id,))
+      connection.commit()
+
+    cursor.close()
+    connection.close()
+
+    return True
+  except Exception as e:
+    return False
+
 @app.route('/users', methods=['GET'])
 def get_users():
   try:
@@ -100,7 +119,7 @@ def delete_user(user_id):
     cursor.execute("SELECT * FROM Users WHERE user_id = %s", (user_id,))
     user = cursor.fetchone()
 
-    if user:
+    if user and delete_user_gameplays(user_id):
       cursor.execute("DELETE FROM Users WHERE user_id = %s", (user_id,))
       connection.commit()
       

@@ -59,7 +59,7 @@ const SettingsPage = () => {
     }
 
   const handleDelete = () => {
-    const confirmDelete = window.confirm("Are you sure you want to delete your account?");
+    const confirmDelete = window.confirm("Are you sure you want to delete your account? All data associated with account will be deleted.");
     if(confirmDelete) {
       fetch(`http://127.0.0.1:4000/users/delete/${userId}`, {
         method: "DELETE",
@@ -73,16 +73,15 @@ const SettingsPage = () => {
           console.log(deleteUser.message);
           setMessage("Account successfully deleted!");
 
-          //Cookies.remove("auth");
-          navigate("/");
-          // setTimeout(() => {
-          //   window.location.href = "/";
-          // }, 3000);
+          
+          setTimeout(() => {
+            Cookies.remove("auth");
+            window.location.href = "/";
+          }, 3000);
         } else {
           setDeleteSuccess(true);
           setMessage(deleteUser.message);
           console.log(deleteUser.message);
-
         } 
       })
       .catch((error) => console.error("Error fetching user data:", error));

@@ -37,12 +37,10 @@ const SignupPage = () => {
 
   const validatePassword = (e) => {
     const pw = e.target.value;
-    console.log(pw);
     setPassword(pw);
 
     const passwordRegex = /^.{8,}$/;
 
-    console.log(passwordRegex.test(pw));
     if (!passwordRegex.test(pw)) {
       setPasswordError(true);
     } else {
@@ -53,7 +51,6 @@ const SignupPage = () => {
   const confirmPassword = (e) => {
     const pw = e.target.value;
     setConfirmPW(pw);
-    console.log(password, confirmPW);
 
     if (pw !== password) {
       setConfirmPasswordError(true);

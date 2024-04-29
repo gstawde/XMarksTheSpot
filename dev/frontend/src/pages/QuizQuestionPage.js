@@ -84,8 +84,6 @@ const QuizQuestionPage = () => {
 
   const [flag, setFlag] = useState(setFlagPath(quizQuestion));
 
-  
-
   useEffect(() => {
     const timer = setInterval(() => {
       setSecondsLeft((prevSeconds) => prevSeconds - 1);
@@ -95,10 +93,6 @@ const QuizQuestionPage = () => {
   }, []);
 
   useEffect(() => {
-    if(secondsLeft == 30) {
-      
-    }
-
     if(secondsLeft === 0 && quizIdx < 14) {
       setQuizIdx((prevIdx) => prevIdx + 1);
 

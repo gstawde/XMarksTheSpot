@@ -18,17 +18,15 @@ const ResetPassword = () => {
     const passwordRegex =
       /^.{8,}$/;
 
-    if (!passwordRegex.test(pw)) {
-      return false;
-    } else {
-      return true;
-    }
+    return passwordRegex.test(pw);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     if(!validatePassword(password)) {
+      setResetSuccess(false);
+      setResetFailure(true);
       setMessage("Password must be at least 8 characters.")
     } else {
       const resetData = {
@@ -46,17 +44,18 @@ const ResetPassword = () => {
       .then(response => response.json())
       .then(reset => {
         if(reset.success) {
-          setMessage(reset.message);
           setResetSuccess(true);
           setResetFailure(false);
+          setMessage(reset.message);
           
           setTimeout(() => {
             window.location.href = "/login";
-          }, 5000);
+          }, 3000);
         } else {
-          setMessage(reset.message);
           setResetSuccess(false);
           setResetFailure(true);
+
+          setMessage(reset.message);
         }
       })
       .catch(error => console.log(error));
