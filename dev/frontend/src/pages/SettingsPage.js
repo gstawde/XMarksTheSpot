@@ -73,10 +73,11 @@ const SettingsPage = () => {
           console.log(deleteUser.message);
           setMessage("Account successfully deleted!");
 
-          Cookies.remove("auth");
-          setTimeout(() => {
-            window.location.href = "/";
-          }, 3000);
+          //Cookies.remove("auth");
+          navigate("/");
+          // setTimeout(() => {
+          //   window.location.href = "/";
+          // }, 3000);
         } else {
           setDeleteSuccess(true);
           setMessage(deleteUser.message);

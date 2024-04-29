@@ -128,20 +128,24 @@ const QuizQuestionPage = () => {
   const [userScore, setUserScore] = useState(0);
   const [topScore, setTopScore] = useState(0);
 
-  const [buttonClicked, setButtonClicked] = useState(false);
   const testFunc = () => {
     if (secondsLeft > 0) {
       alert(`There are ${secondsLeft} seconds left. Sit tight while everyone submits their answers!`);
     }
-    setButtonClicked(true);
   };
 
   const [fibAnswer, setFibAnswer] = useState("");
 
+  const [mcAnswer, setMcAnswer] = useState("");
+  function handleMcClick(val) {
+    setMcAnswer(val);
+    // compare mcAnswer to correctOption[choiceType]
+  }
+
   const [tfAnswer, setTfAnswer] = useState(null);
   function handleTfClick(val) {
     setTfAnswer(val);
-    console.log(val == quizQuestion.tf);
+    //compare tfAnswer to quizQuestion.tf);
   }
 
   const handleButtonClick = () => {
@@ -235,21 +239,18 @@ const QuizQuestionPage = () => {
                   />
                 </div>
               )}
+
               {display == "mc" && ( // 2 = mcq
                 <div className="new-circular-containers">
                   {options.map((choice, key) => (
                     <button
                       key={key}
+                      onClick={() => handleMcClick(choice[choiceType])}
                       className={`round-button${key % 2 != 0 ? "-two" : ""}`}
                     >
                       {choice[choiceType]}
                     </button>
                   ))} 
-                  <button className="round-button">TEST</button>
-                  <button className="round-button-two">TEST</button>
-                  <button className="round-button-two">TEST</button>
-                  <button className="round-button">TEST</button>
-                  
                 </div>
               )}
               {display == "tf" && ( // 3 = TF
