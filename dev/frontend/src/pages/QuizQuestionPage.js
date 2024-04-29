@@ -110,6 +110,7 @@ const QuizQuestionPage = () => {
       
       setSecondsLeft(30);
     } else if (quizIdx == 14) {
+      navigate("/game-end"); // should navigate to the game end screen
       console.log("Quiz done");
     }
 
