@@ -19,10 +19,9 @@ def get_users():
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
   
-@app.route('/user', methods=['GET'])
-def get_user():
+@app.route('/user/<int:user_id>', methods=['GET'])
+def get_user(user_id):
   try:
-    user_id = request.args.get('userId')  
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor(dictionary=True)
     

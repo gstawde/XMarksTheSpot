@@ -71,3 +71,22 @@ def reset_password():
     return jsonify({'success': True, 'message': f'Password reset successfully for account with email {email}!'})
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
+
+@app.route('/password/reset/<int:user_id>', methods=['POST'])
+def reset_password_with_id(user_id):
+  try:
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
+    
+    cursor.execute("SELECT * FROM Users WHERE user_id = %s", (user_id,))
+    user = cursor.fetchone()
+
+    cursor.close()
+    connection.close()
+
+    if user:
+      token = jwt.encode({'email': user["email"], 'exp': datetime.utcnow() + timedelta(hours=1)}, SECRET_KEY, algorithm='HS256')
+      
+    return jsonify({'success': True, 'message': 'Password reset link generated successfully.', 'result': token})
+  except Exception as e:
+    return jsonify({'success': False, 'error': str(e)})

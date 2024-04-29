@@ -13,13 +13,6 @@ const ResetPassword = () => {
   const [message, setMessage] = useState("");
   const [resetSuccess, setResetSuccess] = useState(false);
   const [resetFailure, setResetFailure] = useState(false);
-
-  if(isAuthenticated) {
-    setTimeout(() => {
-      navigate('/dashboard');
-    }, 0);
-    return null;
-  } 
   
   const validatePassword = (pw) => {
     const passwordRegex =
@@ -96,7 +89,7 @@ const ResetPassword = () => {
             {resetSuccess && 
               <div className="p-4 max-w-sm mx-auto text-sm text-yellow-800 rounded-lg bg-yellow-50" role="alert">
                 <span className="font-medium">{ message } </span> 
-                Redirecting you to the login page . . . 
+                Redirecting you to back to where you were . . . 
               </div>
             }
 

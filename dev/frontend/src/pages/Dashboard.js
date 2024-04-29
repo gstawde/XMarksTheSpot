@@ -102,7 +102,7 @@ const Dashboard = () => {
           <a href="/" onClick={handleLogout}>
             Logout
           </a>
-          <a>Settings</a>
+          <a href="/settings">Settings</a>
           <a href="/join-start">Play!</a>
           <a className="active" href="/dashboard">
             Dashboard
