@@ -24,7 +24,7 @@ CREATE TABLE Gameplays(
   game_date DATETIME NOT NULL,
   game_finished TINYINT,
   user_id INT NOT NULL,
-	game_topic VARCHAR(255) NOT NULL,
+	game_topic VARCHAR(255),
   user_score INT NOT NULL,
 	FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );

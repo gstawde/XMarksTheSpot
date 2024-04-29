@@ -57,7 +57,6 @@ const Dashboard = () => {
       .then((response) => response.json())
       .then((milestone_reached) => {
         setUserMilestone(milestone_reached);
-        console.log("heruheurer" + userMilestone);
       })
       .catch((error) => console.error("Error fetching user data:", error));
 
@@ -102,7 +101,7 @@ const Dashboard = () => {
           <a href="/" onClick={handleLogout}>
             Logout
           </a>
-          <a>Settings</a>
+          <a href="/settings">Settings</a>
           <a href="/join-start">Play!</a>
           <a className="active" href="/dashboard">
             Dashboard

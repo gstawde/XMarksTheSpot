@@ -10,6 +10,7 @@ const QuizQuestionPage = () => {
   const location = useLocation();
 
   const [secondsLeft, setSecondsLeft] = useState(30);
+  const [id, setId] = useState();
 
   const quiz = location.state?.quiz;
 
@@ -74,7 +75,14 @@ const QuizQuestionPage = () => {
     }
   }
   const [flag, setFlag] = useState(setFlagPath(quizQuestion));
+  useEffect(() => {
+    if (Cookies.get("auth")) {
+      const authCookie = Cookies.get("auth");
 
+      const idFromCookie = JSON.parse(authCookie).user_id;
+      setId(idFromCookie);
+    }
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -117,6 +125,8 @@ const QuizQuestionPage = () => {
 
   const [fib, setFib] = useState("");
   const [userScore, setUserScore] = useState(0);
+  const [topScore, setTopScore] = useState(0);
+
   
   const handleButtonClick = () => {
     console.log(choiceType);
@@ -124,12 +134,41 @@ const QuizQuestionPage = () => {
     console.log(fib);
     if (display === "fib") { 
       if (fib === correctOption[choiceType]) {
-        const newScore = Math.floor((100 / (30 - secondsLeft)) * 1); // need to add difficulty level
+        const newScore = Math.floor((100 / (30 - secondsLeft)) * level); 
         setUserScore(prevScore => prevScore + newScore);
-        setSecondsLeft(30);
+
+        const updateUserScore = {
+          new_score: userScore + Math.floor((100 / (30 - secondsLeft)) * level), 
+          game_id: gameId, 
+          user_id: id,
+        };
+
+        fetch("http://127.0.0.1:4000/update_score", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updateUserScore),
+        })
+        .then((response) => response.json())
+        .then((score) => {
+          console.log(score);
+          if (score.success) {
+            setSecondsLeft(30);
+            setFib("");
+            fetch(`http://127.0.0.1:4000/game_top_score?gameId=${gameId}`)
+            .then((response) => response.json())
+            .then((topUserScore) => {
+              setTopScore(topUserScore.top_score);
+              console.log(topUserScore);
+            })
+            .catch((error) => console.error("Error fetching getting top score:", error));
+          } else {
+            console.log("Failed to Update User Score!");
+          }
+        })
+        .catch((error) => console.log(error));
       }
-    }
-  };
+    }     
+  }
 
   return (
     <html lang="en">
@@ -141,7 +180,7 @@ const QuizQuestionPage = () => {
       <body>
         <div className="row row-0">
           <div className="column-0">
-            <p className="top-score">Top Score: </p>
+            <p className="top-score">Top Score: {topScore}</p>
           </div>
           <div className="column-0">
             <p className="user-score">Your Score: {userScore}</p>

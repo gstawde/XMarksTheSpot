@@ -33,23 +33,46 @@ const StartGame = () => {
   }
   
   const goToQuiz = () => {
-    fetch("http://127.0.0.1:4000/quiz", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    .then((response) => response.json())
-    .then((quiz) => {
-      if(quiz.success) {
-        //const quizQs = quiz.result;
-        console.log(quiz.result);
+    const authCookie = Cookies.get("auth");
+    const idFromCookie = JSON.parse(authCookie).user_id;
 
-        navigate(`/quiz/${gameId}`, { state: { quiz: quiz.result } });
-      } else {
-        console.log(quiz.message);
-      }
-    });
+    const newGame = {
+      game_id: gameId,
+      user_id: idFromCookie,
+      game_topic: null,
+    };
+
+    fetch("http://127.0.0.1:4000/game/start", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newGame),
+    })
+      .then((response) => response.json())
+      .then((game) => {
+        console.log(game);
+        if (game.success) {
+          fetch("http://127.0.0.1:4000/quiz", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((response) => response.json())
+            .then((quiz) => {
+              if (quiz.success) {
+                //const quizQs = quiz.result;
+                console.log(quiz.result);
+
+                navigate(`/quiz/${gameId}`, { state: { quiz: quiz.result } });;
+              } else {
+                console.log(quiz.message);
+              }
+            });
+        } else {
+          console.log("Game Creation Failed!");
+        }
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -63,7 +86,9 @@ const StartGame = () => {
         <div className="navbar">
           <a onClick={ handleLogout }>Logout</a>
           <a href="/settings">Settings</a>
-          <a className="active" href="/join-start">Play!</a>
+          <a className="active" href="/join-start">
+            Play!
+          </a>
           <a href="/dashboard">Dashboard</a>
           <img
             className="split"
@@ -80,7 +105,9 @@ const StartGame = () => {
               <p className="text-[#FFB600]">
                 Wait for other players to join, or start now!
               </p>
-              <button onClick={ goToQuiz } className="start-button">START GAME</button>
+              <button onClick={goToQuiz} className="start-button">
+                START GAME
+              </button>
             </div>
           </div>
         </div>
