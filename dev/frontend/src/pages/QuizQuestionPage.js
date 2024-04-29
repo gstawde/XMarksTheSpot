@@ -235,12 +235,12 @@ const QuizQuestionPage = () => {
                     >
                       {choice[choiceType]}
                     </button>
-                  ))} */}
+                  ))} 
                   <button onClick={testFunc} className="round-button">TEST</button>
                   <button onClick={testFunc} className="round-button-two">TEST</button>
                   <button onClick={testFunc} className="round-button-two">TEST</button>
                   <button onClick={testFunc} className="round-button">TEST</button>
-                  ))}
+                  
                 </div>
               )}
               {display == "tf" && ( // 3 = TF
