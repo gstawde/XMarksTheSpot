@@ -101,7 +101,7 @@ def add_user():
     
     password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     
-    cursor.execute("INSERT INTO Users (FIRST_NAME, LAST_NAME, USERNAME, EMAIL, PASSWORD_HASH) VALUES (%s, %s, %s, %s, %s)", (first_name, last_name, username, email, password_hash))
+    cursor.execute("INSERT INTO Users (FIRST_NAME, LAST_NAME, USERNAME, EMAIL, USER_POINTS, PASSWORD_HASH) VALUES (%s, %s, %s, %s, %s, %s)", (first_name, last_name, username, email, 0, password_hash))
     connection.commit()
     
     cursor.close()
@@ -176,6 +176,55 @@ def check_email():
       return jsonify({'success': False, 'message': 'Email does not exist.'})
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
+  
+@app.route('/user_points', methods=['GET'])
+def user_points():
+  try:
+    user_id = request.args.get('userId')  
+
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
+    
+    cursor.execute("SELECT USER_POINTS FROM Users WHERE user_id = %s", (user_id,))
+    user_points = cursor.fetchone()
+      
+    cursor.close()
+    connection.close()
+    
+    return jsonify(user_points)
+  except Exception as e:
+    return jsonify({'success': False, 'error': str(e)})
+  
+@app.route('/update_user_points', methods=['POST'])
+def update_user_points():
+  try:
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
+        
+    data = request.get_json()
+    user_id = data.get('user_id')
+    points = data.get('user_points')
+
+    cursor.execute("SELECT USER_POINTS FROM Users WHERE USER_ID = %s", (user_id,))
+    result = cursor.fetchone()
+
+    if result:
+      current_points = result['USER_POINTS']
+      new_points = current_points + points
+
+      cursor.execute("UPDATE Users SET USER_POINTS = %s WHERE USER_ID = %s", (new_points, user_id))
+      connection.commit()
+
+      cursor.close()
+      connection.close()
+
+      return jsonify({'success': True, 'message': 'User points updated successfully', 'new_points': new_points})
+    else:
+      return jsonify({'error': 'User not found'})
+
+  except Exception as e:
+    return jsonify({'error': str(e)})
+
 
 @app.route('/users/ranks', methods=['GET'])
 def get_ranks():

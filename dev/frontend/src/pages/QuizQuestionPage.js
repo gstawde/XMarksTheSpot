@@ -107,8 +107,26 @@ const QuizQuestionPage = () => {
 
       setSecondsLeft(30);
     } else if (quizIdx == 14) {
-      navigate("/game-end"); // should navigate to the game end screen
       console.log("Quiz done");
+
+      const newUserPoints = {
+        user_id: id,
+        user_points: userScore,
+      };
+
+      fetch("http://127.0.0.1:4000/update_user_points", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newUserPoints),
+      })
+        .then((response) => response.json())
+        .then((points) => {
+          console.log(points);
+          if (points.success) {
+            navigate("/game-end");
+          }
+        })
+        .catch((error) => console.log(error));
     }
   }, [secondsLeft]);
 

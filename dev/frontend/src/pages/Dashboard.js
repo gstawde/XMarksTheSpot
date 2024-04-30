@@ -15,6 +15,7 @@ const Dashboard = () => {
   const [gameplays, setGameplays] = useState([]);
   const [milestones, setMilestones] = useState([]);
   const [userMilestone, setUserMilestone] = useState(0);
+  const [userPoints, setUserPoints] = useState([]);
 
   const [ranks, setRanks] = useState([]);
   const [topThree, setTopThree] = useState([]);
@@ -57,6 +58,15 @@ const Dashboard = () => {
       .then((response) => response.json())
       .then((milestone_reached) => {
         setUserMilestone(milestone_reached);
+      })
+      .catch((error) => console.error("Error fetching user data:", error));
+
+      // Get the user's points
+      fetch(`http://127.0.0.1:4000/user_points?userId=${idFromCookie}`)
+      .then((response) => response.json())
+      .then((user_points) => {
+        console.log(user_points);
+        setUserPoints(user_points);
       })
       .catch((error) => console.error("Error fetching user data:", error));
 
@@ -118,7 +128,7 @@ const Dashboard = () => {
           <div className="column" style={{ flexGrow: "4" }}>
             <div className="row">
               <h1 style={{ color: "#FFB600" }}>Ahoy, {username}!</h1>
-              <p style={{ color: "#D7BC95" }}>XXX points</p>
+              <p style={{ color: "#D7BC95" }}>{userPoints["USER_POINTS"]} points</p>
             </div>
             <div>
               <div className="row">
