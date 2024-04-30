@@ -33,7 +33,7 @@ const QuizQuestionPage = () => {
   const [correctOption, setCorrectOption] = useState(quizQuestion.main_option);
 
   function setOptionChoices(q) {
-    if (q.question_type == "mc") {
+    if (q.question_type === "mc") {
       let arrayLen = q.incorrect_options.length + 1;
       const optionChoices = Array(arrayLen).fill(null);
 
@@ -62,13 +62,13 @@ const QuizQuestionPage = () => {
   const [options, setOptions] = useState(setOptionChoices(quizQuestion));
 
   function setFlagPath(q) {
-    if (q.question_type == "mc" || q.question_type == "fib") {
+    if (q.question_type === "mc" || q.question_type === "fib") {
       if (q.display_flag) {
         return q.main_option.flag;
       } else {
         return null;
       }
-    } else if (q.question_type == "tf") {
+    } else if (q.question_type === "tf") {
       if (q.tf) {
         if (q.display_flag) {
           return q.main_option.flag;
@@ -87,6 +87,7 @@ const QuizQuestionPage = () => {
 
   const [flag, setFlag] = useState(setFlagPath(quizQuestion));
 
+  // Timer
   useEffect(() => {
     const timer = setInterval(() => {
       setSecondsLeft((prevSeconds) => prevSeconds - 1);
@@ -143,7 +144,8 @@ const QuizQuestionPage = () => {
   const [userScore, setUserScore] = useState(0);
   const [topScore, setTopScore] = useState(0);
 
-  const testFunc = () => {
+  // Wait for Users Alert
+  const waitForUsersAlert = () => {
     if (secondsLeft > 0) {
       alert(
         `There are ${secondsLeft} seconds left. Sit tight while everyone submits their answers!`
@@ -163,8 +165,12 @@ const QuizQuestionPage = () => {
     setTfAnswer(val);
   }
 
-  const handleButtonClick = () => {
-    testFunc();
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  // Score calculation, disabling Submit button
+  const handleSubmitButton = () => {
+    setIsButtonDisabled(true);
+    waitForUsersAlert();
 
     if (
       fibAnswer === correctOption[choiceType] ||
@@ -246,7 +252,7 @@ const QuizQuestionPage = () => {
             {" "}
             {/*column containing the answer choices*/}
             <div className="display-container">
-              {display == "fib" && ( // 1 = fib
+              {display === "fib" && ( // 1 = fib
                 <div className="circular-container">
                   <input
                     type="text"
@@ -260,7 +266,7 @@ const QuizQuestionPage = () => {
                 </div>
               )}
 
-              {display == "mc" && ( // 2 = mcq
+              {display === "mc" && ( // 2 = mcq
                 <div className="new-circular-containers">
                   {options.map((choice, key) => (
                     <button
@@ -273,7 +279,7 @@ const QuizQuestionPage = () => {
                   ))}
                 </div>
               )}
-              {display == "tf" && ( // 3 = TF
+              {display === "tf" && ( // 3 = TF
                 <div className="new-circular-containers">
                   <button
                     onClick={() => handleTfClick(true)}
@@ -302,7 +308,7 @@ const QuizQuestionPage = () => {
             </h3>
           </div>
           <div className="column column-1">
-            <button onClick={handleButtonClick} className="submit-answer">
+            <button onClick={handleSubmitButton} disabled={isButtonDisabled} className="submit-answer">
               Submit
             </button>
           </div>
