@@ -3,6 +3,8 @@ import XMarksLogo from "../assets/XMarksLogo.png";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
+import { Slide, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const QuizQuestionPage = () => {
   const { gameId } = useParams();
@@ -145,11 +147,11 @@ const QuizQuestionPage = () => {
   const [topScore, setTopScore] = useState(0);
 
   // Wait for Users Alert
+  const tellUserToWait = () => toast.info("There are ${secondsLeft} seconds left. Sit tight while everyone submits their answers!");
+
   const waitForUsersAlert = () => {
     if (secondsLeft > 0) {
-      alert(
-        `There are ${secondsLeft} seconds left. Sit tight while everyone submits their answers!`
-      );
+      tellUserToWait();
     }
   };
 
@@ -311,6 +313,10 @@ const QuizQuestionPage = () => {
             <button onClick={handleSubmitButton} disabled={isButtonDisabled} className="submit-answer">
               Submit
             </button>
+            <ToastContainer
+                position="top-center"
+                transition={Slide}
+            />
           </div>
         </div>
       </body>
