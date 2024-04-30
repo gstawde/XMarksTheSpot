@@ -33,20 +33,23 @@ const QuizQuestionPage = () => {
   const [correctOption, setCorrectOption] = useState(quizQuestion.main_option);
 
   function setOptionChoices(q) {
-    if(q.question_type == "mc") {
+    if (q.question_type == "mc") {
       let arrayLen = q.incorrect_options.length + 1;
       const optionChoices = Array(arrayLen).fill(null);
 
       const incorrectOptions = q.incorrect_options;
 
-      incorrectOptions.forEach(option => {
-        const nullIndices = optionChoices.map((value, index) => value === null ? index : -1).filter(index => index !== -1);
-        const randomIndex = nullIndices[Math.floor(Math.random() * nullIndices.length)];
+      incorrectOptions.forEach((option) => {
+        const nullIndices = optionChoices
+          .map((value, index) => (value === null ? index : -1))
+          .filter((index) => index !== -1);
+        const randomIndex =
+          nullIndices[Math.floor(Math.random() * nullIndices.length)];
 
-        optionChoices[randomIndex] = option
+        optionChoices[randomIndex] = option;
       });
 
-      const emptyIndex = optionChoices.findIndex(idx => idx === null);
+      const emptyIndex = optionChoices.findIndex((idx) => idx === null);
       if (emptyIndex !== -1) {
         optionChoices[emptyIndex] = q.main_option;
       }
@@ -59,21 +62,21 @@ const QuizQuestionPage = () => {
   const [options, setOptions] = useState(setOptionChoices(quizQuestion));
 
   function setFlagPath(q) {
-    if(q.question_type == "mc" || q.question_type == "fib") {
-      if(q.display_flag) {
+    if (q.question_type == "mc" || q.question_type == "fib") {
+      if (q.display_flag) {
         return q.main_option.flag;
       } else {
         return null;
       }
-    } else if(q.question_type == "tf") {
-      if(q.tf) {
-        if(q.display_flag) {
+    } else if (q.question_type == "tf") {
+      if (q.tf) {
+        if (q.display_flag) {
           return q.main_option.flag;
         } else {
           return null;
         }
       } else {
-        if(q.display_flag) {
+        if (q.display_flag) {
           return q.incorrect_options.flag;
         } else {
           return null;
@@ -93,21 +96,20 @@ const QuizQuestionPage = () => {
   }, []);
 
   useEffect(() => {
-    if(secondsLeft === 0 && quizIdx < 14) {
+    if (secondsLeft === 0 && quizIdx < 14) {
       setQuizIdx((prevIdx) => prevIdx + 1);
 
       const nextQuestion = quiz[quizIdx + 1];
-      
+
       setQuizQuestion(nextQuestion);
 
       console.log(nextQuestion);
-      
+
       setSecondsLeft(30);
     } else if (quizIdx == 14) {
       navigate("/game-end"); // should navigate to the game end screen
       console.log("Quiz done");
     }
-
   }, [secondsLeft]);
 
   useEffect(() => {
@@ -118,14 +120,16 @@ const QuizQuestionPage = () => {
     setCorrectOption(quizQuestion.main_option);
     setOptions(setOptionChoices(quizQuestion));
     setFlag(setFlagPath(quizQuestion));
-  }, [quizQuestion])
+  }, [quizQuestion]);
 
   const [userScore, setUserScore] = useState(0);
   const [topScore, setTopScore] = useState(0);
 
   const testFunc = () => {
     if (secondsLeft > 0) {
-      alert(`There are ${secondsLeft} seconds left. Sit tight while everyone submits their answers!`);
+      alert(
+        `There are ${secondsLeft} seconds left. Sit tight while everyone submits their answers!`
+      );
     }
   };
 
@@ -134,36 +138,35 @@ const QuizQuestionPage = () => {
   const [mcAnswer, setMcAnswer] = useState("");
   function handleMcClick(val) {
     setMcAnswer(val);
-    // compare mcAnswer to correctOption[choiceType]
   }
 
   const [tfAnswer, setTfAnswer] = useState(null);
   function handleTfClick(val) {
     setTfAnswer(val);
-    //compare tfAnswer to quizQuestion.tf);
   }
 
   const handleButtonClick = () => {
     testFunc();
-    console.log(choiceType);
-    console.log(correctOption);
-    console.log(fibAnswer);
-    if (display === "fib") { 
-      if (fibAnswer === correctOption[choiceType]) {
-        const newScore = Math.floor((100 / (30 - secondsLeft)) * level); 
-        setUserScore(prevScore => prevScore + newScore);
 
-        const updateUserScore = {
-          new_score: userScore + Math.floor((100 / (30 - secondsLeft)) * level), 
-          game_id: gameId, 
-          user_id: id,
-        };
+    if (
+      fibAnswer === correctOption[choiceType] ||
+      tfAnswer === quizQuestion["tf"] ||
+      mcAnswer === correctOption[choiceType]
+    ) {
+      const newScore = Math.floor((100 / (30 - secondsLeft)) * level);
+      setUserScore((prevScore) => prevScore + newScore);
 
-        fetch("http://127.0.0.1:4000/update_score", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updateUserScore),
-        })
+      const updateUserScore = {
+        new_score: userScore + Math.floor((100 / (30 - secondsLeft)) * level),
+        game_id: gameId,
+        user_id: id,
+      };
+
+      fetch("http://127.0.0.1:4000/update_score", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updateUserScore),
+      })
         .then((response) => response.json())
         .then((score) => {
           console.log(score);
@@ -171,20 +174,24 @@ const QuizQuestionPage = () => {
             setSecondsLeft(30);
             setFibAnswer("");
             fetch(`http://127.0.0.1:4000/game_top_score?gameId=${gameId}`)
-            .then((response) => response.json())
-            .then((topUserScore) => {
-              setTopScore(topUserScore.top_score);
-              console.log(topUserScore);
-            })
-            .catch((error) => console.error("Error fetching getting top score:", error));
+              .then((response) => response.json())
+              .then((topUserScore) => {
+                setTopScore(topUserScore.top_score);
+                console.log(topUserScore);
+                setFibAnswer("");
+                setTfAnswer(null);
+                setMcAnswer("");
+              })
+              .catch((error) =>
+                console.error("Error fetching getting top score:", error)
+              );
           } else {
             console.log("Failed to Update User Score!");
           }
         })
         .catch((error) => console.log(error));
-      }
-    }     
-  }
+    }
+  };
 
   return (
     <html lang="en">
@@ -215,7 +222,7 @@ const QuizQuestionPage = () => {
                   alt="Country Flag"
                 />
               </div>
-            )}   
+            )}
           </div>
           <div className="column">
             {" "}
@@ -245,13 +252,23 @@ const QuizQuestionPage = () => {
                     >
                       {choice[choiceType]}
                     </button>
-                  ))} 
+                  ))}
                 </div>
               )}
               {display == "tf" && ( // 3 = TF
                 <div className="new-circular-containers">
-                  <button onClick={() => handleTfClick(true)} className="round-button">True</button>
-                  <button onClick={() => handleTfClick(false)} className="round-button-two">False</button>
+                  <button
+                    onClick={() => handleTfClick(true)}
+                    className="round-button"
+                  >
+                    True
+                  </button>
+                  <button
+                    onClick={() => handleTfClick(false)}
+                    className="round-button-two"
+                  >
+                    False
+                  </button>
                 </div>
               )}
             </div>
@@ -261,7 +278,10 @@ const QuizQuestionPage = () => {
           {" "}
           {/*row contains timer and arbitrary submit button*/}
           <div className="column column-1">
-            <h3>Time Remaining: {secondsLeft > 0 ? secondsLeft : "Time's up!"} seconds</h3> 
+            <h3>
+              Time Remaining: {secondsLeft > 0 ? secondsLeft : "Time's up!"}{" "}
+              seconds
+            </h3>
           </div>
           <div className="column column-1">
             <button onClick={handleButtonClick} className="submit-answer">
