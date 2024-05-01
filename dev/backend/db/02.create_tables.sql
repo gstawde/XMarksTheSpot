@@ -20,12 +20,14 @@ CREATE TABLE Users(
 );
 
 CREATE TABLE Gameplays(
-	game_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT UNIQUE,
+	game_id INT NOT NULL,
   game_date DATETIME NOT NULL,
   game_finished TINYINT,
   user_id INT NOT NULL,
+  host BOOLEAN NOT NULL,
 	game_topic VARCHAR(255),
   user_score INT NOT NULL,
+  PRIMARY KEY (game_id, user_id),
 	FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 

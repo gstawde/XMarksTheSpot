@@ -3,6 +3,36 @@ from flask import jsonify, request
 from app import app, config
 import mysql.connector
 
+def valid_game(game_id, user_id):
+  connection = mysql.connector.connect(**config)
+  cursor = connection.cursor(dictionary=True)
+
+  cursor.execute("SELECT * FROM Gameplays WHERE game_id = %s", (game_id,))
+  game = cursor.fetchall()
+
+  if not game: 
+    cursor.close()
+    connection.close()
+
+    return {'success': False, 'message': f'Game with Game ID {game_id} does not exist.'}
+
+  if game[0]['game_finished'] == 1:
+    cursor.close()
+    connection.close()
+
+    return {'success': False, 'message': f'Game with Game ID {game_id} has finished.'}
+  
+  cursor.execute("SELECT * FROM Gameplays WHERE game_id = %s AND user_id = %s", (game_id, user_id))
+  gameplay = cursor.fetchall()
+  
+  cursor.close()
+  connection.close()
+
+  if gameplay:
+    return {'success': False, 'message': f'User is already in game.'}
+  else:
+    return {'success': True, 'message': f'User can play game with Game ID {game_id}.', 'result': game[0]}
+
 @app.route('/gameplays', methods=['GET'])
 def get_gameplays():
     try:
@@ -40,14 +70,15 @@ def start_game():
     game_id = data.get('game_id')
     game_date = dt.now().strftime('%Y-%m-%d %H:%M:%S')  # Convert datetime to string
     user_id = data.get('user_id')
+    host = data.get('host')
     game_topic = data.get('game_topic')
 
-    cursor.execute("INSERT INTO Gameplays (GAME_ID, GAME_DATE, GAME_FINISHED, USER_ID, GAME_TOPIC, USER_SCORE) VALUES (%s, %s, %s, %s, %s, %s)", (game_id, game_date, 0, user_id, game_topic, 0))
+    cursor.execute("INSERT INTO Gameplays (game_id, game_date, game_finished, user_id, host, game_topic, user_score) VALUES (%s, %s, %s, %s, %s, %s, %s)", (game_id, game_date, 0, user_id, host, game_topic, 0))
     connection.commit()
     
     cursor.close()
     connection.close()
-    return jsonify({'success': True, 'message': 'New game created added successfully'})
+    return jsonify({'success': True, 'message': 'New game created added successfully.'})
   except Exception as e:
     return jsonify({'error': str(e)})
   
@@ -102,3 +133,27 @@ def get_top_score():
     
   except Exception as e:
     return jsonify({'error': str(e)})
+
+@app.route('/game/join/<int:game_id>/<int:user_id>', methods=['POST'])
+def join_game(game_id, user_id):
+  try:
+    game = valid_game(game_id, user_id)
+
+    if(game['success']):
+      connection = mysql.connector.connect(**config)
+      cursor = connection.cursor(dictionary=True)
+
+      game_date = dt.now().strftime('%Y-%m-%d %H:%M:%S')  # Convert datetime to string
+      game_topic = game['result']['game_topic']
+
+      cursor.execute("INSERT INTO Gameplays (game_id, game_date, game_finished, user_id, host, game_topic, user_score) VALUES (%s, %s, %s, %s, %s, %s, %s)", (game_id, game_date, 0, user_id, 0, game_topic, 0))
+      connection.commit()
+    
+      cursor.close()
+      connection.close()
+
+      return jsonify({'success': True, 'message': f'User with User ID {user_id} added to Game {game_id}.'})
+    else:
+      return jsonify({'success': False, 'message': game['message']})
+  except Exception as e:
+    return jsonify({'success': False, 'message': f'Error: {str(e)}'})
