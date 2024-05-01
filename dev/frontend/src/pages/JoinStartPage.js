@@ -7,11 +7,14 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from "js-cookie";
 
 const JoinStartPage = () => {
-
   const navigate = useNavigate();
 
   const isAuthenticated = !!Cookies.get("auth");
   const [userId, setUserId] = useState(0);
+
+  const [joinCode, setJoinCode] = useState(0);
+  const [joinSuccess, setJoinSuccess] = useState(null);
+  const [joinErrorMsg, setJoinErrorMsg] = useState("");
 
   useEffect(() => {
     if (Cookies.get("auth")) {
@@ -34,12 +37,53 @@ const JoinStartPage = () => {
     return null;
   }
 
+  const joinGame = () => {
+    fetch(`http://127.0.0.1:4000/game/join/${joinCode}/${userId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" }
+    })
+    .then((response) => response.json())
+    .then((joinGame) => {
+      //console.log(userId, joinCode);
+      console.log(joinGame);
+      if(joinGame.success) {
+        setJoinSuccess(true);
+        navigate(`/start/${joinCode}`);
+      } else {
+        setJoinSuccess(false);
+        setJoinErrorMsg(joinGame.message);
+      }
+    });
+  }
+
   const goToStartGame = (event) => {
     const createGameCode = Math.floor(Math.random() * 900000) + 100000;
     const gameCode = createGameCode.toString().padStart(6, "0");
+
+    const newGame = {
+      game_id: gameCode,
+      user_id: userId,
+      host: 1,
+      game_topic: "General",
+    };
+
+    fetch("http://127.0.0.1:4000/game/start", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newGame),
+    })
+    .then((response) => response.json())
+    .then((game) => {
+      console.log(game);
+      if (game.success) {
+        navigate(`/start/${gameCode}`);
+      } else {
+        console.log("Game Creation Failed!");
+      }
+    })
+    .catch((error) => console.log(error));
     
     event.preventDefault();
-    navigate(`/start/${gameCode}`);
   }
 
   return (
@@ -62,8 +106,13 @@ const JoinStartPage = () => {
             <img src={TreasureCoin} width="400" height="400"/>
             <div className="row">
               <p>Enter Unique Game ID Below:</p>
-              <input type="text"/>
-              <button className="join-button">Join</button>
+              <input onChange={(e) => setJoinCode(e.target.value)} type="text"/>
+              <button onClick={joinGame} className="join-button">Join</button>
+              {!joinSuccess && joinSuccess !== null &&
+                <div className="p-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+                  <span className="font-medium">Attempt to join unsuccessful!</span> {joinErrorMsg}
+                </div>
+              }
             </div>
           </div>
           <div className="column">
