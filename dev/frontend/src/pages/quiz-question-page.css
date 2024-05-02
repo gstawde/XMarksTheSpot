@@ -59,6 +59,10 @@ h3 {
     text-align: center;
 }
 
+.round-button:active {
+    background-color: #D7BC95;
+}
+
 .round-button-two {
     width: 190px;
     height: 190px;
@@ -66,6 +70,10 @@ h3 {
     background-color: rgba(255,182,0,0.75);
     border-radius: 50%;
     text-align: center;
+}
+
+.round-button-two:active {
+    background-color: #D7BC95;
 }
 
 .submit-answer {
