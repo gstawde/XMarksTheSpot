@@ -140,7 +140,7 @@ const StartGame = () => {
               <p className="text-[#FFB600]">
                 Wait for other players to join, or start now!
               </p>
-              <button onClick={goToQuiz} className="start-button">
+              <button onClick={goToQuiz} disabled={!isHost} className="start-button">
                 START GAME
               </button> 
             </div>
