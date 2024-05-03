@@ -10,6 +10,10 @@ const StartGame = () => {
 
   const isAuthenticated = !!Cookies.get("auth");
   const [userId, setUserId] = useState(0);
+  
+  const [users, setUsers] = useState([]);
+  const [usersLength, setUsersLength] = useState(0);
+  const [usersChanged, setUsersChanged] = useState(true);
 
   useEffect(() => {
     if (Cookies.get("auth")) {
@@ -17,8 +21,46 @@ const StartGame = () => {
       
       const idFromCookie = JSON.parse(authCookie).user_id;
       setUserId(idFromCookie);
+
+      function setPlayers() {
+        fetch(`http://127.0.0.1:4000/game/get/${gameId}`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" }
+        })
+        .then((response) => response.json())
+        .then((game) => {
+            if(game.success) {
+              setUsers(game.result.users);
+              setUsersLength(game.result.users.length);
+            }
+        });
+      }
+
+      if(usersChanged == true) {
+        setUsersChanged(false);
+        setPlayers();
+      }
     }
-  }, [])
+  }, [gameId, usersChanged]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetch(`http://127.0.0.1:4000/game/get/${gameId}`)
+        .then((response) => response.json())
+        .then((game) => {
+          if (game.success) {
+            const fetchedUsers = game.result.users;
+            
+            if (fetchedUsers.length !== usersLength) {
+              setUsersChanged(true);
+            }
+          }
+        })
+    }, 5000); 
+  
+    return () => clearInterval(interval); 
+  }, [gameId, usersLength]); 
+  
 
   const handleLogout = () => {
     Cookies.remove("auth");
@@ -81,10 +123,20 @@ const StartGame = () => {
               </p>
               <button onClick={goToQuiz} className="start-button">
                 START GAME
-              </button>
+              </button> 
             </div>
           </div>
         </div>
+
+        
+          <div className="relative w-100 h-100">
+            {users.map((user) => (
+              <div key={user.id} className="absolute text-2xl" style={{ top: `${Math.random() * 100}%`, left: `${Math.random() * 100}%` }}>{user.username}</div>
+            ))}
+          </div>
+
+
+        
       </body>
     </html>
   );

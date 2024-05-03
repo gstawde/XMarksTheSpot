@@ -33,6 +33,26 @@ def valid_game(game_id, user_id):
   else:
     return {'success': True, 'message': f'User can play game with Game ID {game_id}.', 'result': game[0]}
 
+def get_game_users(game_id):
+  connection = mysql.connector.connect(**config)
+  cursor = connection.cursor(dictionary=True)
+
+  cursor.execute("SELECT * FROM Gameplays WHERE game_id = %s", (game_id,))
+  games = cursor.fetchall()
+
+  users = []
+
+  for game in games: 
+    user_id = game['user_id']
+    
+    cursor.execute("SELECT * FROM Users WHERE user_id = %s", (user_id,))
+    user = cursor.fetchone()
+
+    users.append(user)
+
+  return users
+
+
 @app.route('/gameplays', methods=['GET'])
 def get_gameplays():
     try:
@@ -133,6 +153,42 @@ def get_top_score():
     
   except Exception as e:
     return jsonify({'error': str(e)})
+
+@app.route('/game/get/<int:game_id>', methods=['GET'])
+def get_game(game_id):
+  try:
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM Gameplays WHERE game_id = %s", (game_id,))
+    gameplays = cursor.fetchall()
+
+    users = get_game_users(game_id)
+    
+    cursor.close()
+    connection.close()
+
+    result = {'gameplay': gameplays, 'users': users}
+
+    return jsonify({'success': True, 'message': f'Gameplays for Game with Game ID {game_id} fetched successfully', 'result': result})
+  except Exception as e:
+    return jsonify({'success': False, 'message': f'Error: {str(e)}'})
+
+@app.route('/game/get/<int:game_id>/<int:user_id>', methods=['GET'])
+def get_gameplay(game_id, user_id):
+  try:
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM Gameplays WHERE game_id = %s AND user_id = %s", (game_id, user_id))
+    gameplay = cursor.fetchone()
+    
+    cursor.close()
+    connection.close()
+
+    return jsonify({'success': True, 'message': f'Gameplays for Game with Game ID {game_id} and User ID {user_id} fetched successfully', 'result': gameplay})
+  except Exception as e:
+    return jsonify({'success': False, 'message': f'Error: {str(e)}'})
 
 @app.route('/game/join/<int:game_id>/<int:user_id>', methods=['POST'])
 def join_game(game_id, user_id):
