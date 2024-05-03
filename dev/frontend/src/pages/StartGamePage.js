@@ -15,6 +15,8 @@ const StartGame = () => {
   const [usersLength, setUsersLength] = useState(0);
   const [usersChanged, setUsersChanged] = useState(true);
 
+  const [isHost, setIsHost] = useState(false);
+
   useEffect(() => {
     if (Cookies.get("auth")) {
       const authCookie = Cookies.get("auth");
@@ -29,10 +31,28 @@ const StartGame = () => {
         })
         .then((response) => response.json())
         .then((game) => {
-            if(game.success) {
-              setUsers(game.result.users);
-              setUsersLength(game.result.users.length);
+          if(game.success) {
+            setUsers(game.result.users);
+            setUsersLength(game.result.users.length);
+          }
+
+          // Check if user is a host
+          fetch(`http://127.0.0.1:4000/game/get/${gameId}/${idFromCookie}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }         
+          })
+          .then((response) => response.json())
+          .then((gameplay) => {
+            if(gameplay.success) {
+              const host = gameplay.result.host;
+              console.log(host);
+              if(host == 1) {
+                setIsHost(true);
+              } else {
+                setIsHost(false);
+              }
             }
+          })
         });
       }
 
@@ -61,7 +81,6 @@ const StartGame = () => {
     return () => clearInterval(interval); 
   }, [gameId, usersLength]); 
   
-
   const handleLogout = () => {
     Cookies.remove("auth");
     navigate("/");
