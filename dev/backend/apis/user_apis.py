@@ -226,21 +226,24 @@ def update_user_points():
     return jsonify({'error': str(e)})
 
 
-@app.route('/users/ranks', methods=['GET'])
+@app.route('/ranks', methods=['GET'])
 def get_ranks():
-#   user_id = request.args.get('userid')
-#   try:
-#     connection = mysql.connector.connect(**config)
-#     cursor = connection.cursor(dictionary=True)
+  user_id = request.args.get('userId')
+  try:
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
     
-#     cursor.execute("SELECT * FROM Users")
-#     users = cursor.fetchall()
-   
-#     cursor.close()
-#     connection.close()
+    cursor.execute("SELECT username, user_points FROM Users")
+    userRanks = cursor.fetchall()
+    top_three_users = userRanks[:3] if len(userRanks) >= 3 else userRanks
 
-#     return jsonify({'ranks': users, 'r': '12'})
+    cursor.execute("SELECT (SELECT COUNT(*) FROM Users WHERE user_points > (SELECT user_points FROM Users WHERE user_id = %s)) + 1 AS rank", (user_id,))
+    user_rank = cursor.fetchone()['rank']
 
-#   except Exception as e:
-#     return jsonify({'error': str(e)})
-    return jsonify({'message': 'In progress!'})
+    cursor.close()
+    connection.close()
+
+    return jsonify({"top_three" : top_three_users, "rank_number" : user_rank})
+
+  except Exception as e:
+    return jsonify({'error': str(e)})

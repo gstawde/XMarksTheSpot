@@ -17,7 +17,7 @@ const Dashboard = () => {
   const [userMilestone, setUserMilestone] = useState(0);
   const [userPoints, setUserPoints] = useState([]);
 
-  const [ranks, setRanks] = useState([]);
+  const [rank, setRank] = useState(0);
   const [topThree, setTopThree] = useState([]);
   const [showMilestones, setShowMilestones] = useState(false);
 
@@ -46,51 +46,73 @@ const Dashboard = () => {
 
       // Get user's gameplays
       fetch(`http://127.0.0.1:4000/user_gameplays?userId=${idFromCookie}`)
-      .then((response) => response.json())
-      .then((gameplays) => {
-        setGameplays(gameplays);
-        console.log(gameplays);
-      })
-      .catch((error) => console.error("Error fetching user data:", error));
+        .then((response) => response.json())
+        .then((gameplays) => {
+          setGameplays(gameplays);
+          console.log(gameplays);
+        })
+        .catch((error) => console.error("Error fetching user data:", error));
 
-      // Get user's reached milestone
-      fetch(`http://127.0.0.1:4000/milestone_reached?userId=${idFromCookie}`)
-      .then((response) => response.json())
-      .then((milestone_reached) => {
-        setUserMilestone(milestone_reached);
+      // update users milestone based on total points
+      const user = {
+        user_id: JSON.parse(authCookie).user_id,
+      };
+      fetch("http://127.0.0.1:4000/update_user_milestone", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
       })
-      .catch((error) => console.error("Error fetching user data:", error));
+        .then((response) => response.json())
+        .then((newMilestone) => {
+          console.log(newMilestone);
+          if (newMilestone.success) {
+            console.log(newMilestone);
+            console.log("updatinf here");
+          } else {
+            console.log("hereeee");
+          }
+        })
+        .catch((error) => console.log(error));
+
+      // Get user milestone
+      fetch(`http://127.0.0.1:4000/milestone_reached?userId=${idFromCookie}`)
+        .then((response) => response.json())
+        .then((milestone_reached) => {
+          setUserMilestone(milestone_reached);
+        })
+        .catch((error) => console.error("Error fetching user data:", error));
 
       // Get the user's points
       fetch(`http://127.0.0.1:4000/user_points?userId=${idFromCookie}`)
-      .then((response) => response.json())
-      .then((user_points) => {
-        console.log(user_points);
-        setUserPoints(user_points);
-      })
-      .catch((error) => console.error("Error fetching user data:", error));
+        .then((response) => response.json())
+        .then((user_points) => {
+          console.log(user_points);
+          setUserPoints(user_points);
+        })
+        .catch((error) => console.error("Error fetching user data:", error));
 
       // Get milestones
       fetch(`http://127.0.0.1:4000/milestones`)
-      .then((response) => response.json())
-      .then((milestones) => {
-        setMilestones(milestones);
-        console.log(milestones);
-      })
-      .catch((error) => console.error("Error fetching user data:", error));
+        .then((response) => response.json())
+        .then((milestones) => {
+          setMilestones(milestones);
+          console.log(milestones);
+        })
+        .catch((error) => console.error("Error fetching user data:", error));
+
+      fetch(`http://127.0.0.1:4000/ranks?userId=${idFromCookie}`)
+        .then((response) => {
+          console.log(response); // Log the response here
+          return response.json();
+        })
+        .then((userRanks) => {
+          console.log(userRanks);
+          setTopThree(userRanks.top_three);
+          setRank(userRanks.rank_number);
+        })
+        .catch((error) => console.log(error));
     }
   }, []);
-
-  // useEffect(() => {
-  //     fetch(`http://127.0.0.1:4000/ranks?userId=${1}`)
-  //         .then(response => response.json())
-  //         .then((data) => {
-  //             console.log(data);
-  //             console.log(data.r);
-  //             setRanks(data);
-  //         })
-  //         .catch((error) => console.log(error));
-  // }, []);
 
   if (!isAuthenticated) {
     setTimeout(() => {
@@ -128,7 +150,9 @@ const Dashboard = () => {
           <div className="column" style={{ flexGrow: "4" }}>
             <div className="row">
               <h1 style={{ color: "#FFB600" }}>Ahoy, {username}!</h1>
-              <p style={{ color: "#D7BC95" }}>{userPoints["USER_POINTS"]} points</p>
+              <p style={{ color: "#D7BC95" }}>
+                {userPoints["USER_POINTS"]} points
+              </p>
             </div>
             <div>
               <div className="row">
@@ -169,12 +193,11 @@ const Dashboard = () => {
           <div className="column leaderboard">
             <h1 className="ranking-title">User Rankings</h1>
             <br />
-            <p className="top-three">User 1</p>
-            <p className="top-three">User 2</p>
-            <p className="top-three">User 3</p>
-
+            {topThree.map((user, index) => (
+              <p className="top-three">{index + 1}. {user.username}</p>
+            ))}
             <br />
-            <p className="user-rank">User Rank</p>
+            <p className="user-rank">Ranking: {rank}</p>
           </div>
         </div>
         <br />

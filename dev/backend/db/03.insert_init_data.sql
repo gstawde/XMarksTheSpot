@@ -6,20 +6,20 @@ INSERT INTO Milestones(milestone_id, milestone_name, milestone_icon, milestone_p
 
 -- Insert milestones
 INSERT INTO Milestones(milestone_id, milestone_name, milestone_icon, milestone_points) VALUES
-	(1, "France", "milestones/france.png", 15000),
-	(2, "India", "milestones/india.png", 20000),
-	(3, "South Africa", "milestones/south-africa.png", 25000),
-	(4, "Japan", "milestones/japan.png", 30000),
-	(5, "USA", "milestones/usa.png", 35000),
-	(6, "Peru", "milestones/peru.png", 40000),
-	(8, "Sweden", "milestones/sweden.png", 45000),
-	(9, "Qatar", "milestones/qatar.png", 50000),
-	(10, "Sweden", "milestones/sweden.png", 55000),
-	(11, "Mexico", "milestones/mexico.png", 60000),
-	(12, "Panama", "milestones/panama.png", 650000),
-	(13, "Sri Lanka", "milestones/sri-lanka.png", 70000),
-	(14, "Pakistan", "milestones/pakistan.png", 75000),
-	(15, "Spain", "milestones/spain.png", 80000);
+	(1, "France", "milestones/france.png", 100),
+	(2, "India", "milestones/india.png", 5000),
+	(3, "South Africa", "milestones/south-africa.png", 10000),
+	(4, "Japan", "milestones/japan.png", 15000),
+	(5, "USA", "milestones/usa.png", 20000),
+	(6, "Peru", "milestones/peru.png", 25000),
+	(8, "Sweden", "milestones/sweden.png", 30000),
+	(9, "Qatar", "milestones/qatar.png", 35000),
+	(10, "Sweden", "milestones/sweden.png", 40000),
+	(11, "Mexico", "milestones/mexico.png", 45000),
+	(12, "Panama", "milestones/panama.png", 50000),
+	(13, "Sri Lanka", "milestones/sri-lanka.png", 55000),
+	(14, "Pakistan", "milestones/pakistan.png", 60000),
+	(15, "Spain", "milestones/spain.png", 65000);
 
 -- Insert initial data for user table
 INSERT INTO Users(first_name, last_name, email, username, password_hash, user_points, milestone_reached) VALUES
