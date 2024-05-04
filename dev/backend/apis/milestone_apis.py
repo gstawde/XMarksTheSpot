@@ -35,4 +35,37 @@ def get_milestone_reached():
 
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
+
+@app.route('/update_user_milestone', methods=['POST'])
+def update_user_milestone():
+    try:
+        connection = mysql.connector.connect(**config)
+        cursor = connection.cursor(dictionary=True)
+        
+        data = request.get_json()
+        user_id = data.get('user_id')
+
+        cursor.execute("SELECT USER_POINTS, MILESTONE_REACHED FROM Users WHERE USER_ID = %s", (user_id,))
+        result = cursor.fetchone()
+
+        if result:
+            milestone_id = (result["MILESTONE_REACHED"] + 1)
+            cursor.execute("SELECT * FROM Milestones WHERE MILESTONE_ID = %s", (milestone_id,))
+            milestone = cursor.fetchone()
+
+            if milestone and milestone["milestone_points"] <= result["USER_POINTS"]:
+                cursor.execute("UPDATE Users SET milestone_reached = %s WHERE USER_ID = %s", (milestone_id, user_id))
+                connection.commit()
+                cursor.close()
+                connection.close()
+                return jsonify({'success': True, 'message': 'Milestone changed', 'new_milestone': milestone_id})
+            else: 
+                cursor.close()
+                connection.close()
+                return jsonify({'success': True, 'message': 'Milestone stayed the same'})
+        else:
+            return jsonify({'success': False, 'error': 'User not found'})   
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)})
   
