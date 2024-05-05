@@ -14,6 +14,7 @@ const QuizQuestionPage = () => {
 
   const isAuthenticated = !!Cookies.get("auth");
   const [id, setId] = useState();
+  const [validGame, setValidGame] = useState(true);
   
   const [secondsLeft, setSecondsLeft] = useState(30);
 
@@ -42,33 +43,48 @@ const QuizQuestionPage = () => {
       const idFromCookie = JSON.parse(authCookie).user_id;
       setId(idFromCookie);
 
-      if(questionId < 16) {
-        fetch(`http://127.0.0.1:4000/quiz/question/${gameId}/${(questionId - 1)}`, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        })
-        .then((response) => response.json())
-        .then((quizQ) => {
-          if(quizQ.success) {
-            const q = quizQ.result[0];
+      fetch(`http://127.0.0.1:4000/game/get/${gameId}/${idFromCookie}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((response) => response.json())
+      .then((game) => {
+        if(!game.result) {
+          setValidGame(false);
 
-            setQuizQuestion(q)
-            setDisplay(q.question_type);
-            setQuestion(q.question);
-            setLevel(q.question_level);
-            setCorrectOption(q.correct_option);
-            setOptions(JSON.parse(q.options));
-            if(q.tf == 1) {
-              setTf(true);
-            } else if (q.tf == 0) {
-              setTf(false);
-            } else {
-              setTf(0);
-            }
-            setFlag(q.flag);
+          setTimeout(() => {
+            navigate("/join-start");
+          }, 0);
+        } else {
+          if(questionId < 16) {
+            fetch(`http://127.0.0.1:4000/quiz/question/${gameId}/${(questionId - 1)}`, {
+              method: "GET",
+              headers: { "Content-Type": "application/json" },
+            })
+            .then((response) => response.json())
+            .then((quizQ) => {
+              if(quizQ.success) {
+                const q = quizQ.result[0];
+    
+                setQuizQuestion(q)
+                setDisplay(q.question_type);
+                setQuestion(q.question);
+                setLevel(q.question_level);
+                setCorrectOption(q.correct_option);
+                setOptions(JSON.parse(q.options));
+                if(q.tf == 1) {
+                  setTf(true);
+                } else if (q.tf == 0) {
+                  setTf(false);
+                } else {
+                  setTf(0);
+                }
+                setFlag(q.flag);
+              }
+            })
           }
-        })
-      }
+        }
+      })
     }
   }, [questionId]);
 
@@ -128,6 +144,13 @@ const QuizQuestionPage = () => {
     return null;
   }
 
+  if(!validGame) {
+    setTimeout(() => {
+      navigate("/join-start");
+    }, 0);
+    return null;
+  }
+
   function handleMcClick(val) {
     setMcAnswer(val);
   }
@@ -142,7 +165,7 @@ const QuizQuestionPage = () => {
     waitForUsersAlert();
 
     if (
-      fibAnswer == correctOption ||
+      fibAnswer.toLowerCase() == correctOption.toLowerCase() ||
       tfAnswer == tf ||
       mcAnswer == correctOption
     ) {

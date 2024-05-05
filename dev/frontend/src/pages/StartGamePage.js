@@ -10,6 +10,7 @@ const StartGame = () => {
 
   const isAuthenticated = !!Cookies.get("auth");
   const [userId, setUserId] = useState(0);
+  const [validGame, setValidGame] = useState(true);
   
   const [users, setUsers] = useState([]);
   const [usersLength, setUsersLength] = useState(0);
@@ -46,11 +47,19 @@ const StartGame = () => {
           .then((response) => response.json())
           .then((gameplay) => {
             if(gameplay.success) {
-              const host = gameplay.result.host;
-              if(host == 1) {
-                setIsHost(true);
+              if(!gameplay.result) {
+                setValidGame(false);
+      
+                setTimeout(() => {
+                  navigate("/join-start");
+                }, 0);
               } else {
-                setIsHost(false);
+                const host = gameplay.result.host;
+                if(host == 1) {
+                  setIsHost(true);
+                } else {
+                  setIsHost(false);
+                }
               }
             }
           })

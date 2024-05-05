@@ -150,7 +150,7 @@ const Dashboard = () => {
           <div className="column" style={{ flexGrow: "4" }}>
             <div className="row">
               <h1 style={{ color: "#FFB600" }}>Ahoy, {username}!</h1>
-              <p style={{ color: "#D7BC95" }}>
+              <p className="px-2" style={{ color: "#D7BC95" }}>
                 {userPoints["USER_POINTS"]} points
               </p>
             </div>
@@ -203,7 +203,7 @@ const Dashboard = () => {
         <br />
 
         <h1 style={{ paddingLeft: "100px", color: "#FFB600" }}>Game History</h1>
-        {gameplays.length == 0 && (
+        {gameplays.length === 0 && (
           <h1 style={{ color: "#FFB600", textAlign: "center" }}>
             Start Playing!
           </h1> // Temporary: we will put an image here!
