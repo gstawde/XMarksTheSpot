@@ -99,9 +99,19 @@ const QuizQuestionPage = () => {
 
   useEffect(() => {
     if (secondsLeft === 0 && questionId < 16) {
+      if(display == "tf") {
+        alert(`The correct answer is ${tf}!`);
+      } else {
+        alert(`The correct answer is ${correctOption}!`);
+       }
+
       navigate(`/quiz/${gameId}/${parseInt(questionId) + 1}`)
 
       setSecondsLeft(10);
+
+      setFibAnswer("");
+      setTfAnswer(null);
+      setMcAnswer("");
 
       setIsButtonDisabled(false);
 
