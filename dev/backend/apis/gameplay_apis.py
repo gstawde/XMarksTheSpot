@@ -104,6 +104,22 @@ def create_game():
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
+@app.route('/game/start/<int:game_id>', methods=["PUT"])
+def start_game(game_id):
+  try:
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
+
+    cursor.execute("UPDATE Gameplays SET game_in_progress = 1 WHERE game_id = %s", (game_id,))
+    connection.commit()
+
+    cursor.close()
+    connection.close()
+
+    return jsonify({'success': True, 'message': f'Game {game_id} started successfully.'})
+  except Exception as e:
+    return jsonify({'success': False, 'error': str(e)})
+
 @app.route('/update_score', methods=['POST'])
 def update_user_score():
   try:

@@ -22,6 +22,7 @@ CREATE TABLE Users(
 CREATE TABLE Gameplays(
 	game_id INT NOT NULL,
   game_date DATETIME NOT NULL,
+  game_in_progress TINYINT,
   game_finished TINYINT,
   user_id INT NOT NULL,
   host BOOLEAN NOT NULL,

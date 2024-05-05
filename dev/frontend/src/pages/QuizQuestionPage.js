@@ -81,9 +81,9 @@ const QuizQuestionPage = () => {
 
   useEffect(() => {
     if (secondsLeft === 0 && questionId < 15) {
-      //navigate(`/quiz/${gameId}/${parseInt(questionId) + 1}`)
+      navigate(`/quiz/${gameId}/${parseInt(questionId) + 1}`)
 
-      //setSecondsLeft(10);
+      setSecondsLeft(10);
 
       setIsButtonDisabled(false);
 

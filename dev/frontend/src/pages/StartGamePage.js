@@ -15,6 +15,8 @@ const StartGame = () => {
   const [usersLength, setUsersLength] = useState(0);
   const [usersChanged, setUsersChanged] = useState(true);
 
+  const [gameStart, setGameStart] = useState(null);
+
   const [isHost, setIsHost] = useState(false);
 
   useEffect(() => {
@@ -45,7 +47,6 @@ const StartGame = () => {
           .then((gameplay) => {
             if(gameplay.success) {
               const host = gameplay.result.host;
-              console.log(host);
               if(host == 1) {
                 setIsHost(true);
               } else {
@@ -56,12 +57,17 @@ const StartGame = () => {
         });
       }
 
-      if(usersChanged == true) {
+      if(usersChanged === true) {
         setUsersChanged(false);
         setPlayers();
       }
+
+      if(gameStart === true) {
+        setGameStart(false);
+        navigate(`/quiz/${gameId}/1`);
+      }
     }
-  }, [gameId, usersChanged]);
+  }, [gameId, usersChanged, gameStart]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -76,6 +82,11 @@ const StartGame = () => {
             
           if (fetchedUsers.length !== usersLength) {
             setUsersChanged(true);
+          }
+
+          const inProgress = game.result.gameplay[0].game_in_progress;
+          if(inProgress === 1) {
+            setGameStart(true);
           }
         }
       })
@@ -104,11 +115,19 @@ const StartGame = () => {
     })
     .then((response) => response.json())
     .then((quizQuestion) => {
-      console.log(quizQuestion)
     })
   }
   
-  const goToQuiz = () => {
+  const startQuiz = () => {
+    fetch(`http://127.0.0.1:4000/game/start/${gameId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+    })
+    .then((response) => response.json())
+    .then((start) => {
+      console.log(start.message);
+    })
+    
     fetch("http://127.0.0.1:4000/quiz", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -159,7 +178,7 @@ const StartGame = () => {
               <p className="text-[#FFB600]">
                 Wait for other players to join, or start now!
               </p>
-              <button onClick={goToQuiz} disabled={!isHost} className="start-button">
+              <button onClick={startQuiz} disabled={!isHost} className="start-button">
                 START GAME
               </button> 
             </div>
