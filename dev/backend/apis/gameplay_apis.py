@@ -100,6 +100,7 @@ def create_game():
     
     cursor.close()
     connection.close()
+
     return jsonify({'success': True, 'message': 'New game created added successfully.'})
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
@@ -116,7 +117,26 @@ def start_game(game_id):
     cursor.close()
     connection.close()
 
-    return jsonify({'success': True, 'message': f'Game {game_id} started successfully.'})
+    return jsonify({'success': True, 'message': f"Game {game_id} started successfully."})
+  except Exception as e:
+    return jsonify({'success': False, 'error': str(e)})
+
+@app.route('/game/finish/<int:game_id>', methods=["PUT"])
+def finish_game(game_id):
+  try:
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
+
+    cursor.execute("DELETE FROM QuizQuestions WHERE game_id = %s", (game_id,))
+    connection.commit()
+
+    cursor.execute("UPDATE Gameplays SET game_in_progress = 0, game_finished = 1 WHERE game_id = %s", (game_id,))
+    connection.commit()
+
+    cursor.close()
+    connection.close()
+    
+    return jsonify({'success': True, 'message': f'Game {game_id} finished successfully.'})
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 

@@ -95,6 +95,16 @@ const QuizQuestionPage = () => {
         user_points: userScore,
       };
 
+      fetch(`http://127.0.0.1:4000/game/finish/${gameId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" }
+      })
+      .then((response) => response.json())
+      .then((finish) => {
+        console.log(finish.message);
+      })
+      .catch((error) => console.log(error));
+
       fetch("http://127.0.0.1:4000/update_user_points", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

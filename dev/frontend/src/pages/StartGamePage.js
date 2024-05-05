@@ -188,8 +188,7 @@ const StartGame = () => {
             </div>
           </div>
         </div>
-
-        
+   
         <div className="game-users">
           {users.map((user) => (
             <div key={user.id} className="user-positioning" style={{ top: `${(Math.random() * 80) + 1}vh`, left: `${(Math.random() * 80) + 1}vw` }}>{user.username}</div>
