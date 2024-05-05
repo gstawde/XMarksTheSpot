@@ -32,7 +32,7 @@ CREATE TABLE Gameplays(
 	FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 
-CREATE TABLE Quizzes(
+CREATE TABLE QuizQuestions(
   game_id INT NOT NULL,
   question_id INT NOT NULL,
   question VARCHAR(255) NOT NULL,

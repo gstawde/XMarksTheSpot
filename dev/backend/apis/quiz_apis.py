@@ -36,7 +36,7 @@ def get_quiz_questions():
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor(dictionary=True)
         
-    cursor.execute("SELECT * FROM Quizzes")
+    cursor.execute("SELECT * FROM QuizQuestions")
     questions = cursor.fetchall()
         
     cursor.close()
@@ -52,7 +52,7 @@ def get_quiz_question(game_id, question_id):
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor(dictionary=True)
         
-    cursor.execute("SELECT * FROM Quizzes WHERE game_id = %s AND question_id = %s", (game_id, question_id))
+    cursor.execute("SELECT * FROM QuizQuestions WHERE game_id = %s AND question_id = %s", (game_id, question_id))
     question = cursor.fetchall()
         
     cursor.close()
@@ -78,13 +78,13 @@ def add_quiz_question(game_id, question_id):
     if question_type == "mc":
       options = json.dumps(data.get("options"))
 
-      cursor.execute("INSERT INTO Quizzes (game_id, question_id, question, question_level, question_type, correct_option, options, flag) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (game_id, question_id, question, question_level, question_type, correct_option, options, flag))
+      cursor.execute("INSERT INTO QuizQuestions (game_id, question_id, question, question_level, question_type, correct_option, options, flag) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (game_id, question_id, question, question_level, question_type, correct_option, options, flag))
     elif question_type == "tf":
       tf = 1 if data.get("tf") == True else 0
 
-      cursor.execute("INSERT INTO Quizzes (game_id, question_id, question, question_level, question_type, correct_option, tf, flag) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (game_id, question_id, question, question_level, question_type, correct_option, tf, flag))
+      cursor.execute("INSERT INTO QuizQuestions (game_id, question_id, question, question_level, question_type, correct_option, tf, flag) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (game_id, question_id, question, question_level, question_type, correct_option, tf, flag))
     else:
-      cursor.execute("INSERT INTO Quizzes (game_id, question_id, question, question_level, question_type, correct_option, flag) VALUES (%s, %s, %s, %s, %s, %s, %s)", (game_id, question_id, question, question_level, question_type, correct_option, flag))
+      cursor.execute("INSERT INTO QuizQuestions (game_id, question_id, question, question_level, question_type, correct_option, flag) VALUES (%s, %s, %s, %s, %s, %s, %s)", (game_id, question_id, question, question_level, question_type, correct_option, flag))
 
     connection.commit()
 
@@ -101,7 +101,7 @@ def delete_quiz(game_id):
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor(dictionary=True)
 
-    cursor.execute("DELETE FROM Quizzes WHERE game_id = %s", (game_id,))
+    cursor.execute("DELETE FROM QuizQuestions WHERE game_id = %s", (game_id,))
     connection.commit()
 
     connection.close()

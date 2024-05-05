@@ -163,6 +163,9 @@ def get_tf_question():
 
     correct_option = main_option[answer_field]
 
+    display_flag = True if question_type == "Identification" else False
+    flag = None
+
     if answer is not None:
       reformatted_question += reformat_question(question, main_option["country_name"], main_option[answer_field])
       
@@ -180,6 +183,9 @@ def get_tf_question():
 
         tf = True
 
+        if display_flag:
+          flag = correct_option
+
       # tf will be false
       elif tf_decider == 1:
         incorrect_countries = [country for country in countries if country[answer_field] != answer]
@@ -190,13 +196,10 @@ def get_tf_question():
         
         tf = False
 
-    display_flag = True if question_type == "Identification" else False
-    if display_flag:
-      flag = main_option["flag"]
-    else:
-      flag = None
+        if display_flag:
+          flag = incorrect_option["flag"]
 
-    tf_question = {"question": reformatted_question, "question_level": question_level, "question_type": "tf", "correct_option": correct_option, "options": None, "tf": tf, "display_flag": display_flag, "flag": flag}
+    tf_question = {"question": reformatted_question, "question_level": question_level, "question_type": "tf", "correct_option": correct_option, "options": incorrect_option[answer_field] if incorrect_option != "" else incorrect_option, "tf": tf, "display_flag": display_flag, "flag": flag}
 
     return tf_question
   except Exception as e:
