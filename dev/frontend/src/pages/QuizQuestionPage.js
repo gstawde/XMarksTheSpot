@@ -49,7 +49,7 @@ const QuizQuestionPage = () => {
       })
       .then((response) => response.json())
       .then((game) => {
-        if(!game.result) {
+        if(!game.result || game.result.game_in_progress == 0) {
           setValidGame(false);
 
           setTimeout(() => {

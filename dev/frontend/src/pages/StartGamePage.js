@@ -47,7 +47,7 @@ const StartGame = () => {
           .then((response) => response.json())
           .then((gameplay) => {
             if(gameplay.success) {
-              if(!gameplay.result) {
+              if(!gameplay.result || game.result.game_in_progress == 1) {
                 setValidGame(false);
       
                 setTimeout(() => {

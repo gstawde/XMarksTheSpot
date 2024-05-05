@@ -14,14 +14,21 @@ def valid_game(game_id, user_id):
     cursor.close()
     connection.close()
 
-    return {'success': False, 'message': f'Game with Game ID {game_id} does not exist.'}
+    return {'success': False, 'message': f'Game {game_id} does not exist.'}
 
   if game[0]['game_finished'] == 1:
     cursor.close()
     connection.close()
 
-    return {'success': False, 'message': f'Game with Game ID {game_id} has finished.'}
+    return {'success': False, 'message': f'Game {game_id} has finished.'}
   
+  if game[0]['game_in_progress'] == 1:
+    cursor.close()
+    connection.close()
+
+    return {'success': False, 'message': f'Game {game_id} is already in progress.'}
+  
+
   cursor.execute("SELECT * FROM Gameplays WHERE game_id = %s AND user_id = %s", (game_id, user_id))
   gameplay = cursor.fetchall()
   
