@@ -40,6 +40,9 @@ def get_countries():
     cursor.execute("SELECT * FROM Countries")
     countries = cursor.fetchall()
 
+    connection.close()
+    cursor.close()
+
     return countries
   except Exception as e:
     return jsonify({'success': False, 'message': str(e)})
@@ -62,6 +65,9 @@ def get_random_question(question_format, question_types=None):
 
     question = random.sample(questions, 1)[0]
 
+    cursor.close()
+    connection.close()
+
     return question
   except Exception as e:
     return jsonify({'success': False, 'message': str(e)})
@@ -76,10 +82,6 @@ def get_mc_question():
     answer_field = random_question["answer_field"]
     answer = random_question["answer"]
     
-    choice_type = get_choice_type(random_question)
-    
-    display_flag = return_flag(question_type)
-
     countries = get_countries()
 
     if answer is not None: 
@@ -88,13 +90,27 @@ def get_mc_question():
     else:
       main_option = random.sample(countries,1)[0]
 
+    choice_type = get_choice_type(random_question)
+    correct_option = main_option[choice_type]
+  
     incorrect_countries = [country for country in countries if country[answer_field] != main_option[answer_field]]
     if len(incorrect_countries) >= 3:
       incorrect_options = random.sample(incorrect_countries, 3)
     else: 
       incorrect_options = incorrect_countries
+    
+    incorrect_options = [incorrect_option[choice_type] for incorrect_option in incorrect_options]
 
-    mc_question = {"question": question, "question_level": question_level, "question_type": "mc", "choice_type": choice_type, "main_option": main_option, "incorrect_options": incorrect_options, "display_flag": display_flag}
+    options = incorrect_options + [correct_option]
+    random.shuffle(options)
+
+    display_flag = return_flag(question_type)
+    if display_flag:
+      flag = main_option["flag"]
+    else:
+      flag = None
+
+    mc_question = {"question": question, "question_level": question_level, "question_type": "mc", "correct_option": correct_option, "options": options, "display_flag": display_flag, "flag": flag}
     
     return mc_question
   except Exception as e:
@@ -109,16 +125,21 @@ def get_fib_question():
     question_level = random_question["question_level"]
     answer_field = random_question["answer_field"]
     answer = random_question["answer"]
-    
-    choice_type = get_choice_type(random_question)
-
-    display_flag = return_flag(question_type)
 
     countries = get_countries()
 
-    main_option = random.sample(countries,1)[0]    
-    
-    fib_question = {"question": question, "question_level": question_level, "question_type": "fib", "choice_type": choice_type, "main_option": main_option,  "display_flag": display_flag}
+    main_option = random.sample(countries,1)[0]
+        
+    choice_type = get_choice_type(random_question)
+    correct_option = main_option[choice_type]
+
+    display_flag = return_flag(question_type)
+    if display_flag:
+      flag = main_option["flag"]
+    else:
+      flag = None
+
+    fib_question = {"question": question, "question_level": question_level, "question_type": "fib", "correct_option": correct_option, "options": None, "display_flag": display_flag, "flag": flag}
 
     return fib_question
   except Exception as e:
@@ -136,19 +157,18 @@ def get_tf_question():
 
     reformatted_question = ""
 
-    display_flag = True if question_type == "Identification" else False
-
     countries = get_countries()
 
     main_option = random.sample(countries, 1)[0]
 
-    # See if it works with if answer:
+    correct_option = main_option[answer_field]
+
     if answer is not None:
       reformatted_question += reformat_question(question, main_option["country_name"], main_option[answer_field])
       
       incorrect_option = ""
 
-      tf = main_option[answer_field] == answer
+      tf = correct_option == answer
     else:
       tf_decider = random.sample([0,1], 1)[0]
       
@@ -170,7 +190,13 @@ def get_tf_question():
         
         tf = False
 
-    tf_question = {"question": reformatted_question, "question_level": question_level, "question_type": "tf", "main_option": main_option, "incorrect_options": incorrect_option, "tf": tf, "display_flag": display_flag}
+    display_flag = True if question_type == "Identification" else False
+    if display_flag:
+      flag = main_option["flag"]
+    else:
+      flag = None
+
+    tf_question = {"question": reformatted_question, "question_level": question_level, "question_type": "tf", "correct_option": correct_option, "options": None, "tf": tf, "display_flag": display_flag, "flag": flag}
 
     return tf_question
   except Exception as e:

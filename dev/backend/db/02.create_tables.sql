@@ -31,6 +31,20 @@ CREATE TABLE Gameplays(
 	FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 
+CREATE TABLE Quizzes(
+  game_id INT NOT NULL,
+  question_id INT NOT NULL,
+  question VARCHAR(255) NOT NULL,
+  question_level INT NOT NULL,
+  question_type VARCHAR(3) NOT NULL,
+  correct_option VARCHAR(255) NOT NULL,
+  options JSON,
+  tf TINYINT,
+  flag VARCHAR(255),
+  PRIMARY KEY (game_id, question_id),
+  FOREIGN KEY (game_id) REFERENCES Gameplays(game_id)
+);
+
 CREATE TABLE Questions (
   question_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   question VARCHAR(255) NOT NULL,

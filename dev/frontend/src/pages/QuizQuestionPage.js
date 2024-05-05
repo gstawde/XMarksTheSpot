@@ -7,12 +7,33 @@ import { Slide, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const QuizQuestionPage = () => {
-  const { gameId } = useParams();
+  const { gameId, questionId } = useParams();
+  
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [secondsLeft, setSecondsLeft] = useState(30);
+  const isAuthenticated = !!Cookies.get("auth");
   const [id, setId] = useState();
+  
+  const [secondsLeft, setSecondsLeft] = useState(30);
+
+  const [fibAnswer, setFibAnswer] = useState("");
+  const [mcAnswer, setMcAnswer] = useState("");
+  const [tfAnswer, setTfAnswer] = useState(null);
+  
+  const [userScore, setUserScore] = useState(0);
+  const [topScore, setTopScore] = useState(0);
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  const [quizQuestion, setQuizQuestion] = useState(null);
+  const [display, setDisplay] = useState("");
+  const [question, setQuestion] = useState("");
+  const [level, setLevel] = useState(0);
+  const [correctOption, setCorrectOption] = useState("");
+  const [options, setOptions] = useState([]);
+  const [tf, setTf] = useState(0);
+  const [flag, setFlag] = useState(null);
 
   useEffect(() => {
     if (Cookies.get("auth")) {
@@ -20,74 +41,34 @@ const QuizQuestionPage = () => {
 
       const idFromCookie = JSON.parse(authCookie).user_id;
       setId(idFromCookie);
-    }
-  }, []);
 
-  const quiz = location.state?.quiz;
+      fetch(`http://127.0.0.1:4000/quiz/question/${gameId}/${(questionId - 1)}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((response) => response.json())
+      .then((quizQ) => {
+        if(quizQ.success) {
+          const q = quizQ.result[0];
 
-  const [quizIdx, setQuizIdx] = useState(0);
-  const [quizQuestion, setQuizQuestion] = useState(quiz[0]);
-
-  const [display, setDisplay] = useState(quizQuestion.question_type);
-  const [question, setQuestion] = useState(quizQuestion.question);
-  const [level, setLevel] = useState(quizQuestion.level);
-  const [choiceType, setChoiceType] = useState(quizQuestion.choice_type);
-  const [correctOption, setCorrectOption] = useState(quizQuestion.main_option);
-
-  function setOptionChoices(q) {
-    if (q.question_type === "mc") {
-      let arrayLen = q.incorrect_options.length + 1;
-      const optionChoices = Array(arrayLen).fill(null);
-
-      const incorrectOptions = q.incorrect_options;
-
-      incorrectOptions.forEach((option) => {
-        const nullIndices = optionChoices
-          .map((value, index) => (value === null ? index : -1))
-          .filter((index) => index !== -1);
-        const randomIndex =
-          nullIndices[Math.floor(Math.random() * nullIndices.length)];
-
-        optionChoices[randomIndex] = option;
-      });
-
-      const emptyIndex = optionChoices.findIndex((idx) => idx === null);
-      if (emptyIndex !== -1) {
-        optionChoices[emptyIndex] = q.main_option;
-      }
-
-      return optionChoices;
-    } else {
-      return null;
-    }
-  }
-  const [options, setOptions] = useState(setOptionChoices(quizQuestion));
-
-  function setFlagPath(q) {
-    if (q.question_type === "mc" || q.question_type === "fib") {
-      if (q.display_flag) {
-        return q.main_option.flag;
-      } else {
-        return null;
-      }
-    } else if (q.question_type === "tf") {
-      if (q.tf) {
-        if (q.display_flag) {
-          return q.main_option.flag;
-        } else {
-          return null;
+          setQuizQuestion(q)
+          setDisplay(q.question_type);
+          setQuestion(q.question);
+          setLevel(q.question_level);
+          setCorrectOption(q.correct_option);
+          setOptions(JSON.parse(q.options));
+          if(q.tf == 1) {
+            setTf(true);
+          } else if (q.tf == 0) {
+            setTf(false);
+          } else {
+            setTf(null);
+          }
+          setFlag(q.flag);
         }
-      } else {
-        if (q.display_flag) {
-          return q.incorrect_options.flag;
-        } else {
-          return null;
-        }
-      }
+      })
     }
-  }
-
-  const [flag, setFlag] = useState(setFlagPath(quizQuestion));
+  }, [questionId]);
 
   // Timer
   useEffect(() => {
@@ -99,19 +80,14 @@ const QuizQuestionPage = () => {
   }, []);
 
   useEffect(() => {
-    if (secondsLeft === 0 && quizIdx < 14) {
-      setQuizIdx((prevIdx) => prevIdx + 1);
+    if (secondsLeft === 0 && questionId < 15) {
+      //navigate(`/quiz/${gameId}/${parseInt(questionId) + 1}`)
 
-      const nextQuestion = quiz[quizIdx + 1];
+      //setSecondsLeft(10);
 
-      setQuizQuestion(nextQuestion);
+      setIsButtonDisabled(false);
 
-      console.log(nextQuestion);
-
-      setSecondsLeft(30);
-    } else if (quizIdx == 14) {
-      console.log("Quiz done");
-
+    } else if (questionId == 15) {
       const newUserPoints = {
         user_id: id,
         user_points: userScore,
@@ -133,18 +109,20 @@ const QuizQuestionPage = () => {
     }
   }, [secondsLeft]);
 
-  useEffect(() => {
-    setDisplay(quizQuestion.question_type);
-    setQuestion(quizQuestion.question);
-    setLevel(quizQuestion.question_level);
-    setChoiceType(quizQuestion.choice_type);
-    setCorrectOption(quizQuestion.main_option);
-    setOptions(setOptionChoices(quizQuestion));
-    setFlag(setFlagPath(quizQuestion));
-  }, [quizQuestion]);
+  if (!isAuthenticated) {
+    setTimeout(() => {
+      navigate("/login");
+    }, 0);
+    return null;
+  }
 
-  const [userScore, setUserScore] = useState(0);
-  const [topScore, setTopScore] = useState(0);
+  function handleMcClick(val) {
+    setMcAnswer(val);
+  }
+
+  function handleTfClick(val) {
+    setTfAnswer(val);
+  }
 
   // Wait for Users Alert
   const tellUserToWait = () => toast.info("There are ${secondsLeft} seconds left. Sit tight while everyone submits their answers!");
@@ -155,29 +133,17 @@ const QuizQuestionPage = () => {
     }
   };
 
-  const [fibAnswer, setFibAnswer] = useState("");
-
-  const [mcAnswer, setMcAnswer] = useState("");
-  function handleMcClick(val) {
-    setMcAnswer(val);
-  }
-
-  const [tfAnswer, setTfAnswer] = useState(null);
-  function handleTfClick(val) {
-    setTfAnswer(val);
-  }
-
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
   // Score calculation, disabling Submit button
   const handleSubmitButton = () => {
     setIsButtonDisabled(true);
     waitForUsersAlert();
 
+    console.log(tf);
+
     if (
-      fibAnswer === correctOption[choiceType] ||
-      tfAnswer === quizQuestion["tf"] ||
-      mcAnswer === correctOption[choiceType]
+      fibAnswer === correctOption ||
+      tfAnswer === tf ||
+      mcAnswer === correctOption
     ) {
       const newScore = Math.floor((100 / (30 - secondsLeft)) * level);
       setUserScore((prevScore) => prevScore + newScore);
@@ -197,7 +163,6 @@ const QuizQuestionPage = () => {
         .then((score) => {
           console.log(score);
           if (score.success) {
-            setSecondsLeft(30);
             setFibAnswer("");
             fetch(`http://127.0.0.1:4000/game_top_score?gameId=${gameId}`)
               .then((response) => response.json())
@@ -273,10 +238,10 @@ const QuizQuestionPage = () => {
                   {options.map((choice, key) => (
                     <button
                       key={key}
-                      onClick={() => handleMcClick(choice[choiceType])}
+                      onClick={() => handleMcClick(choice)}
                       className={`round-button${key % 2 != 0 ? "-two" : ""}`}
                     >
-                      {choice[choiceType]}
+                      {choice}
                     </button>
                   ))}
                 </div>

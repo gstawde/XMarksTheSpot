@@ -52,19 +52,21 @@ def get_game_users(game_id):
 
   return users
 
-
 @app.route('/gameplays', methods=['GET'])
 def get_gameplays():
-    try:
-        connection = mysql.connector.connect(**config)
-        cursor = connection.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM Gameplays")
-        gameplays = cursor.fetchall()
-        cursor.close()
-        connection.close()
-        return jsonify(gameplays)
-    except Exception as e:
-        return jsonify({'error': str(e)})
+  try:
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
+        
+    cursor.execute("SELECT * FROM Gameplays")
+    gameplays = cursor.fetchall()
+        
+    cursor.close()
+    connection.close()
+    
+    return jsonify(gameplays)
+  except Exception as e:
+    return jsonify({'error': str(e)})
 
 @app.route('/user_gameplays', methods=['GET'])
 def get_user_gameplays():
@@ -80,8 +82,8 @@ def get_user_gameplays():
     except Exception as e:
         return jsonify({'error': str(e)})
 
-@app.route('/game/start', methods=['POST'])
-def start_game():
+@app.route('/game/create', methods=['POST'])
+def create_game():
   try:
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor(dictionary=True)
@@ -93,15 +95,14 @@ def start_game():
     host = data.get('host')
     game_topic = data.get('game_topic')
 
-    cursor.execute("INSERT INTO Gameplays (game_id, game_date, game_finished, user_id, host, game_topic, user_score) VALUES (%s, %s, %s, %s, %s, %s, %s)", (game_id, game_date, 0, user_id, host, game_topic, 0))
+    cursor.execute("INSERT INTO Gameplays (game_id, game_date, game_in_progress, game_finished, user_id, host, game_topic, user_score) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (game_id, game_date, 0, 0, user_id, host, game_topic, 0))
     connection.commit()
     
     cursor.close()
     connection.close()
     return jsonify({'success': True, 'message': 'New game created added successfully.'})
   except Exception as e:
-    return jsonify({'error': str(e)})
-  
+    return jsonify({'success': False, 'error': str(e)})
 
 @app.route('/update_score', methods=['POST'])
 def update_user_score():

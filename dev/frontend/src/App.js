@@ -25,7 +25,7 @@ function App() {
         <Route path='modules' element={<Modules/>} />
         <Route path='join-start' element={<JoinStartPage/>} />
         <Route path='start/:gameId' element={<StartGamePage/>} />
-        <Route path='quiz/:gameId' element={<QuizQuestionPage/>} />
+        <Route path='quiz/:gameId/:questionId' element={<QuizQuestionPage/>} />
         <Route path='game-end' element={<GameEndPage/>} />
         <Route path='settings' element={<SettingsPage/>} />
       </Routes>

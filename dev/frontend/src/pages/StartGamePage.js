@@ -39,7 +39,7 @@ const StartGame = () => {
           // Check if user is a host
           fetch(`http://127.0.0.1:4000/game/get/${gameId}/${idFromCookie}`, {
             method: "GET",
-            headers: { "Content-Type": "application/json" }         
+            headers: { "Content-Type": "application/json" },         
           })
           .then((response) => response.json())
           .then((gameplay) => {
@@ -65,17 +65,20 @@ const StartGame = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      fetch(`http://127.0.0.1:4000/game/get/${gameId}`)
-        .then((response) => response.json())
-        .then((game) => {
-          if (game.success) {
-            const fetchedUsers = game.result.users;
+      fetch(`http://127.0.0.1:4000/game/get/${gameId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+      })
+      .then((response) => response.json())
+      .then((game) => {
+        if (game.success) {
+          const fetchedUsers = game.result.users;
             
-            if (fetchedUsers.length !== usersLength) {
-              setUsersChanged(true);
-            }
+          if (fetchedUsers.length !== usersLength) {
+            setUsersChanged(true);
           }
-        })
+        }
+      })
     }, 5000); 
   
     return () => clearInterval(interval); 
@@ -92,23 +95,39 @@ const StartGame = () => {
     }, 0);
     return null;
   }
+
+  function addQuizQuestion(question, idx) {
+    fetch(`http://127.0.0.1:4000/quiz/add/question/${gameId}/${idx}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(question)
+    })
+    .then((response) => response.json())
+    .then((quizQuestion) => {
+      console.log(quizQuestion)
+    })
+  }
   
   const goToQuiz = () => {
     fetch("http://127.0.0.1:4000/quiz", {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
     })
     .then((response) => response.json())
     .then((quiz) => {
       if (quiz.success) {
-        navigate(`/quiz/${gameId}`, { state: { quiz: quiz.result } });;
+        const quizQs = quiz.result;
+  
+        quizQs.forEach((question, idx) => {
+          addQuizQuestion(question, idx);
+        })
+  
+        navigate(`/quiz/${gameId}/1`);;
       } else {
         console.log(quiz.message);
       }
     });
-  };
+  }
 
   return (
     <html lang="en">
@@ -148,12 +167,11 @@ const StartGame = () => {
         </div>
 
         
-          <div className="game-users">
-            {users.map((user) => (
-              <div key={user.id} className="user-positioning" style={{ top: `${(Math.random() * 80) + 1}vh`, left: `${(Math.random() * 80) + 1}vw` }}>{user.username}</div>
-            ))}
-          </div>
-
+        <div className="game-users">
+          {users.map((user) => (
+            <div key={user.id} className="user-positioning" style={{ top: `${(Math.random() * 80) + 1}vh`, left: `${(Math.random() * 80) + 1}vw` }}>{user.username}</div>
+          ))}
+        </div>
       </body>
     </html>
   );
