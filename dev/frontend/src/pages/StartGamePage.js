@@ -119,33 +119,37 @@ const StartGame = () => {
   }
   
   const startQuiz = () => {
-    fetch(`http://127.0.0.1:4000/game/start/${gameId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-    })
-    .then((response) => response.json())
-    .then((start) => {
-      console.log(start.message);
-    })
+    if(!isHost){
+      alert("Only the host can start the game!")
+    } else {
+      fetch(`http://127.0.0.1:4000/game/start/${gameId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((response) => response.json())
+      .then((start) => {
+        console.log(start.message);
+      })
     
-    fetch("http://127.0.0.1:4000/quiz", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    })
-    .then((response) => response.json())
-    .then((quiz) => {
-      if (quiz.success) {
-        const quizQs = quiz.result;
+      fetch("http://127.0.0.1:4000/quiz", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((response) => response.json())
+      .then((quiz) => {
+        if (quiz.success) {
+          const quizQs = quiz.result;
   
-        quizQs.forEach((question, idx) => {
-          addQuizQuestion(question, idx);
-        })
+          quizQs.forEach((question, idx) => {
+            addQuizQuestion(question, idx);
+          })
   
-        navigate(`/quiz/${gameId}/1`);;
-      } else {
-        console.log(quiz.message);
-      }
-    });
+          navigate(`/quiz/${gameId}/1`);;
+        } else {
+          console.log(quiz.message);
+        }
+      });
+    }
   }
 
   return (
@@ -178,7 +182,7 @@ const StartGame = () => {
               <p className="text-[#FFB600]">
                 Wait for other players to join, or start now!
               </p>
-              <button onClick={startQuiz} disabled={!isHost} className="start-button">
+              <button onClick={startQuiz} className="start-button">
                 START GAME
               </button> 
             </div>
