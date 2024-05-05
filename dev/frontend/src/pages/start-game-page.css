@@ -75,12 +75,10 @@ input {
     position: relative;
     width: 100vw;
     height: 100vh;
-    background-color: green;;
 }
 
 .user-positioning {
     position: absolute;
-    color: white;
     font-size: 30px;
     line-height: 45px;
     white-space: nowrap;
