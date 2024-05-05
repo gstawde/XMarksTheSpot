@@ -42,31 +42,33 @@ const QuizQuestionPage = () => {
       const idFromCookie = JSON.parse(authCookie).user_id;
       setId(idFromCookie);
 
-      fetch(`http://127.0.0.1:4000/quiz/question/${gameId}/${(questionId - 1)}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      })
-      .then((response) => response.json())
-      .then((quizQ) => {
-        if(quizQ.success) {
-          const q = quizQ.result[0];
+      if(questionId < 16) {
+        fetch(`http://127.0.0.1:4000/quiz/question/${gameId}/${(questionId - 1)}`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        })
+        .then((response) => response.json())
+        .then((quizQ) => {
+          if(quizQ.success) {
+            const q = quizQ.result[0];
 
-          setQuizQuestion(q)
-          setDisplay(q.question_type);
-          setQuestion(q.question);
-          setLevel(q.question_level);
-          setCorrectOption(q.correct_option);
-          setOptions(JSON.parse(q.options));
-          if(q.tf == 1) {
-            setTf(true);
-          } else if (q.tf == 0) {
-            setTf(false);
-          } else {
-            setTf(null);
+            setQuizQuestion(q)
+            setDisplay(q.question_type);
+            setQuestion(q.question);
+            setLevel(q.question_level);
+            setCorrectOption(q.correct_option);
+            setOptions(JSON.parse(q.options));
+            if(q.tf == 1) {
+              setTf(true);
+            } else if (q.tf == 0) {
+              setTf(false);
+            } else {
+              setTf(0);
+            }
+            setFlag(q.flag);
           }
-          setFlag(q.flag);
-        }
-      })
+        })
+      }
     }
   }, [questionId]);
 
@@ -80,14 +82,14 @@ const QuizQuestionPage = () => {
   }, []);
 
   useEffect(() => {
-    if (secondsLeft === 0 && questionId < 15) {
+    if (secondsLeft === 0 && questionId < 16) {
       navigate(`/quiz/${gameId}/${parseInt(questionId) + 1}`)
 
       setSecondsLeft(10);
 
       setIsButtonDisabled(false);
 
-    } else if (questionId == 15) {
+    } else if (questionId == 16) {
       const newUserPoints = {
         user_id: id,
         user_points: userScore,
@@ -98,14 +100,14 @@ const QuizQuestionPage = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newUserPoints),
       })
-        .then((response) => response.json())
-        .then((points) => {
-          console.log(points);
-          if (points.success) {
-            navigate("/game-end");
-          }
-        })
-        .catch((error) => console.log(error));
+      .then((response) => response.json())
+      .then((points) => {
+        console.log(points);
+        if (points.success) {
+          navigate("/game-end");
+        }
+      })
+      .catch((error) => console.log(error));
     }
   }, [secondsLeft]);
 
@@ -124,27 +126,17 @@ const QuizQuestionPage = () => {
     setTfAnswer(val);
   }
 
-  // Wait for Users Alert
-  const tellUserToWait = () => toast.info("There are ${secondsLeft} seconds left. Sit tight while everyone submits their answers!");
-
-  const waitForUsersAlert = () => {
-    if (secondsLeft > 0) {
-      tellUserToWait();
-    }
-  };
-
   // Score calculation, disabling Submit button
   const handleSubmitButton = () => {
     setIsButtonDisabled(true);
     waitForUsersAlert();
 
-    console.log(tf);
-
     if (
-      fibAnswer === correctOption ||
-      tfAnswer === tf ||
-      mcAnswer === correctOption
+      fibAnswer == correctOption ||
+      tfAnswer == tf ||
+      mcAnswer == correctOption
     ) {
+      console.log("Correct!");
       const newScore = Math.floor((100 / (30 - secondsLeft)) * level);
       setUserScore((prevScore) => prevScore + newScore);
 
@@ -184,6 +176,15 @@ const QuizQuestionPage = () => {
     }
   };
 
+   // Wait for Users Alert
+   const tellUserToWait = () => toast.info(`There are ${secondsLeft} seconds left. Sit tight while everyone submits their answers!`);
+
+   const waitForUsersAlert = () => {
+     if (secondsLeft > 0) {
+       tellUserToWait();
+     }
+   };
+ 
   return (
     <html lang="en">
       <head>
