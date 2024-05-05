@@ -148,14 +148,12 @@ const StartGame = () => {
         </div>
 
         
-          <div className="relative w-100 h-100">
+          <div className="game-users">
             {users.map((user) => (
-              <div key={user.id} className="absolute text-2xl" style={{ top: `${Math.random() * 100}%`, left: `${Math.random() * 100}%` }}>{user.username}</div>
+              <div key={user.id} className="user-positioning" style={{ top: `${(Math.random() * 80) + 1}vh`, left: `${(Math.random() * 80) + 1}vw` }}>{user.username}</div>
             ))}
           </div>
 
-
-        
       </body>
     </html>
   );

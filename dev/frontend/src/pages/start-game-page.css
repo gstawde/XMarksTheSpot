@@ -7,7 +7,7 @@ h1 {
 
 body {
     font-family: "DynaPuff", system-ui;
-    scroll-behavior: smooth;
+    overflow: hidden;
     background-color: #7D633F;
     color: #211B11;
 }
@@ -69,4 +69,20 @@ input {
 .start-button {
     background-color: #211B11;
     color: #FFB600;
+}
+
+.game-users {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-color: green;;
+}
+
+.user-positioning {
+    position: absolute;
+    color: white;
+    font-size: 30px;
+    line-height: 45px;
+    white-space: nowrap;
+    overflow: hidden;
 }
