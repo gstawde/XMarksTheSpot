@@ -1,9 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap');
 
+html {
+    overflow-y: scroll;
+}
+
 body {
     font-family: "DynaPuff", system-ui;
     scroll-behavior: smooth;
-    overflow-y: auto;
 }
 
 .landing-view1 {
@@ -32,19 +35,17 @@ body {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 280px;
-    padding-bottom: 380px;
-    padding-left: 100px;
-    padding-right: 100px;
+    padding: 280px 100px 380px;
 }
 
 .landing-view2 {
     background-color: #7D633F;
     height: 870px;
-    padding-left: 90px;
+    width: 100%;
 }
 
 .landing-view2-header {
+    padding-left: 90px;
     font-size: 70px;
     padding-top: 230px;
     color: #D7BC95;

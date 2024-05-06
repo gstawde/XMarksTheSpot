@@ -1,6 +1,10 @@
 /*This will contain styling for the user dashboard.*/
 @import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap');
 
+html {
+    overflow-y: scroll;
+}
+
 h1 {
     font-size: 40px;
 }
