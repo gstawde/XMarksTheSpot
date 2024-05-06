@@ -24,6 +24,8 @@ const QuizQuestionPage = () => {
   
   const [userScore, setUserScore] = useState(0);
   const [topScore, setTopScore] = useState(0);
+  const [topUser, setTopUser] = useState("");
+
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
@@ -136,14 +138,14 @@ const QuizQuestionPage = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newUserPoints),
       })
-      .then((response) => response.json())
-      .then((points) => {
-        console.log(points);
-        if (points.success) {
-          navigate("/game-end");
-        }
-      })
-      .catch((error) => console.log(error));
+        .then((response) => response.json())
+        .then((points) => {
+          console.log(points);
+          if (points.success) {
+            navigate("/game-end",{state: {userPoints: userScore, topscore: topScore, topUser: topUser.USERNAME}});
+          }
+        })
+        .catch((error) => console.log(error));
     }
   }, [secondsLeft]);
 
@@ -171,7 +173,7 @@ const QuizQuestionPage = () => {
 
   // Score calculation, disabling Submit button
   const handleSubmitButton = () => {
-    setIsButtonDisabled(true);
+    //setIsButtonDisabled(true);
     waitForUsersAlert();
 
     if (
@@ -203,6 +205,8 @@ const QuizQuestionPage = () => {
               .then((response) => response.json())
               .then((topUserScore) => {
                 setTopScore(topUserScore.top_score);
+                setTopUser(topUserScore.top_user_username);
+                console.log(topUser.USERNAME);
                 console.log(topUserScore);
                 setFibAnswer("");
                 setTfAnswer(null);

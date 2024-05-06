@@ -67,10 +67,7 @@ const Dashboard = () => {
           console.log(newMilestone);
           if (newMilestone.success) {
             console.log(newMilestone);
-            console.log("updatinf here");
-          } else {
-            console.log("hereeee");
-          }
+          } 
         })
         .catch((error) => console.log(error));
 
@@ -79,6 +76,8 @@ const Dashboard = () => {
         .then((response) => response.json())
         .then((milestone_reached) => {
           setUserMilestone(milestone_reached);
+          console.log("hreeeee")
+          console.log(milestone_reached)
         })
         .catch((error) => console.error("Error fetching user data:", error));
 
@@ -162,7 +161,7 @@ const Dashboard = () => {
                       milestone.milestone_id <= 12 && (
                         <div
                           className={`m-3 flex flex-col justify-center items-center ${
-                            milestone.milestone_id <= userMilestone
+                            milestone.milestone_id <=  userMilestone.milestone_reached
                               ? ""
                               : "grayscale"
                           }`}

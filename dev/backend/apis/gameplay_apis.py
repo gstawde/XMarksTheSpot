@@ -183,11 +183,15 @@ def get_top_score():
       if score_data['USER_SCORE'] >= top_score:
         top_score = score_data['USER_SCORE']
         top_user = score_data['USER_ID']
+
+    cursor.execute("SELECT USERNAME FROM Users WHERE user_id = %s", (top_user,))
+
+    top_user_username = cursor.fetchone()
         
     cursor.close()
     connection.close()
 
-    return jsonify({'success': True, 'top_user_id': top_user, 'top_score': top_score})
+    return jsonify({'success': True, 'top_user_id': top_user, 'top_user_username': top_user_username, 'top_score': top_score})
 
         
     # if top_user is not None:
