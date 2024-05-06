@@ -88,7 +88,7 @@ const SignupPage = () => {
         password: password,
       };
 
-      fetch("https://x-marksthespot-79dd289ed059.herokuapp.com/users/add", {
+      fetch("http://127.0.0.1:4000/users/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newAccount),
