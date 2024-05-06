@@ -16,7 +16,7 @@ const QuizQuestionPage = () => {
   const [id, setId] = useState();
   const [validGame, setValidGame] = useState(true);
   
-  const [secondsLeft, setSecondsLeft] = useState(30);
+  const [secondsLeft, setSecondsLeft] = useState(20);
 
   const [fibAnswer, setFibAnswer] = useState("");
   const [mcAnswer, setMcAnswer] = useState("");
@@ -109,7 +109,7 @@ const QuizQuestionPage = () => {
 
       navigate(`/quiz/${gameId}/${parseInt(questionId) + 1}`)
 
-      setSecondsLeft(10);
+      setSecondsLeft(20);
 
       setFibAnswer("");
       setTfAnswer(null);
@@ -182,11 +182,11 @@ const QuizQuestionPage = () => {
       mcAnswer == correctOption
     ) {
       console.log("Correct!");
-      const newScore = Math.floor((100 / (30 - secondsLeft)) * level);
+      const newScore = Math.floor((100 / (20 - secondsLeft)) * level);
       setUserScore((prevScore) => prevScore + newScore);
 
       const updateUserScore = {
-        new_score: userScore + Math.floor((100 / (30 - secondsLeft)) * level),
+        new_score: userScore + Math.floor((100 / (20 - secondsLeft)) * level),
         game_id: gameId,
         user_id: id,
       };
