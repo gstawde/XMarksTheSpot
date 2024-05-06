@@ -81,7 +81,7 @@ def get_user_gameplays():
         user_id = request.args.get('userId')  
         connection = mysql.connector.connect(**config)
         cursor = connection.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM Gameplays WHERE user_id = %s", (user_id,))
+        cursor.execute("SELECT * FROM Gameplays WHERE user_id = %s AND game_finished = 1", (user_id,))
         gameplays = cursor.fetchall()
         cursor.close()
         connection.close()
