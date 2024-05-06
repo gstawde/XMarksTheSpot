@@ -72,15 +72,12 @@ input {
 }
 
 .game-users {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .user-positioning {
-    position: absolute;
-    font-size: 30px;
-    line-height: 45px;
-    white-space: nowrap;
-    overflow: hidden;
+    padding: 10px;
+    border-radius: 5px;
 }
