@@ -3,6 +3,7 @@
 body {
     font-family: "DynaPuff", system-ui;
     scroll-behavior: smooth;
+    overflow-y: auto;
 }
 
 .landing-view1 {
