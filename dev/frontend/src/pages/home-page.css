@@ -52,11 +52,13 @@ body {
 }
 
 .landing-view2-para {
+    padding-left: 90px;
     font-size: 30px;
     color: #D7BC95;
 }
 
 .landing-view2-coins {
+    margin-left: 45px;
     display: flex;
     width: 400px;
 }
