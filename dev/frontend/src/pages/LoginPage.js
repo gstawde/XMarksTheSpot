@@ -26,7 +26,7 @@ const LoginPage = () => {
       password: password
     };
 
-    fetch("http://127.0.0.1:4000/users/login", {
+    fetch("http://fahmed.pythonanywhere.com/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
