@@ -1,0 +1,39 @@
+{
+  "files": {
+    "main.css": "/static/css/main.48e69aa5.css",
+    "main.js": "/static/js/main.efac40a3.js",
+    "static/js/453.abd36b29.chunk.js": "/static/js/453.abd36b29.chunk.js",
+    "static/media/XMarksLogo.png": "/static/media/XMarksLogo.724b5d28962477f88daa.png",
+    "static/media/XMark.png": "/static/media/XMark.7073f733b8098027675b.png",
+    "static/media/TreasureCoin.png": "/static/media/TreasureCoin.7806fa584416d58f0f2d.png",
+    "static/media/XMarksNameLogo.png": "/static/media/XMarksNameLogo.6cb1ff6c3fec5bfa57f4.png",
+    "static/media/peru.png": "/static/media/peru.9419479daa57a435b721.png",
+    "static/media/ecuador.png": "/static/media/ecuador.798cd9fe531a6a96bd21.png",
+    "static/media/sri_lanka.png": "/static/media/sri_lanka.1779cb66887e0db081f7.png",
+    "static/media/mexico.png": "/static/media/mexico.c38e16aa1fde8cee7110.png",
+    "static/media/saudi_arabia.png": "/static/media/saudi_arabia.6c34b20065e709812519.png",
+    "static/media/brazil.png": "/static/media/brazil.2f12aeed6cab89d1210b.png",
+    "static/media/spain.png": "/static/media/spain.da4ecfff77890aed9ffe.png",
+    "static/media/south_korea.png": "/static/media/south_korea.4c2d7ded57535e3ca937.png",
+    "static/media/argentina.png": "/static/media/argentina.b7e181876c7b61600100.png",
+    "static/media/egypt.png": "/static/media/egypt.76a5d4c085b0eacce846.png",
+    "static/media/india.png": "/static/media/india.85a4da29cf7056e17a8d.png",
+    "static/media/philippines.png": "/static/media/philippines.89c6ad245fbf9a46e318.png",
+    "static/media/ethiopia.png": "/static/media/ethiopia.1d9f94aae3baf80e9378.png",
+    "static/media/index.cjs": "/static/media/index.671993152dc0f6e0b17a.cjs",
+    "static/media/kenya.png": "/static/media/kenya.a626c6ea99134b65c544.png",
+    "static/media/usa.png": "/static/media/usa.be41eae4385c4712d5b1.png",
+    "static/media/uganda.png": "/static/media/uganda.4cd0b8f9430e8bdefa49.png",
+    "static/media/malaysia.png": "/static/media/malaysia.0ea0f15e0afa1eb2ca1b.png",
+    "static/media/pakistan.png": "/static/media/pakistan.c1d6c4c1ae920103345c.png",
+    "static/media/algeria.png": "/static/media/algeria.510c3aa1ce0f0b5ed64b.png",
+    "index.html": "/index.html",
+    "main.48e69aa5.css.map": "/static/css/main.48e69aa5.css.map",
+    "main.efac40a3.js.map": "/static/js/main.efac40a3.js.map",
+    "453.abd36b29.chunk.js.map": "/static/js/453.abd36b29.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.48e69aa5.css",
+    "static/js/main.efac40a3.js"
+  ]
+}
