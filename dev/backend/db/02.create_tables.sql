@@ -1,4 +1,4 @@
-USE x_marks_the_spot;
+USE fahmed$default;
 
 CREATE TABLE Milestones(
 	milestone_id INT PRIMARY KEY NOT NULL UNIQUE,

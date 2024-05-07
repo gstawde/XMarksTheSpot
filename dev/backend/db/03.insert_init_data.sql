@@ -1,4 +1,4 @@
-USE x_marks_the_spot;
+USE fahmed$default;
 
 -- Insert initial data for 0 milestones
 INSERT INTO Milestones(milestone_id, milestone_name, milestone_icon, milestone_points) VALUES
@@ -28,23 +28,23 @@ INSERT INTO Users(first_name, last_name, email, username, password_hash, user_po
 	("David", "Lu", "david@gmail.com", "david01", "password", 1000, 0);
 
 -- Insert initial data for gameplays
-INSERT INTO Gameplays(game_id, game_date, game_in_progress, game_finished, user_id, host, game_topic, user_score) VALUES 
+INSERT INTO Gameplays(game_id, game_date, game_in_progress, game_finished, user_id, host, game_topic, user_score) VALUES
 	(1, '2024-02-19 00:00:00', 0, 1, 1, 1, 'Asia', 200);
-INSERT INTO Gameplays(game_id, game_date, game_in_progress, game_finished, user_id, host, game_topic, user_score) VALUES 
+INSERT INTO Gameplays(game_id, game_date, game_in_progress, game_finished, user_id, host, game_topic, user_score) VALUES
 	(1, '2024-02-21 00:00:00', 0, 1, 2, 1, 'North America', 1000);
 
 -- Country Information
 
 -- North America
 INSERT INTO Countries(country_name, flag, continent, capital, country_language, currency, equator, prime_meridian, climate, closest_ocean)
-VALUES 
+VALUES
 ('United States', 'country_flags/usa.png', 'North America', 'Washington D.C.', 'English', 'US Dollar', 'North', 'West', NULL, 'Atlantic'),
 ('Canada', 'country_flags/canada.png', 'North America', 'Ottawa', 'French', 'Canadian Dollar', 'North', 'West', 'Snow', 'Atlantic'),
 ('Mexico', 'country_flags/mexico.png', 'North America', 'Mexico City', 'Spanish', 'Mexican Peso', 'North', 'West', NULL, 'Pacific');
 
 -- South America
 INSERT INTO Countries(country_name, flag, continent, capital, country_language, currency, equator, prime_meridian, climate, closest_ocean)
-VALUES 
+VALUES
 ('Brazil', 'country_flags/brazil.png', 'South America', 'Brasília', 'Portuguese', 'Brazilian Real', 'South', 'East', 'Monsoon', 'Atlantic'),
 ('Argentina', 'country_flags/argentina.png', 'South America', 'Buenos Aires', 'Spanish', 'Argentine Peso', 'South', 'West', 'Monsoon', 'Atlantic'),
 ('Colombia', 'country_flags/colombia.png', 'South America', 'Bogotá', 'Spanish', 'Colombian Peso', 'North', 'West', 'Monsoon', 'Atlantic'),
@@ -55,7 +55,7 @@ VALUES
 
 -- Africa
 INSERT INTO Countries(country_name, flag, continent, capital, country_language, currency, equator, prime_meridian, climate, closest_ocean)
-VALUES 
+VALUES
 ('Egypt', 'country_flags/egypt.png', 'Africa', 'Cairo', 'Arabic', 'Egyptian Pound', 'North', 'East', 'Desert', NULL),
 ('South Africa', 'country_flags/south_africa.png', 'Africa', 'Pretoria', 'Afrikaans', 'South African Rand', 'South', 'East', 'Monsoon', 'Indian'),
 ('Nigeria', 'country_flags/nigeria.png', 'Africa', 'Abuja', 'English', 'Nigerian Naira', 'North', 'East', 'Monsoon', 'Atlantic'),
@@ -69,7 +69,7 @@ VALUES
 
 -- Asia
 INSERT INTO Countries(country_name, flag, continent, capital, country_language, currency, equator, prime_meridian, climate, closest_ocean)
-VALUES 
+VALUES
 ('China', 'country_flags/china.png', 'Asia', 'Beijing', 'Mandarin', 'Chinese Yuan', 'North', 'East', 'Monsoon', 'Pacific'),
 ('India', 'country_flags/india.png', 'Asia', 'New Delhi', 'Hindi', 'Indian Rupee', 'North', 'East', 'Monsoon', 'Indian'),
 ('Japan', 'country_flags/japan.png', 'Asia', 'Tokyo', 'Japanese', 'Japanese Yen', 'North', 'East', 'Monsoon', 'Pacific'),
@@ -88,7 +88,7 @@ VALUES
 
 -- Europe
 INSERT INTO Countries(country_name, flag, continent, capital, country_language, currency, equator, prime_meridian, climate, closest_ocean)
-VALUES 
+VALUES
 ('Russia', 'country_flags/russia.png', 'Europe', 'Moscow', 'Russian', 'Russian Ruble', 'North', 'East', 'Snow', 'Arctic'),
 ('France', 'country_flags/france.png', 'Europe', 'Paris', 'French', 'Euro', 'North', 'East', NULL, 'Atlantic'),
 ('United Kingdom', 'country_flags/uk.png', 'Europe', 'London', 'English', 'British Pound', 'North', 'West', NULL, 'Atlantic'),
@@ -99,7 +99,7 @@ VALUES
 ('Switzerland', 'country_flags/switzerland.png', 'Europe', 'Bern', 'German, French, Italian, Romansh', 'Swiss Franc', 'North', 'East', NULL, 'Atlantic'),
 ('Sweden', 'country_flags/sweden.png', 'Europe', 'Stockholm', 'Swedish', 'Swedish Krona', 'North', 'East', NULL, 'Atlantic');
 
--- Insert MC Questions 
+-- Insert MC Questions
 INSERT INTO Questions(question_id, question, question_format, question_type, question_level, answer_field, answer) VALUES
 (1, 'What country does this flag belong to?', 'General', 'Identification', 1, "flag", NULL),
 (2, 'What is the capital of this country?', 'General','Fact Retrieval', 1, "capital", NULL),
