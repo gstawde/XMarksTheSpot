@@ -88,7 +88,7 @@ const SignupPage = () => {
         password: password,
       };
 
-      fetch("http://127.0.0.1:4000/users/add", {
+      fetch("http://fahmed.pythonanywhere.com/api/users/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newAccount),

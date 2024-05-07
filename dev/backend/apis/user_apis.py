@@ -22,7 +22,7 @@ def delete_user_gameplays(user_id):
   except Exception as e:
     return False
 
-@app.route('/users', methods=['GET'])
+@app.route('/api/users', methods=['GET'])
 def get_users():
   try:
     connection = mysql.connector.connect(**config)
@@ -38,7 +38,7 @@ def get_users():
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
   
-@app.route('/user/<int:user_id>', methods=['GET'])
+@app.route('/api/user/<int:user_id>', methods=['GET'])
 def get_user(user_id):
   try:
     connection = mysql.connector.connect(**config)
@@ -54,7 +54,7 @@ def get_user(user_id):
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/users/login', methods=['POST'])
+@app.route('/api/users/login', methods=['POST'])
 def login():
   try: 
     connection = mysql.connector.connect(**config)
@@ -76,7 +76,7 @@ def login():
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/users/add', methods=['POST'])
+@app.route('/api/users/add', methods=['POST'])
 def add_user():
   try:
     connection = mysql.connector.connect(**config)
@@ -110,7 +110,7 @@ def add_user():
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/users/delete/<int:user_id>', methods=['DELETE'])
+@app.route('/api/users/delete/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):
   try:
     connection = mysql.connector.connect(**config)
@@ -135,7 +135,7 @@ def delete_user(user_id):
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/users/check/username', methods=['GET'])
+@app.route('/api/users/check/username', methods=['GET'])
 def check_username():
   try:
     connection = mysql.connector.connect(**config)
@@ -156,7 +156,7 @@ def check_username():
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/users/check/email', methods=['GET'])
+@app.route('/api/users/check/email', methods=['GET'])
 def check_email():
   try:
     connection = mysql.connector.connect(**config)
