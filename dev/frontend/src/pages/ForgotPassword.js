@@ -23,7 +23,7 @@ const ForgotPassword = () => {
 
     const userEmail = { email: email };
 
-    fetch("http://fahmed.pythonanywhere.com/api/password/forgot", {
+    fetch("http://xmarksthespot.pythonanywhere.com/api/password/forgot", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

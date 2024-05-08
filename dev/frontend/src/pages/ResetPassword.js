@@ -34,7 +34,7 @@ const ResetPassword = () => {
         password: password 
       };
   
-      fetch("http://fahmed.pythonanywhere.com/api/password/reset", {
+      fetch("http://xmarksthespot.pythonanywhere.com/api/password/reset", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

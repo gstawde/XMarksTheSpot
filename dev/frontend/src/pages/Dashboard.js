@@ -45,7 +45,7 @@ const Dashboard = () => {
       setId(idFromCookie);
 
       // Get user's gameplays
-      fetch(`http://fahmed.pythonanywhere.com/api/user/gameplays?userId=${idFromCookie}`)
+      fetch(`http://xmarksthespot.pythonanywhere.com/api/user/gameplays?userId=${idFromCookie}`)
         .then((response) => response.json())
         .then((gameplays) => {
           setGameplays(gameplays);
@@ -57,7 +57,7 @@ const Dashboard = () => {
       const user = {
         user_id: JSON.parse(authCookie).user_id,
       };
-      fetch("http://fahmed.pythonanywhere.com/api/milestone/update", {
+      fetch("http://xmarksthespot.pythonanywhere.com/api/milestone/update", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
@@ -72,7 +72,7 @@ const Dashboard = () => {
         .catch((error) => console.log(error));
 
       // Get user milestone
-      fetch(`http://fahmed.pythonanywhere.com/api/milestone/reached?userId=${idFromCookie}`)
+      fetch(`http://xmarksthespot.pythonanywhere.com/api/milestone/reached?userId=${idFromCookie}`)
         .then((response) => response.json())
         .then((milestone_reached) => {
           setUserMilestone(milestone_reached);
@@ -82,7 +82,7 @@ const Dashboard = () => {
         .catch((error) => console.error("Error fetching user data:", error));
 
       // Get the user's points
-      fetch(`http://fahmed.pythonanywhere.com/api/user/points?userId=${idFromCookie}`)
+      fetch(`http://xmarksthespot.pythonanywhere.com/api/user/points?userId=${idFromCookie}`)
         .then((response) => response.json())
         .then((user_points) => {
           console.log(user_points);
@@ -91,7 +91,7 @@ const Dashboard = () => {
         .catch((error) => console.error("Error fetching user data:", error));
 
       // Get milestones
-      fetch(`http://fahmed.pythonanywhere.com/api/milestones`)
+      fetch(`http://xmarksthespot.pythonanywhere.com/api/milestones`)
         .then((response) => response.json())
         .then((milestones) => {
           setMilestones(milestones);
@@ -99,7 +99,7 @@ const Dashboard = () => {
         })
         .catch((error) => console.error("Error fetching user data:", error));
 
-      fetch(`http://fahmed.pythonanywhere.com/api/ranks?userId=${idFromCookie}`)
+      fetch(`http://xmarksthespot.pythonanywhere.com/api/ranks?userId=${idFromCookie}`)
         .then((response) => {
           console.log(response); // Log the response here
           return response.json();

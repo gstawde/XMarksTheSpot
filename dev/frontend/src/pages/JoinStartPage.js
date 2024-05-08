@@ -38,7 +38,7 @@ const JoinStartPage = () => {
   }
 
   const joinGame = () => {
-    fetch(`http://fahmed.pythonanywhere.com/api/game/join/${joinCode}/${userId}`, {
+    fetch(`http://xmarksthespot.pythonanywhere.com/api/game/join/${joinCode}/${userId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" }
     })
@@ -67,7 +67,7 @@ const JoinStartPage = () => {
       game_topic: "General",
     };
 
-    fetch("http://fahmed.pythonanywhere.com/api/game/create", {
+    fetch("http://xmarksthespot.pythonanywhere.com/api/game/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newGame),

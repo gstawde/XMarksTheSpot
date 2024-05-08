@@ -26,7 +26,7 @@ const LoginPage = () => {
       password: password
     };
 
-    fetch("http://fahmed.pythonanywhere.com/api/users/login", {
+    fetch("http://xmarksthespot.pythonanywhere.com/api/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

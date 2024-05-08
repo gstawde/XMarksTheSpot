@@ -88,7 +88,7 @@ const SignupPage = () => {
         password: password,
       };
 
-      fetch("http://fahmed.pythonanywhere.com/api/users/add", {
+      fetch("http://xmarksthespot.pythonanywhere.com/api/users/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newAccount),
