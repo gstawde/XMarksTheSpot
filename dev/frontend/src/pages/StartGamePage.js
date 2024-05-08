@@ -28,7 +28,7 @@ const StartGame = () => {
       setUserId(idFromCookie);
 
       function setPlayers() {
-        fetch(`http://127.0.0.1:4000/game/get/${gameId}`, {
+        fetch(`http://fahmed.pythonanywhere.com/api/game/get/${gameId}`, {
           method: "GET",
           headers: { "Content-Type": "application/json" }
         })
@@ -40,7 +40,7 @@ const StartGame = () => {
           }
 
           // Check if user is a host
-          fetch(`http://127.0.0.1:4000/game/get/${gameId}/${idFromCookie}`, {
+          fetch(`http://fahmed.pythonanywhere.com/api/game/get/${gameId}/${idFromCookie}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },         
           })
@@ -80,7 +80,7 @@ const StartGame = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      fetch(`http://127.0.0.1:4000/game/get/${gameId}`, {
+      fetch(`http://fahmed.pythonanywhere.com/api/game/get/${gameId}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" }
       })
@@ -117,7 +117,7 @@ const StartGame = () => {
   }
 
   function addQuizQuestion(question, idx) {
-    fetch(`http://127.0.0.1:4000/quiz/add/question/${gameId}/${idx}`, {
+    fetch(`http://fahmed.pythonanywhere.com/api/quiz/add/question/${gameId}/${idx}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(question)
@@ -131,7 +131,7 @@ const StartGame = () => {
     if(!isHost){
       alert("Only the host can start the game!")
     } else {
-      fetch(`http://127.0.0.1:4000/game/start/${gameId}`, {
+      fetch(`http://fahmed.pythonanywhere.com/api/game/start/${gameId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
       })
@@ -140,7 +140,7 @@ const StartGame = () => {
         console.log(start.message);
       })
     
-      fetch("http://127.0.0.1:4000/quiz", {
+      fetch("http://fahmed.pythonanywhere.com/api/quiz", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })

@@ -38,7 +38,7 @@ const JoinStartPage = () => {
   }
 
   const joinGame = () => {
-    fetch(`http://127.0.0.1:4000/game/join/${joinCode}/${userId}`, {
+    fetch(`http://fahmed.pythonanywhere.com/api/game/join/${joinCode}/${userId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" }
     })
@@ -67,7 +67,7 @@ const JoinStartPage = () => {
       game_topic: "General",
     };
 
-    fetch("http://127.0.0.1:4000/game/create", {
+    fetch("http://fahmed.pythonanywhere.com/api/game/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newGame),

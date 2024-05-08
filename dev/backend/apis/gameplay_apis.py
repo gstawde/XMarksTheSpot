@@ -15,7 +15,7 @@ def valid_game(game_id, user_id):
     connection.close()
 
     return {'success': False, 'message': f'Game {game_id} does not exist.'}
-
+  
   if game[0]['game_finished'] == 1:
     cursor.close()
     connection.close()
@@ -59,7 +59,7 @@ def get_game_users(game_id):
 
   return users
 
-@app.route('/gameplays', methods=['GET'])
+@app.route('/api/gameplays', methods=['GET'])
 def get_gameplays():
   try:
     connection = mysql.connector.connect(**config)
@@ -75,7 +75,7 @@ def get_gameplays():
   except Exception as e:
     return jsonify({'error': str(e)})
 
-@app.route('/user_gameplays', methods=['GET'])
+@app.route('/api/user/gameplays', methods=['GET'])
 def get_user_gameplays():
     try:
         user_id = request.args.get('userId')  
@@ -89,7 +89,7 @@ def get_user_gameplays():
     except Exception as e:
         return jsonify({'error': str(e)})
 
-@app.route('/game/create', methods=['POST'])
+@app.route('/api/game/create', methods=['POST'])
 def create_game():
   try:
     connection = mysql.connector.connect(**config)
@@ -112,7 +112,7 @@ def create_game():
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/game/start/<int:game_id>', methods=["PUT"])
+@app.route('/api/game/start/<int:game_id>', methods=["PUT"])
 def start_game(game_id):
   try:
     connection = mysql.connector.connect(**config)
@@ -128,7 +128,7 @@ def start_game(game_id):
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/game/finish/<int:game_id>', methods=["PUT"])
+@app.route('/api/game/finish/<int:game_id>', methods=["PUT"])
 def finish_game(game_id):
   try:
     connection = mysql.connector.connect(**config)
@@ -147,7 +147,7 @@ def finish_game(game_id):
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/update_score', methods=['POST'])
+@app.route('/api/score/update', methods=['POST'])
 def update_user_score():
   try:
     connection = mysql.connector.connect(**config)
@@ -167,7 +167,7 @@ def update_user_score():
   except Exception as e:
       return jsonify({'error': str(e)})
   
-@app.route('/game_top_score', methods=['GET'])
+@app.route('/api/game/top_score', methods=['GET'])
 def get_top_score():
   try:
     game_id = request.args.get('gameId')  
@@ -202,7 +202,7 @@ def get_top_score():
   except Exception as e:
     return jsonify({'error': str(e)})
 
-@app.route('/game/get/<int:game_id>', methods=['GET'])
+@app.route('/api/game/get/<int:game_id>', methods=['GET'])
 def get_game(game_id):
   try:
     connection = mysql.connector.connect(**config)
@@ -222,7 +222,7 @@ def get_game(game_id):
   except Exception as e:
     return jsonify({'success': False, 'message': f'Error: {str(e)}'})
 
-@app.route('/game/get/<int:game_id>/<int:user_id>', methods=['GET'])
+@app.route('/api/game/get/<int:game_id>/<int:user_id>', methods=['GET'])
 def get_gameplay(game_id, user_id):
   try:
     connection = mysql.connector.connect(**config)
@@ -238,7 +238,7 @@ def get_gameplay(game_id, user_id):
   except Exception as e:
     return jsonify({'success': False, 'message': f'Error: {str(e)}'})
 
-@app.route('/game/join/<int:game_id>/<int:user_id>', methods=['POST'])
+@app.route('/api/game/join/<int:game_id>/<int:user_id>', methods=['POST'])
 def join_game(game_id, user_id):
   try:
     game = valid_game(game_id, user_id)

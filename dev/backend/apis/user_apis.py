@@ -177,7 +177,7 @@ def check_email():
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
   
-@app.route('/user_points', methods=['GET'])
+@app.route('/api/user/points', methods=['GET'])
 def user_points():
   try:
     user_id = request.args.get('userId')  
@@ -195,7 +195,7 @@ def user_points():
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
   
-@app.route('/update_user_points', methods=['POST'])
+@app.route('/api/user/update/points', methods=['POST'])
 def update_user_points():
   try:
     connection = mysql.connector.connect(**config)
@@ -226,7 +226,7 @@ def update_user_points():
     return jsonify({'error': str(e)})
 
 
-@app.route('/ranks', methods=['GET'])
+@app.route('/api/ranks', methods=['GET'])
 def get_ranks():
   user_id = request.args.get('userId')
   try:

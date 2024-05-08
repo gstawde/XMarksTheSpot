@@ -5,7 +5,7 @@ import mysql.connector
 import json
 import random
 
-@app.route('/quiz', methods=['GET'])
+@app.route('/api/quiz', methods=['GET'])
 def generate_quiz():
   try:
     quiz = []
@@ -30,7 +30,7 @@ def generate_quiz():
   except Exception as e:
     return jsonify({'success': False, 'message': str(e)})
 
-@app.route('/quiz/questions', methods=['GET'])
+@app.route('/api/quiz/questions', methods=['GET'])
 def get_quiz_questions():
   try:
     connection = mysql.connector.connect(**config)
@@ -46,7 +46,7 @@ def get_quiz_questions():
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/quiz/question/<int:game_id>/<int:question_id>', methods=["GET"])
+@app.route('/api/quiz/question/<int:game_id>/<int:question_id>', methods=["GET"])
 def get_quiz_question(game_id, question_id):
   try:
     connection = mysql.connector.connect(**config)
@@ -62,7 +62,7 @@ def get_quiz_question(game_id, question_id):
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/quiz/add/question/<int:game_id>/<int:question_id>', methods=['POST'])
+@app.route('/api/quiz/add/question/<int:game_id>/<int:question_id>', methods=['POST'])
 def add_quiz_question(game_id, question_id):
   try:
     connection = mysql.connector.connect(**config)
@@ -95,7 +95,7 @@ def add_quiz_question(game_id, question_id):
   except Exception as e:
     return jsonify({'success': False, 'message': str(e)})
 
-@app.route("/quiz/delete/<int:game_id>", methods=["DELETE"])
+@app.route("/api/quiz/delete/<int:game_id>", methods=["DELETE"])
 def delete_quiz(game_id):
   try:
     connection = mysql.connector.connect(**config)

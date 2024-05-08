@@ -19,7 +19,7 @@ const SettingsPage = () => {
       const idFromCookie = JSON.parse(authCookie).user_id;
       setUserId(idFromCookie);
 
-      fetch(`http://127.0.0.1:4000/user/${idFromCookie}`)
+      fetch(`http://fahmed.pythonanywhere.com/api/user/${idFromCookie}`)
       .then((response) => response.json())
       .then((userData) => {
         setUserData(userData);
@@ -41,7 +41,7 @@ const SettingsPage = () => {
   }
 
   const handleChangePw = () => {
-    fetch(`http://127.0.0.1:4000/password/reset/${userId}`, {
+    fetch(`http://fahmed.pythonanywhere.com/api/password/reset/${userId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -61,7 +61,7 @@ const SettingsPage = () => {
   const handleDelete = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete your account? All data associated with account will be deleted.");
     if(confirmDelete) {
-      fetch(`http://127.0.0.1:4000/users/delete/${userId}`, {
+      fetch(`http://fahmed.pythonanywhere.com/api/users/delete/${userId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json"

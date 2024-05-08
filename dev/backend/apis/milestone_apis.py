@@ -2,7 +2,7 @@ from flask import jsonify, request
 from app import app, config
 import mysql.connector
 
-@app.route('/milestones', methods=['GET'])
+@app.route('/api/milestones', methods=['GET'])
 def get_milestones():
   try:
     connection = mysql.connector.connect(**config)
@@ -18,7 +18,7 @@ def get_milestones():
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/milestone_reached', methods=['GET'])
+@app.route('/api/milestone/reached', methods=['GET'])
 def get_milestone_reached():
   try:
     user_id = request.args.get('userId')  
@@ -36,7 +36,7 @@ def get_milestone_reached():
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/update_user_milestone', methods=['POST'])
+@app.route('/api/milestone/update', methods=['POST'])
 def update_user_milestone():
     try:
         connection = mysql.connector.connect(**config)

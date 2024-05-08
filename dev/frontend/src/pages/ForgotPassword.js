@@ -23,7 +23,7 @@ const ForgotPassword = () => {
 
     const userEmail = { email: email };
 
-    fetch("http://127.0.0.1:4000/password/forgot", {
+    fetch("http://fahmed.pythonanywhere.com/api/password/forgot", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

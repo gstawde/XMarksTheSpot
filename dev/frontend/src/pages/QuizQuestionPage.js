@@ -45,7 +45,7 @@ const QuizQuestionPage = () => {
       const idFromCookie = JSON.parse(authCookie).user_id;
       setId(idFromCookie);
 
-      fetch(`http://127.0.0.1:4000/game/get/${gameId}/${idFromCookie}`, {
+      fetch(`http://fahmed.pythonanywhere.com/api/game/get/${gameId}/${idFromCookie}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
@@ -59,7 +59,7 @@ const QuizQuestionPage = () => {
           }, 0);
         } else {
           if(questionId < 16) {
-            fetch(`http://127.0.0.1:4000/quiz/question/${gameId}/${(questionId - 1)}`, {
+            fetch(`http://fahmed.pythonanywhere.com/api/quiz/question/${gameId}/${(questionId - 1)}`, {
               method: "GET",
               headers: { "Content-Type": "application/json" },
             })
@@ -123,7 +123,7 @@ const QuizQuestionPage = () => {
         user_points: userScore,
       };
 
-      fetch(`http://127.0.0.1:4000/game/finish/${gameId}`, {
+      fetch(`http://fahmed.pythonanywhere.com/api/game/finish/${gameId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" }
       })
@@ -133,7 +133,7 @@ const QuizQuestionPage = () => {
       })
       .catch((error) => console.log(error));
 
-      fetch("http://127.0.0.1:4000/update_user_points", {
+      fetch("http://fahmed.pythonanywhere.com/api/user/update/points", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newUserPoints),
@@ -191,7 +191,7 @@ const QuizQuestionPage = () => {
         user_id: id,
       };
 
-      fetch("http://127.0.0.1:4000/update_score", {
+      fetch("http://fahmed.pythonanywhere.com/api/score/update", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updateUserScore),
@@ -200,7 +200,7 @@ const QuizQuestionPage = () => {
         .then((score) => {
           console.log(score);
           if (score.success) {
-            fetch(`http://127.0.0.1:4000/game_top_score?gameId=${gameId}`)
+            fetch(`http://fahmed.pythonanywhere.com/api/game/top_score?gameId=${gameId}`)
               .then((response) => response.json())
               .then((topUserScore) => {
                 setTopScore(topUserScore.top_score);

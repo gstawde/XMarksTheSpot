@@ -20,7 +20,7 @@ def send_password_reset_email(email, token):
     print(f"Error sending password reset email.")
     return False
 
-@app.route('/password/forgot', methods=['POST'])
+@app.route('/api/password/forgot', methods=['POST'])
 def forgot_password():
   try:
     connection = mysql.connector.connect(**config)
@@ -47,7 +47,7 @@ def forgot_password():
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/password/reset', methods=['POST'])
+@app.route('/api/password/reset', methods=['POST'])
 def reset_password():
   try:
     connection = mysql.connector.connect(**config)
@@ -72,7 +72,7 @@ def reset_password():
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/password/reset/<int:user_id>', methods=['POST'])
+@app.route('/api/password/reset/<int:user_id>', methods=['POST'])
 def reset_password_with_id(user_id):
   try:
     connection = mysql.connector.connect(**config)
