@@ -10,7 +10,7 @@ def generate_quiz():
   try:
     quiz = []
 
-    for i in range(0, 15):
+    for i in range(0, 10):
       # 0 = mc, 1 = fib, 2 = tf
       question_type_decider = random.sample(range(0,3), 1)[0]
       

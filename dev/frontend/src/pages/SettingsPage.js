@@ -75,7 +75,7 @@ const SettingsPage = () => {
           setTimeout(() => {
             Cookies.remove("auth");
             window.location.href = "/";
-          }, 3000);
+          }, 2000);
         } else {
           setDeleteSuccess(true);
           setMessage(deleteUser.message);

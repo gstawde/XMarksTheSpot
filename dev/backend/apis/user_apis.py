@@ -12,6 +12,11 @@ def delete_user_gameplays(user_id):
     gameplays = cursor.fetchall()
 
     if gameplays:
+      for gameplay in gameplays:
+        game_id = gameplay['game_id']
+        cursor.execute("DELETE FROM QuizQuestions WHERE game_id = %s", (game_id,))
+        connection.commit()
+
       cursor.execute("DELETE FROM Gameplays WHERE user_id = %s", (user_id,))
       connection.commit()
 
@@ -20,7 +25,7 @@ def delete_user_gameplays(user_id):
 
     return True
   except Exception as e:
-    return False
+    return str(e)
 
 @app.route('/api/users', methods=['GET'])
 def get_users():
@@ -119,19 +124,22 @@ def delete_user(user_id):
     cursor.execute("SELECT * FROM Users WHERE user_id = %s", (user_id,))
     user = cursor.fetchone()
 
-    if user and delete_user_gameplays(user_id):
-      cursor.execute("DELETE FROM Users WHERE user_id = %s", (user_id,))
-      connection.commit()
+    if user:
+      if delete_user_gameplays(user_id) == True:
+        cursor.execute("DELETE FROM Users WHERE user_id = %s", (user_id,))
+        connection.commit()
 
-      cursor.close()
-      connection.close()
+        cursor.close()
+        connection.close()
 
-      return jsonify({'success': True, 'message': f'User with ID {user_id} deleted successfully.'})
+        return jsonify({'success': True, 'message': f'User with ID {user_id} deleted successfully.'})
+      else:
+        return jsonify({'success': False, 'message': f'{delete_user_gameplays(user_id,)}'}) 
     else:
       cursor.close()
       connection.close()
 
-      return jsonify({'success': False, 'message': f'User with ID {user_id} does not exist.'})
+      return jsonify({'success': False, 'message': f'User with ID {user_id} failed to be deleted.'})
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
