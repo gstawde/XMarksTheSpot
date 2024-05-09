@@ -237,9 +237,6 @@ def get_ranks():
     user_ranks = cursor.fetchall()
     top_three_users = user_ranks[:3] if len(user_ranks) >= 3 else user_ranks
 
-    # cursor.execute("SELECT (SELECT COUNT(*) FROM Users WHERE user_points > (SELECT user_points FROM Users WHERE user_id = %s)) + 1 AS `rank`", (user_id,))
-    # user_rank = cursor.fetchone()['rank']
-
     user_data = next((user for user in user_ranks if user['user_id'] == user_id), None)
     if user_data:
       user_points = user_data['user_points']
