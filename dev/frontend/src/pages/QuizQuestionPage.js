@@ -102,9 +102,9 @@ const QuizQuestionPage = () => {
   useEffect(() => {
     if (secondsLeft === 0 && questionId < 16) {
       if(display == "tf") {
-        alert(`The correct answer is ${tf}!`);
+        toast(`The correct answer is ${tf}!`);
       } else {
-        alert(`The correct answer is ${correctOption}!`);
+        toast(`The correct answer is ${correctOption}!`);
        }
 
       navigate(`/quiz/${gameId}/${parseInt(questionId) + 1}`)
@@ -328,6 +328,7 @@ const QuizQuestionPage = () => {
             <ToastContainer
                 position="top-center"
                 transition={Slide}
+                autoClose={3000}
             />
           </div>
         </div>
