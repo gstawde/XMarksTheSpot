@@ -1,4 +1,4 @@
-USE fahmed$default;
+USE xmarksthespot$default;
 
 -- Insert initial data for 0 milestones
 INSERT INTO Milestones(milestone_id, milestone_name, milestone_icon, milestone_points) VALUES

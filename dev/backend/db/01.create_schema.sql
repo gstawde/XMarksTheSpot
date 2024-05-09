@@ -2,7 +2,7 @@
 -- DROP SCHEMA IF EXISTS x_marks_the_spot;
 
 -- Create a new database schema
-CREATE SCHEMA IF NOT EXISTS fahmed$default;
+CREATE SCHEMA IF NOT EXISTS xmarksthespot$default;
 
 -- Drop exist user
 -- DROP USER IF EXISTS 'x_marks_the_spot'@'localhost';

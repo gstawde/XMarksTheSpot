@@ -11,8 +11,8 @@ SECRET_KEY = 'xmarksthespot'
 def send_password_reset_email(email, token):
   try:
     msg = Message('Password Reset Instructions', sender='xmarksthespotgame@gmail.com', recipients=[email])
-    msg.body = f"Click the following link to reset your password: http://localhost:3000/reset-password?token={token}"
-    mail.send(msg)  
+    msg.body = f"Click the following link to reset your password: http://xmarksthespot.pythonanywhere.com/reset-password?token={token}"
+    mail.send(msg)
 
     print(f"Password reset email sent successfully.")
     return True
@@ -25,7 +25,7 @@ def forgot_password():
   try:
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor(dictionary=True)
-    
+
     data = request.get_json()
     email = data.get('email')
 
@@ -37,13 +37,13 @@ def forgot_password():
 
     if user:
       token = jwt.encode({'email': email, 'exp': datetime.utcnow() + timedelta(hours=1)}, SECRET_KEY, algorithm='HS256')
-      
+
       send_password_reset_email(email, token)
 
       return jsonify({'success': True, 'message': 'Password reset instructions sent successfully.'})
     else:
       return jsonify({'success': False, 'message': 'User with provided email does not exist in our records.'})
-      
+
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
@@ -52,11 +52,11 @@ def reset_password():
   try:
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor(dictionary=True)
-    
+
     data = request.get_json()
     token = data.get('token')
     password = data.get('password')
-    
+
     decoded_token = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
     email =  decoded_token['email']
 
@@ -64,7 +64,7 @@ def reset_password():
 
     cursor.execute("UPDATE Users SET password_hash = %s WHERE email = %s", (password_hash, email))
     connection.commit()
-        
+
     cursor.close()
     connection.close()
 
@@ -77,7 +77,7 @@ def reset_password_with_id(user_id):
   try:
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor(dictionary=True)
-    
+
     cursor.execute("SELECT * FROM Users WHERE user_id = %s", (user_id,))
     user = cursor.fetchone()
 
@@ -86,7 +86,7 @@ def reset_password_with_id(user_id):
 
     if user:
       token = jwt.encode({'email': user["email"], 'exp': datetime.utcnow() + timedelta(hours=1)}, SECRET_KEY, algorithm='HS256')
-      
+
     return jsonify({'success': True, 'message': 'Password reset link generated successfully.', 'result': token})
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})

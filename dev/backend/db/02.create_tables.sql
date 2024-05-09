@@ -1,4 +1,4 @@
-USE fahmed$default;
+USE xmarksthespot$default;
 
 CREATE TABLE Milestones(
 	milestone_id INT PRIMARY KEY NOT NULL UNIQUE,
