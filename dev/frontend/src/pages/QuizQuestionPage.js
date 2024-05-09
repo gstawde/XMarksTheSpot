@@ -1,7 +1,7 @@
 import "./quiz-question-page.css";
 import XMarksLogo from "../assets/XMarksLogo.png";
 import { useState, useEffect } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Slide, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,7 +10,6 @@ const QuizQuestionPage = () => {
   const { gameId, questionId } = useParams();
   
   const navigate = useNavigate();
-  const location = useLocation();
 
   const isAuthenticated = !!Cookies.get("auth");
   const [id, setId] = useState();
@@ -25,7 +24,6 @@ const QuizQuestionPage = () => {
   const [userScore, setUserScore] = useState(0);
   const [topScore, setTopScore] = useState(0);
   const [topUser, setTopUser] = useState("");
-
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
@@ -58,13 +56,14 @@ const QuizQuestionPage = () => {
             navigate("/join-start");
           }, 0);
         } else {
-          if(questionId < 16) {
+          if(questionId < 11) {
             fetch(`http://xmarksthespot.pythonanywhere.com/api/quiz/question/${gameId}/${(questionId - 1)}`, {
               method: "GET",
               headers: { "Content-Type": "application/json" },
             })
             .then((response) => response.json())
             .then((quizQ) => {
+              console.log(quizQ);
               if(quizQ.success) {
                 const q = quizQ.result[0];
     
@@ -83,8 +82,24 @@ const QuizQuestionPage = () => {
                 }
                 setFlag(q.flag);
               }
-            })
+            });
+
+            setSecondsLeft(20);
+
+            setFibAnswer("");
+            setTfAnswer(null);
+            setMcAnswer("");
           }
+
+          fetch(`http://xmarksthespot.pythonanywhere.com/api/game/top_score?gameId=${gameId}`)
+          .then((response) => response.json())
+          .then((topUserScore) => {
+            setTopScore(topUserScore.top_score);
+            setTopUser(topUserScore.top_user_username);
+          })
+          .catch((error) =>
+            console.error("Error fetching getting top score:", error)
+          );
         }
       })
     }
@@ -99,25 +114,65 @@ const QuizQuestionPage = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // Actions when time runs out
   useEffect(() => {
-    if (secondsLeft === 0 && questionId < 16) {
+    if (secondsLeft === 0 && questionId < 11) {
+      if (
+        fibAnswer.toLowerCase() == correctOption.toLowerCase() ||
+        tfAnswer == tf ||
+        mcAnswer == correctOption
+      ) {
+        const newScore = Math.floor((100 / (20 - secondsLeft)) * level);
+        setUserScore((prevScore) => prevScore + newScore);
+  
+        const updateUserScore = {
+          new_score: userScore + Math.floor((100 / (20 - secondsLeft)) * level),
+          game_id: gameId,
+          user_id: id,
+        };
+  
+        fetch("http://xmarksthespot.pythonanywhere.com/api/score/update", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updateUserScore),
+        })
+        .then((response) => response.json())
+        .then((score) => {
+          if (score.success) {
+            fetch(`http://xmarksthespot.pythonanywhere.com/api/game/top_score?gameId=${gameId}`)
+            .then((response) => response.json())
+            .then((topUserScore) => {
+              setTopScore(topUserScore.top_score);
+              setTopUser(topUserScore.top_user_username);
+              console.log(topUser.USERNAME);
+              console.log(topUserScore);
+              setFibAnswer("");
+              setTfAnswer(null);
+              setMcAnswer("");
+            })
+            .catch((error) =>
+              console.error("Error fetching getting top score:", error)
+            );
+          } else {
+            console.log("Failed to Update User Score!");
+          }
+        })
+        .catch((error) => console.log(error));
+      }
+      
       if(display == "tf") {
         toast(`The correct answer is ${tf}!`);
       } else {
         toast(`The correct answer is ${correctOption}!`);
-       }
+      }
 
-      navigate(`/quiz/${gameId}/${parseInt(questionId) + 1}`)
-
-      setSecondsLeft(20);
-
-      setFibAnswer("");
-      setTfAnswer(null);
-      setMcAnswer("");
+      setTimeout(() => {
+        navigate(`/quiz/${gameId}/${parseInt(questionId) + 1}`);
+      }, 5000);
 
       setIsButtonDisabled(false);
 
-    } else if (questionId == 16) {
+    } else if (questionId == 11) {
       const newUserPoints = {
         user_id: id,
         user_points: userScore,
@@ -171,65 +226,22 @@ const QuizQuestionPage = () => {
     setTfAnswer(val);
   }
 
+  // Wait for Users Alert
+  const tellUserToWait = () => toast.info(`You have submitted "${tfAnswer? (tfAnswer? "true" : "false") : (mcAnswer ? mcAnswer : fibAnswer)}" as your answer. Sit tight while everyone submits their answers!`);
+
+  const waitForUsersAlert = () => {
+    if (secondsLeft > 0) {
+      tellUserToWait();
+    }
+  };
+
   // Score calculation, disabling Submit button
   const handleSubmitButton = () => {
     //setIsButtonDisabled(true);
     waitForUsersAlert();
 
-    if (
-      fibAnswer.toLowerCase() == correctOption.toLowerCase() ||
-      tfAnswer == tf ||
-      mcAnswer == correctOption
-    ) {
-      console.log("Correct!");
-      const newScore = Math.floor((100 / (20 - secondsLeft)) * level);
-      setUserScore((prevScore) => prevScore + newScore);
-
-      const updateUserScore = {
-        new_score: userScore + Math.floor((100 / (20 - secondsLeft)) * level),
-        game_id: gameId,
-        user_id: id,
-      };
-
-      fetch("http://xmarksthespot.pythonanywhere.com/api/score/update", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updateUserScore),
-      })
-        .then((response) => response.json())
-        .then((score) => {
-          console.log(score);
-          if (score.success) {
-            fetch(`http://xmarksthespot.pythonanywhere.com/api/game/top_score?gameId=${gameId}`)
-              .then((response) => response.json())
-              .then((topUserScore) => {
-                setTopScore(topUserScore.top_score);
-                setTopUser(topUserScore.top_user_username);
-                console.log(topUser.USERNAME);
-                console.log(topUserScore);
-                setFibAnswer("");
-                setTfAnswer(null);
-                setMcAnswer("");
-              })
-              .catch((error) =>
-                console.error("Error fetching getting top score:", error)
-              );
-          } else {
-            console.log("Failed to Update User Score!");
-          }
-        })
-        .catch((error) => console.log(error));
-    }
+    setIsButtonDisabled(true);    
   };
-
-   // Wait for Users Alert
-   const tellUserToWait = () => toast.info(`There are ${secondsLeft} seconds left. Sit tight while everyone submits their answers!`);
-
-   const waitForUsersAlert = () => {
-     if (secondsLeft > 0) {
-       tellUserToWait();
-     }
-   };
  
   return (
     <html lang="en">

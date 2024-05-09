@@ -39,7 +39,6 @@ const StartGame = () => {
             setUsersLength(game.result.users.length);
           }
 
-          // Check if user is a host
           fetch(`http://xmarksthespot.pythonanywhere.com/api/game/get/${gameId}/${idFromCookie}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },         
@@ -99,7 +98,7 @@ const StartGame = () => {
           }
         }
       })
-    }, 5000); 
+    }, 1000); 
   
     return () => clearInterval(interval); 
   }, [gameId, usersLength]); 
@@ -200,7 +199,7 @@ const StartGame = () => {
    
         <div className="game-users">
           {users.map((user) => (
-            <div key={user.id} className="user-positioning text-2xl">{user.username}</div>
+            <div key={user.id} className="user-positioning text-3xl">{user.username}</div>
           ))}
         </div>
       </body>
