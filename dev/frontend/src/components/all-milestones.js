@@ -7,7 +7,7 @@ const All_Milestones = ({ close }) => {
   const [userMilestone, setUserMilestone] = useState(0);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:4000/milestones`)
+    fetch(`http://xmarksthespot.pythonanywhere.com/api/milestones`)
       .then((response) => response.json())
       .then((milestones) => {
         setMilestones(milestones);
@@ -19,7 +19,7 @@ const All_Milestones = ({ close }) => {
   useEffect(() => {
     const authCookie = Cookies.get("auth");
     const idFromCookie = JSON.parse(authCookie).user_id;
-    fetch(`http://127.0.0.1:4000/milestone_reached?userId=${idFromCookie}`)
+    fetch(`http://xmarksthespot.pythonanywhere.com/api/milestone/reached?userId=${idFromCookie}`)
       .then((response) => response.json())
       .then((milestone_reached) => {
         setUserMilestone(milestone_reached);
