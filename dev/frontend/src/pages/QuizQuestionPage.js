@@ -326,9 +326,10 @@ const QuizQuestionPage = () => {
               Submit
             </button>
             <ToastContainer
-                position="top-center"
+                position="top-right"
                 transition={Slide}
-                autoClose={3000}
+                autoClose={3500}
+                toastClassName="custom-toast"
             />
           </div>
         </div>

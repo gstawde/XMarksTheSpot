@@ -109,3 +109,8 @@ h3 {
 .user-score {
     color: #FFB600;
 }
+
+.custom-toast {
+    font-size: 12px;
+    font-family: "DynaPuff", system-ui;
+}
