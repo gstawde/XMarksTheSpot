@@ -5,7 +5,7 @@ import mysql.connector
 import os
 
 app = Flask(__name__)
-CORS(app, origins=['http://fahmed.pythonanywhere.com'])
+CORS(app, origins=['http://xmarksthespot.pythonanywhere.com', 'http://localhost:3000'])
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
@@ -16,11 +16,11 @@ mail = Mail(app)
 
 # MySQL database connection settings
 config = {
-    'user': 'fahmed',
-    'password': 'xmarksthespot',
-    'host': 'fahmed.mysql.pythonanywhere-services.com',
+    'user': 'xmarksthespot',
+    'password': 'cs161proj',
+    'host': 'xmarksthespot.mysql.pythonanywhere-services.com',
     'port': '3306',
-    'database': 'fahmed$default'
+    'database': 'xmarksthespot$default'
 }
 
 def run_sql_script(filename):
