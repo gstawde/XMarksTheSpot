@@ -50,7 +50,6 @@ const SettingsPage = () => {
       .then((reset) => {
         if(reset.success) {
           navigate(`/reset-password?token=${reset.result}`);
-          //navigate(`/reset-password?token=${reset.result}`);
         } else {
           console.log(reset.message);
         } 
@@ -73,7 +72,6 @@ const SettingsPage = () => {
           console.log(deleteUser.message);
           setMessage("Account successfully deleted!");
 
-          
           setTimeout(() => {
             Cookies.remove("auth");
             window.location.href = "/";
