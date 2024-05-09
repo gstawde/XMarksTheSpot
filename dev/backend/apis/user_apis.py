@@ -237,7 +237,7 @@ def get_ranks():
     userRanks = cursor.fetchall()
     top_three_users = userRanks[:3] if len(userRanks) >= 3 else userRanks
 
-    cursor.execute("SELECT (SELECT COUNT(*) FROM Users WHERE user_points > (SELECT user_points FROM Users WHERE user_id = %s)) + 1 AS rank", (user_id,))
+    cursor.execute("SELECT (SELECT COUNT(*) FROM Users WHERE user_points > (SELECT user_points FROM Users WHERE user_id = %s)) + 1 AS `rank`", (user_id,))
     user_rank = cursor.fetchone()['rank']
 
     cursor.close()
