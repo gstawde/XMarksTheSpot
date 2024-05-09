@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.dce47044.css",
-    "main.js": "/static/js/main.8775f31c.js",
+    "main.css": "/static/css/main.0dcc1ae7.css",
+    "main.js": "/static/js/main.23ca5aad.js",
     "static/js/453.abd36b29.chunk.js": "/static/js/453.abd36b29.chunk.js",
     "static/media/XMarksLogo.png": "/static/media/XMarksLogo.724b5d28962477f88daa.png",
     "static/media/XMark.png": "/static/media/XMark.7073f733b8098027675b.png",
@@ -28,12 +28,12 @@
     "static/media/pakistan.png": "/static/media/pakistan.c1d6c4c1ae920103345c.png",
     "static/media/algeria.png": "/static/media/algeria.510c3aa1ce0f0b5ed64b.png",
     "index.html": "/index.html",
-    "main.dce47044.css.map": "/static/css/main.dce47044.css.map",
-    "main.8775f31c.js.map": "/static/js/main.8775f31c.js.map",
+    "main.0dcc1ae7.css.map": "/static/css/main.0dcc1ae7.css.map",
+    "main.23ca5aad.js.map": "/static/js/main.23ca5aad.js.map",
     "453.abd36b29.chunk.js.map": "/static/js/453.abd36b29.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.dce47044.css",
-    "static/js/main.8775f31c.js"
+    "static/css/main.0dcc1ae7.css",
+    "static/js/main.23ca5aad.js"
   ]
 }
