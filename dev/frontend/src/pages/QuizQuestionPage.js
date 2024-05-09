@@ -255,7 +255,7 @@ const QuizQuestionPage = () => {
             {flag && (
               <div>
                 <img
-                  className="mb-10"
+                  className="mt-10 mb-10"
                   src={require("../" + flag)}
                   alt="Country Flag"
                 />
