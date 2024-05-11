@@ -59,6 +59,46 @@ def get_user(user_id):
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
+@app.route('/api/user/update/email', methods=['POST'])
+def get_user(user_id):
+  try:
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
+
+    data = request.get_json()
+    user_id = data.get('user_id')
+    new_email = data.get('new_email')
+
+    cursor.execute("UPDATE Users SET email = %s WHERE user_id = %s", (new_email, user_id))
+    connection.commit()
+
+    cursor.close()
+    connection.close()
+
+    return jsonify({'success': True, 'message': 'Email updated successfully: ' + new_email})
+  except Exception as e:
+    return jsonify({'success': False, 'error': str(e)})
+
+@app.route('/api/user/update/username', methods=['POST'])
+def get_user(user_id):
+  try:
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
+
+    data = request.get_json()
+    user_id = data.get('user_id')
+    new_username = data.get('new_username')
+
+    cursor.execute("UPDATE Users SET username = %s WHERE user_id = %s", (new_username, user_id))
+    connection.commit()
+
+    cursor.close()
+    connection.close()
+
+    return jsonify({'success': True, 'message': 'Username updated successfully: ' + new_username})
+  except Exception as e:
+    return jsonify({'success': False, 'error': str(e)})
+
 @app.route('/api/users/login', methods=['POST'])
 def login():
   try:
@@ -233,7 +273,6 @@ def update_user_points():
   except Exception as e:
     return jsonify({'error': str(e)})
 
-
 @app.route('/api/ranks', methods=['GET'])
 def get_ranks():
   user_id = request.args.get('userId')
@@ -248,10 +287,22 @@ def get_ranks():
     cursor.execute("SELECT (SELECT COUNT(*) FROM Users WHERE user_points > (SELECT user_points FROM Users WHERE user_id = %s)) + 1 AS `rank`", (user_id,))
     user_rank = cursor.fetchone()['rank']
 
+    userRanks = cursor.fetchall()
+    top_three_users = userRanks[:3] if len(userRanks) >= 3 else userRanks
+
+    # cursor.execute("SELECT (SELECT COUNT(*) FROM Users WHERE user_points > (SELECT user_points FROM Users WHERE user_id = %s)) + 1 AS `rank`", (user_id,))
+    # user_rank = cursor.fetchone()['rank']
+
+    user_data = next((user for user in userRanks if user['user_id'] == user_id), None)
+    if user_data:
+      user_points = user_data['user_points']
+      user_rank = sum((user['user_points'], user['username']) > (user_points, user_data['username']) for user in userRanks) + 1
+    else:
+      user_rank = None
+
     cursor.close()
     connection.close()
 
     return jsonify({"top_three" : top_three_users, "rank_number" : user_rank})
-
   except Exception as e:
     return jsonify({'error': str(e)})

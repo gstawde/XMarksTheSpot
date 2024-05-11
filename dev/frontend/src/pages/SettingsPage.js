@@ -84,7 +84,6 @@ const SettingsPage = () => {
       })
       .catch((error) => console.error("Error fetching user data:", error));
     }
-
   }
 
   return (
@@ -117,6 +116,14 @@ const SettingsPage = () => {
           </div>
           <div className="column user-information">
             <p>{userData["last_name"]}</p>
+          </div>
+        </div>
+        <div className="row">
+          <div className="column information-type">
+            <p>Username</p>
+          </div>
+          <div className="column user-information">
+            <p>{userData["username"]}</p>
           </div>
         </div>
         <div className="row">
