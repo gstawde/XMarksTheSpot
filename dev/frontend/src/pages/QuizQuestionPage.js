@@ -56,7 +56,7 @@ const QuizQuestionPage = () => {
             navigate("/join-start");
           }, 0);
         } else {
-          if(questionId < 11) {
+          if(questionId < 16) {
             fetch(`http://xmarksthespot.pythonanywhere.com/api/quiz/question/${gameId}/${(questionId - 1)}`, {
               method: "GET",
               headers: { "Content-Type": "application/json" },
@@ -116,7 +116,7 @@ const QuizQuestionPage = () => {
 
   // Actions when time runs out
   useEffect(() => {
-    if (secondsLeft === 0 && questionId < 11) {
+    if (secondsLeft === 0 && questionId < 16) {
       if (
         fibAnswer.toLowerCase() == correctOption.toLowerCase() ||
         tfAnswer == tf ||
@@ -172,7 +172,7 @@ const QuizQuestionPage = () => {
 
       setIsButtonDisabled(false);
 
-    } else if (questionId == 11) {
+    } else if (questionId == 16) {
       const newUserPoints = {
         user_id: id,
         user_points: userScore,
