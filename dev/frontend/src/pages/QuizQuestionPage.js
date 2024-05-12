@@ -226,8 +226,20 @@ const QuizQuestionPage = () => {
     setTfAnswer(val);
   }
 
+  function getAnswer() {
+    if(tfAnswer == true) {
+      return "true";
+    } else if (tfAnswer == false) {
+      return "false";
+    } else if (mcAnswer) {
+      return mcAnswer;
+    } else if (fibAnswer) {
+      return fibAnswer;
+    }
+  }
+
   // Wait for Users Alert
-  const tellUserToWait = () => toast.info(`You have submitted "${tfAnswer? (tfAnswer? "true" : "false") : (mcAnswer ? mcAnswer : fibAnswer)}" as your answer. Sit tight while everyone submits their answers!`);
+  const tellUserToWait = () => toast.info(`You have submitted "${getAnswer()}" as your answer. Sit tight while everyone submits their answers!`);
 
   const waitForUsersAlert = () => {
     if (secondsLeft > 0) {
