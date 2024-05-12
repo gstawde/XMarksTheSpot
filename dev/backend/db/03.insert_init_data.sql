@@ -20,7 +20,7 @@ INSERT INTO Milestones(milestone_id, milestone_name, milestone_icon, milestone_p
 	(12, "Panama", "milestones/panama.png", 50000),
 	(13, "Sri Lanka", "milestones/sri-lanka.png", 55000),
 	(14, "Pakistan", "milestones/pakistan.png", 60000),
-	(15, "Spain", "milestones/spain.png", 65000);
+	(15, "Spain", "milestones/spain.png", 65000),
 	(16, "Moldova", "milestones/moldova.png", 70000),
 	(17, "China", "milestones/china.png", 75000),
 	(18, "Tajikistan", "milestones/tajikistan.png", 80000),
@@ -34,7 +34,7 @@ INSERT INTO Milestones(milestone_id, milestone_name, milestone_icon, milestone_p
 	(26, "Togo", "milestones/togo.png", 300000),
 	(27, "Morocco", "milestones/morocco.png", 350000),
 	(28, "Nepal", "milestones/nepal.png", 400000),
-	(29, "Thailand", "milestones/thailand.png", 450000);
+	(29, "Thailand", "milestones/thailand.png", 450000),
 	(30, "Malaysia", "milestones/malaysia.png", 500000);
 
 -- Insert initial data for user table

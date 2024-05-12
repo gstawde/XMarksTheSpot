@@ -294,34 +294,24 @@ def update_user_points():
 
 @app.route('/api/ranks', methods=['GET'])
 def get_ranks():
-  user_id = request.args.get('userId')
-  try:
-    connection = mysql.connector.connect(**config)
-    cursor = connection.cursor(dictionary=True)
+    user_id = request.args.get('userId')
+    try:
+        connection = mysql.connector.connect(**config)
+        cursor = connection.cursor(dictionary=True)
 
-    cursor.execute("SELECT username, user_points FROM Users")
-    userRanks = cursor.fetchall()
-    top_three_users = userRanks[:3] if len(userRanks) >= 3 else userRanks
+        cursor.execute("SELECT user_id, username, user_points FROM Users ORDER BY user_points DESC, username ASC")
+        userRanks = cursor.fetchall()
+        
+        user_rank = None
+        for index, user in enumerate(userRanks):
+          if int(user['user_id']) == int(user_id):
+            user_rank = index + 1
+                
+        top_three_users = userRanks[:3]
 
-    cursor.execute("SELECT (SELECT COUNT(*) FROM Users WHERE user_points > (SELECT user_points FROM Users WHERE user_id = %s)) + 1 AS `rank`", (user_id,))
-    user_rank = cursor.fetchone()['rank']
+        cursor.close()
+        connection.close()
 
-    userRanks = cursor.fetchall()
-    top_three_users = userRanks[:3] if len(userRanks) >= 3 else userRanks
-
-    # cursor.execute("SELECT (SELECT COUNT(*) FROM Users WHERE user_points > (SELECT user_points FROM Users WHERE user_id = %s)) + 1 AS `rank`", (user_id,))
-    # user_rank = cursor.fetchone()['rank']
-
-    user_data = next((user for user in userRanks if user['user_id'] == user_id), None)
-    if user_data:
-      user_points = user_data['user_points']
-      user_rank = sum((user['user_points'], user['username']) > (user_points, user_data['username']) for user in userRanks) + 1
-    else:
-      user_rank = None
-
-    cursor.close()
-    connection.close()
-
-    return jsonify({"top_three" : top_three_users, "rank_number" : user_rank})
-  except Exception as e:
-    return jsonify({'error': str(e)})
+        return jsonify({"top_three": top_three_users, "rank_number": user_rank})
+    except Exception as e:
+        return jsonify({'error': str(e)})

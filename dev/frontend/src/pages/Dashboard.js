@@ -193,7 +193,9 @@ const Dashboard = () => {
             <h1 className="ranking-title">User Rankings</h1>
             <br />
             {topThree.map((user, index) => (
-              <p className="top-three">{index + 1}. {user.username}</p>
+              <div>
+                <p className="top-three">{index + 1}. {user.username} - {user.user_points} points</p>
+              </div>
             ))}
             <br />
             <p className="user-rank">Ranking: {rank}</p>
