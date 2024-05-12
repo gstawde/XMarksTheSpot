@@ -83,19 +83,19 @@ body {
 }
 
 .delete-account {
-    color: #FFB600;
-}
-
-.delete-account:hover {
-    box-shadow: 0 0 8px 6px #FFB600;
-}
-
-.change-password {
     color: #F50000;
 }
 
+.delete-account:hover {
+  box-shadow: 0 0 8px 6px #F50000;
+}
+
+.change-password {
+  color: #FFB600;
+}
+
 .change-password:hover {
-    box-shadow: 0 0 8px 6px #F50000;
+    box-shadow: 0 0 8px 6px #FFB600;
 }
 
 button {

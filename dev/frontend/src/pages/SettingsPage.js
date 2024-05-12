@@ -9,7 +9,16 @@ const SettingsPage = () => {
 
   const isAuthenticated = !!Cookies.get("auth");
   const [userId, setUserId] = useState(0);
-  const [userData, setUserData] = useState([]);
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+
+  const [editUsername, setEditUsername] = useState(false);
+  const [newUsername, setNewUsername] = useState("");
+
+  const [editEmail, setEditEmail] = useState(false);
+  const [newEmail, setNewEmail] = useState("");
+  
   const [message, setMessage] = useState("");
   const [deleteSuccess, setDeleteSuccess] = useState(false);
 
@@ -21,8 +30,10 @@ const SettingsPage = () => {
 
       fetch(`http://xmarksthespot.pythonanywhere.com/api/user/${idFromCookie}`)
       .then((response) => response.json())
-      .then((userData) => {
-        setUserData(userData);
+      .then((user) => {
+        setName(`${user.first_name} ${user.last_name}`)
+        setUsername(user.username);
+        setEmail(user.email);
       })
       .catch((error) => console.error("Error fetching user data:", error));
     }
@@ -40,6 +51,60 @@ const SettingsPage = () => {
     return null;
   }
 
+  const handleChangeUsername = () => {
+    if(editUsername) {
+      if(newUsername.trim() === '') {
+        alert("Username should be at least 1 character.");
+      } else {
+        fetch(`http://xmarksthespot.pythonanywhere.com/api/user/update/username/${userId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({new_username: newUsername})
+        })
+        .then((response) => response.json())
+        .then((editUser) => {
+          if(editUser.success) {
+            alert(editUser.message);
+            window.location.reload();
+            setEditUsername(false);
+          } else {
+            alert(editUser.message);
+            setEditUsername(false);
+          }
+        });
+      }
+    } else {
+      setEditUsername(true);
+    }
+  };
+
+  const handleChangeEmail = () => {
+    if(editEmail) {
+      if(newEmail.trim() === '') {
+        alert("Email needs to be a valid email.");
+      } else {
+        fetch(`http://xmarksthespot.pythonanywhere.com/api/user/update/email/${userId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({new_email: newEmail})
+        })
+        .then((response) => response.json())
+        .then((editUser) => {
+          if(editUser.success) {
+            alert(editUser.message);
+            window.location.reload();
+            setEditEmail(false);
+          } else {
+            alert(editUser.message);
+            setEditEmail(false);
+          }
+        });
+      }
+    } else {
+      setEditEmail(true);
+    }
+  };
+
   const handleChangePw = () => {
     fetch(`http://xmarksthespot.pythonanywhere.com/api/password/reset/${userId}`, {
       method: "POST",
@@ -55,7 +120,7 @@ const SettingsPage = () => {
         } 
       })
       .catch((error) => console.error("Error fetching user data:", error));
-    }
+  }
 
   const handleDelete = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete your account? All data associated with account will be deleted.");
@@ -101,39 +166,55 @@ const SettingsPage = () => {
           <a href="/dashboard">Dashboard</a>
           <img className="split" src={XMarksLogo} width="100" height="100" alt="X Marks the Spot Logo"/>
         </div>
+        
         <h1 className="setting-page-header">Account Information</h1>
+        
         <div className="row">
           <div className="column information-type">
-            <p>First Name</p>
+            <p>Name</p>
           </div>
           <div className="column user-information">
-            <p>{userData["first_name"]}</p>
+            <p>{name}</p>
+          </div>
+          <div className="column">
+            
           </div>
         </div>
-        <div className="row">
-          <div className="column information-type">
-            <p>Last Name</p>
-          </div>
-          <div className="column user-information">
-            <p>{userData["last_name"]}</p>
-          </div>
-        </div>
+        
         <div className="row">
           <div className="column information-type">
             <p>Username</p>
           </div>
           <div className="column user-information">
-            <p>{userData["username"]}</p>
+            <div>{editUsername 
+                ? <input type="text" className="w-5/6" onChange={(e) => setNewUsername(e.target.value)}></input>
+                : username}</div>
+          </div>
+          <div className="column">
+            <div className="change-and-delete-buttons">
+              <button className="text-sm text-xmts-yellow" onClick={handleChangeUsername}>{editUsername ? "Change" : "Change"}</button>
+              {editUsername && <button className="text-sm text-xmts-tan" onClick={() => setEditUsername(false)}>Cancel</button>}
+            </div>
           </div>
         </div>
+        
         <div className="row">
           <div className="column information-type">
             <p>Email</p>
           </div>
           <div className="column user-information">
-            <p>{userData["email"]}</p>
+            <div>{editEmail 
+                ? <input type="text" className="w-5/6" onChange={(e) => setNewEmail(e.target.value)}></input>
+                : email}</div>
+          </div>
+          <div className="column">
+            <div className="change-and-delete-buttons">
+              <button className="text-sm text-xmts-yellow" onClick={handleChangeEmail}>{editEmail ? "Change" : "Change"}</button>
+              {editEmail && <button className="text-sm text-xmts-tan" onClick={() => setEditEmail(false)}>Cancel</button>}
+            </div>
           </div>
         </div>
+
         <div className="change-and-delete-buttons">
           <button onClick={handleChangePw} className="change-password">Change Password</button>
           <button onClick={handleDelete} className="delete-account">Delete Account</button>
