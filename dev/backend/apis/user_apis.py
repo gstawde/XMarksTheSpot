@@ -59,35 +59,24 @@ def get_user(user_id):
   except Exception as e:
     return jsonify({'success': False, 'error': str(e)})
 
-@app.route('/api/user/update/email', methods=['POST'])
-def update_user_email(user_id):
-  try:
-    connection = mysql.connector.connect(**config)
-    cursor = connection.cursor(dictionary=True)
-
-    data = request.get_json()
-    user_id = data.get('user_id')
-    new_email = data.get('new_email')
-
-    cursor.execute("UPDATE Users SET email = %s WHERE user_id = %s", (new_email, user_id))
-    connection.commit()
-
-    cursor.close()
-    connection.close()
-
-    return jsonify({'success': True, 'message': 'Email updated successfully: ' + new_email})
-  except Exception as e:
-    return jsonify({'success': False, 'error': str(e)})
-
-@app.route('/api/user/update/username', methods=['POST'])
+@app.route('/api/user/update/username/<int:user_id>', methods=['PUT'])
 def update_user_username(user_id):
   try:
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor(dictionary=True)
 
     data = request.get_json()
-    user_id = data.get('user_id')
     new_username = data.get('new_username')
+
+    cursor.execute("SELECT * FROM Users WHERE user_id = %s", (user_id,))
+    user = cursor.fetchone()
+    if not user:
+      return jsonify({'success': False, 'message': f'User with ID {user_id} does not exist.'})
+
+    cursor.execute("SELECT * FROM Users WHERE username = %s", (new_username,))
+    existing_users = cursor.fetchone()
+    if existing_users: 
+      return jsonify({'success': False, 'message': 'Account(s) with the provided username already exists.'})
 
     cursor.execute("UPDATE Users SET username = %s WHERE user_id = %s", (new_username, user_id))
     connection.commit()
@@ -97,7 +86,37 @@ def update_user_username(user_id):
 
     return jsonify({'success': True, 'message': 'Username updated successfully: ' + new_username})
   except Exception as e:
-    return jsonify({'success': False, 'error': str(e)})
+    return jsonify({'success': False, 'error': f'Error: {str(e)}'})
+
+
+@app.route('/api/user/update/email/<int:user_id>', methods=['PUT'])
+def update_user_email(user_id):
+  try:
+    connection = mysql.connector.connect(**config)
+    cursor = connection.cursor(dictionary=True)
+
+    data = request.get_json()
+    new_email = data.get('new_email')
+
+    cursor.execute("SELECT * FROM Users WHERE user_id = %s", (user_id,))
+    user = cursor.fetchone()
+    if not user:
+      return jsonify({'success': False, 'message': f'User with ID {user_id} does not exist.'})
+
+    cursor.execute("SELECT * FROM Users WHERE email = %s", (new_email,))
+    existing_users = cursor.fetchone()
+    if existing_users: 
+      return jsonify({'success': False, 'message': 'Account(s) with the provided email already exists.'})
+
+    cursor.execute("UPDATE Users SET email = %s WHERE user_id = %s", (new_email, user_id))
+    connection.commit()
+
+    cursor.close()
+    connection.close()
+
+    return jsonify({'success': True, 'message': 'Email updated successfully: ' + new_email})
+  except Exception as e:
+    return jsonify({'success': False, 'error': f'Error: {str(e)}'})
 
 @app.route('/api/users/login', methods=['POST'])
 def login():
