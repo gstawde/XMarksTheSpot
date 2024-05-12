@@ -60,7 +60,7 @@ def get_user(user_id):
     return jsonify({'success': False, 'error': str(e)})
 
 @app.route('/api/user/update/email', methods=['POST'])
-def get_user(user_id):
+def update_user_email(user_id):
   try:
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor(dictionary=True)
@@ -80,7 +80,7 @@ def get_user(user_id):
     return jsonify({'success': False, 'error': str(e)})
 
 @app.route('/api/user/update/username', methods=['POST'])
-def get_user(user_id):
+def update_user_username(user_id):
   try:
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor(dictionary=True)
