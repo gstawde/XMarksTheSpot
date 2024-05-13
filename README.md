@@ -7,6 +7,9 @@ Geography Learning Game
   **Next Team Lead**: Areebah Iqbal
 ## PART B
 [GitHub Repo](https://github.com/gstawde/XMarksTheSpot)
+
+**Deployed Link**: [http://xmarksthespot.pythonanywhere.com](http://xmarksthespot.pythonanywhere.com)
+
 ### Project Overview
   1. User Dashboard\
     - User can get a token for each point milestone they achieve, which they can see in their collection (E.g. for every 100 points added to their overall player score, they get a flag to add to their wall)\
